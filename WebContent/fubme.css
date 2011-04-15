@@ -1,0 +1,289 @@
+body {
+	background-color:white;
+	font-family:"Gotham Book",Gotham,sans-serif;
+	color: black;
+}
+
+#canvas{
+	text-align: left;
+	font-size: 20px;
+	width: 65%;
+}
+
+#search{
+	padding: 15px;
+	margin: 2px;
+	background-color: #edf5ef;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	border: 1px solid #3c994d;
+}
+
+
+#status{
+	width: 100%;
+	font-family:"Gotham Book",Gotham,sans-serif;
+	font-size: 20px;
+	text-align:left
+}
+
+#publish{
+	font-family:"Gotham Book",Gotham,sans-serif;
+	position:relative;font-family:"Gotham Book",Gotham,sans-serif;
+	float: right;
+}
+
+#instant{
+	width: 100%;
+	padding:5px;
+	border:none;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 50px;
+}
+
+#timeline{
+	border: 0 none;
+	font-weight: bold;
+	padding: 0 15px 0 0;
+	text-align: center;
+	margin: 5px;
+	width: auto;
+}
+
+#timeline.rounded {
+	background: transparent url( images/btn_right.png ) no-repeat scroll right top;
+	clear: left;
+	font-size: 25px;
+}
+
+#timeline span {
+	display: block;
+	padding: 0 0 0 15px;
+	position: relative;
+	white-space: nowrap;
+}
+
+#timeline.rounded span {
+	background: transparent url( images/btn_left.png )  scroll left top;
+	color: #FFFFFF;
+}
+
+.header{
+	color: white;
+	background-color: #3c994d;
+}
+
+.links{
+	text-align: right;
+	font-size: 20px;
+	color:white;
+}
+
+.title{
+	text-align:right;
+	padding-top: 5px;
+	padding-right: 15px;
+}
+
+.footer{
+	color: white;
+	background-color: #3c994d;
+}
+
+.rightcolumn{
+	width: 30%;
+	float: right;
+	background-color: #edf5ef;
+	padding:15px;
+	border:2px dotted #3c994d;
+	margin: 10px;
+	height: 85%;
+}
+
+.post{
+	width:90%;
+	padding:5px;
+	border:none;
+	margin:15px;
+	background-color: white;
+	text-align: left;
+	font-size: 18px;
+}
+
+.postimage{
+	padding:5px;
+	border:none;
+	margin-right:15px;
+	float: left;
+}
+
+.miscellanea{
+	text-align: right;
+	color: blue;
+	font-size: 14px;
+	margin-right : 20px;
+}
+
+.comment{
+	width: 90%;
+	padding:7px;
+	border:1px dotted #3c994d;
+	margin:8px 8px 8px 16px;
+	margin-left: 10%;
+	background-color: #edf5ef;
+	text-align: left;
+	font-size: 16px;
+}
+
+#posts{
+	border: 0 none;
+	font-weight: bold;
+	padding: 0 15px 0 0;
+	text-align: center;
+	margin: 5px;
+	width: auto;
+}
+
+#posts.rounded {
+	background: transparent url( images/btn_right.png ) no-repeat scroll right top;
+	clear: left;
+	font-size: 25px;
+}
+
+#posts span {
+	display: block;
+	padding: 0 0 0 15px;
+	position: relative;
+	white-space: nowrap;
+}
+
+#posts.rounded span {
+	background: transparent url( images/btn_left.png )  scroll left top;
+	color: #FFFFFF;
+}
+
+#peoplelist{
+	border: 0 none;
+	font-weight: bold;
+	padding: 0 15px 0 0;
+	text-align: center;
+	margin: 5px;
+	width: auto;
+}
+
+#peoplelist.rounded {
+	background: transparent url( images/btn_right.png ) no-repeat scroll right top;
+	clear: left;
+	font-size: 25px;
+}
+
+#peoplelist span {
+	display: block;
+	padding: 0 0 0 15px;
+	position: relative;
+	white-space: nowrap;
+}
+
+#peoplelist.rounded span {
+	background: transparent url( images/btn_left.png )  scroll left top;
+	color: #FFFFFF;
+}
+
+.people{
+	padding: 15px;
+	margin: 2px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	border: 1px solid #3c994d;
+	min-height: 58px;
+}
+.misc_buttons{
+	position:relative;
+	text-align: right;
+	font-size: 24px;
+}
+.linkbutton{
+	border-style: none;
+	background-color: white;
+	color:#6676f2;
+	font-size: 16px;
+}
+
+.tag{
+	font-size: 14px;
+	color: #1a4221;
+}
+
+.box{
+	background-color: #edf5ef;
+	border:2px solid #3c994d;
+	margin-left:auto;
+	margin-right:auto;
+	height: 303px;
+	width: 690px;
+}
+
+.sign{
+	background-color: white;
+	padding:10px;
+	border:2px dotted #3c994d;
+	margin:15px;
+	float:left;
+}
+
+
+ul {
+	list-style-type: none;
+}
+
+hr {
+	color: #3c994d;
+	background-color: #3c994d;
+	height: 1px;
+}
+
+b{
+	font-family: "Gotham Bold",Gotham,sans-serif;
+	font-weight: bold;
+	color: #3c994d
+}
+
+button {
+	border: 0 none;
+	cursor: pointer;
+	font-weight: bold;
+	padding: 0 15px 0 0;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	width: auto;
+}
+
+button.rounded {
+	background: transparent url( images/btn_right.png ) no-repeat scroll right top;
+	clear: left;
+	font-size: 0.8em;
+}
+
+button span {
+	display: block;
+	padding: 0 0 0 15px;
+	position: relative;
+	white-space: nowrap;
+	height: 30px;
+	line-height: 30px;
+}
+
+button.rounded span {
+	background: transparent url( images/btn_left.png ) no-repeat scroll left top;
+	color: #FFFFFF;
+}
+
+button.rounded:hover {
+	background-position: 100% -30px;
+}
+
+button.rounded:hover span {
+	background-position: 0% -30px;
+}
