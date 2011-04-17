@@ -25,7 +25,7 @@ public class Post {
 	public static final String LINK = "link";
 	public static final String MIME = "mime";
 
-	private static final String TEXT = "text/plain";
+	public static final String TEXT = "text/plain";
 
 	protected Date ptime;
 	protected int id;
@@ -54,6 +54,11 @@ public class Post {
 		return null;
 	}
 
+	public static Post createPost(String user_id, String body, String link,
+			String mime) {
+		return new Post(user_id, body, link, mime);
+	}
+
 	/**
 	 * @param ptime
 	 * @param id
@@ -61,7 +66,7 @@ public class Post {
 	 * @param body
 	 * @param mime
 	 */
-	private Post(Date ptime, int id, String user_id, String body, String mime) {
+	protected Post(Date ptime, int id, String user_id, String body, String mime) {
 		super();
 		this.ptime = ptime;
 		this.id = id;
@@ -78,7 +83,7 @@ public class Post {
 	 * @param mime
 	 * @param body
 	 */
-	private Post(Date ptime, int id, String user_id, URL link, String mime,
+	protected Post(Date ptime, int id, String user_id, URL link, String mime,
 			String body) {
 		super();
 		this.ptime = ptime;
@@ -87,6 +92,10 @@ public class Post {
 		this.link = link;
 		this.mime = mime;
 		this.body = body;
+	}
+
+	public Post(String user_id, String body, String link, String mime) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**

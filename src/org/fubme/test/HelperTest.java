@@ -5,6 +5,10 @@ package org.fubme.test;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+
+import org.fubme.mappings.PostMapper;
+import org.fubme.models.Post;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -13,7 +17,7 @@ import org.junit.Test;
 
 /**
  * @author riccardo
- *
+ * 
  */
 public class HelperTest {
 
@@ -22,6 +26,8 @@ public class HelperTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		Post post = Post.createPost("urobo", "testpost", null, Post.TEXT);
+		PostMapper.createPost(post);
 	}
 
 	/**
@@ -46,7 +52,9 @@ public class HelperTest {
 	}
 
 	/**
-	 * Test method for {@link org.fubme.persistency.Helper#getComments(org.fubme.models.Post, org.fubme.models.User)}.
+	 * Test method for
+	 * {@link org.fubme.persistency.Helper#getComments(org.fubme.models.Post, org.fubme.models.User)}
+	 * .
 	 */
 	@Test
 	public void testGetComments() {
@@ -54,7 +62,8 @@ public class HelperTest {
 	}
 
 	/**
-	 * Test method for {@link org.fubme.persistency.Helper#getTags(org.fubme.models.Post)}.
+	 * Test method for
+	 * {@link org.fubme.persistency.Helper#getTags(org.fubme.models.Post)}.
 	 */
 	@Test
 	public void testGetTags() {
@@ -62,7 +71,9 @@ public class HelperTest {
 	}
 
 	/**
-	 * Test method for {@link org.fubme.persistency.Helper#getPostsFromUser(org.fubme.models.User, int)}.
+	 * Test method for
+	 * {@link org.fubme.persistency.Helper#getPostsFromUser(org.fubme.models.User, int)}
+	 * .
 	 */
 	@Test
 	public void testGetPostsFromUser() {
