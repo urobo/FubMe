@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.fubme.mappings;
+package org.fubme.persistency.mappings;
 
 import java.sql.Connection;
 import java.sql.SQLException;
