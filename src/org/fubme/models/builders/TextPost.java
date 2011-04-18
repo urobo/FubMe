@@ -9,7 +9,7 @@ import org.fubme.models.Post;
 
 /**
  * @author riccardo
- *
+ * 
  */
 public class TextPost extends Post {
 
@@ -20,8 +20,8 @@ public class TextPost extends Post {
 		this.body = body;
 		this.mime = mime;
 	}
-	
-	public TextPost (String user_id,String body, String mime){
+
+	public TextPost(String user_id, String body, String mime) {
 		this.user_id = user_id;
 		this.body = body;
 		this.mime = mime;

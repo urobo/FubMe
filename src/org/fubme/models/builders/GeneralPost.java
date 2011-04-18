@@ -10,7 +10,7 @@ import org.fubme.models.Post;
 
 /**
  * @author riccardo
- *
+ * 
  */
 public class GeneralPost extends Post {
 
@@ -22,8 +22,8 @@ public class GeneralPost extends Post {
 		this.link = url;
 		this.mime = mime;
 	}
-	
-	public GeneralPost(String user_id, URL url, String body, String mime){
+
+	public GeneralPost(String user_id, URL url, String body, String mime) {
 		this.user_id = user_id;
 		this.link = url;
 		this.body = body;

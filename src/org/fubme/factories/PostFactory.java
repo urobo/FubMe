@@ -24,7 +24,8 @@ public abstract class PostFactory {
 			if (mime == Post.TEXT) {
 				post = new TextPost(ptime, id, user_id, body, mime);
 			} else {
-				post = new GeneralPost(ptime, id, user_id, new URL(link), body, mime);
+				post = new GeneralPost(ptime, id, user_id, new URL(link), body,
+						mime);
 			}
 			return post;
 		} catch (MalformedURLException e) {

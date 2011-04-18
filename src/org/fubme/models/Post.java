@@ -3,7 +3,6 @@
  */
 package org.fubme.models;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +28,7 @@ public abstract class Post {
 	protected URL link;
 	protected String mime;
 	protected List<Comment> comments;
-	protected List<Tag> tags;	
+	protected List<Tag> tags;
 
 	/**
 	 * @return the ptime

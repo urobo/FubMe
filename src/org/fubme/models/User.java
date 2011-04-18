@@ -24,11 +24,11 @@ public class User extends FubMeUser implements LowPrivilegedUser {
 		super(id, pswd, email);
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	public User(String id, String pswd){
-		super (id,pswd,null);
+
+	public User(String id, String pswd) {
+		super(id, pswd, null);
 	}
+
 	/**
 	 * @return the bio
 	 */
