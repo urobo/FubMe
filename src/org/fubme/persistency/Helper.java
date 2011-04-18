@@ -23,7 +23,7 @@ import org.fubme.models.User;
  */
 public abstract class Helper {
 
-	static final List<Comment> getComments(Post post, User user) {
+	public static final List<Comment> getComments(Post post, User user) {
 		List<Comment> comments = new ArrayList<Comment>();
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
@@ -66,7 +66,7 @@ public abstract class Helper {
 		return comments;
 	}
 
-	static final List<Tag> getTags(Post post) {
+	public static final List<Tag> getTags(Post post) {
 		List<Tag> tags = new ArrayList<Tag>();
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
@@ -101,7 +101,7 @@ public abstract class Helper {
 		return tags;
 	}
 
-	static final List<Post> getPostsFromUser(User user, int limit) {
+	public static final List<Post> getPostsFromUser(User user, int limit) {
 		List<Post> posts = new ArrayList<Post>();
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;

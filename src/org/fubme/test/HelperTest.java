@@ -19,13 +19,17 @@ import org.junit.Test;
  */
 public class HelperTest {
 	private static Post post = null;
-	/**org.fubme.persistency.mappings
+
+	/**
+	 * org.fubme.persistency.mappings
+	 * 
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		post = Post.createPost("urobo", "testpost", null, Post.TEXT);
 		PostMapper.createPost(post);
+
 	}
 
 	/**

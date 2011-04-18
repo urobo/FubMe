@@ -12,7 +12,7 @@ import java.util.List;
  * @author riccardo
  * 
  */
-public class Post {
+public abstract class Post {
 	public static final String PTIME = "ptime";
 	public static final String ID = "id";
 	public static final String LUSER_ID = "luser_id";
@@ -29,69 +29,7 @@ public class Post {
 	protected URL link;
 	protected String mime;
 	protected List<Comment> comments;
-	protected List<Tag> tags;
-
-	public static Post getPost(Date ptime, int id, String user_id, String body,
-			String link, String mime) {
-		Post post = null;
-		try {
-
-			if (mime == TEXT) {
-				post = new Post(ptime, id, user_id, body, mime);
-			} else {
-				post = new Post(ptime, id, user_id, new URL(link), body, mime);
-			}
-			return post;
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public static Post createPost(String user_id, String body, String link,
-			String mime) {
-		return new Post(user_id, body, link, mime);
-	}
-
-	/**
-	 * @param ptime
-	 * @param id
-	 * @param user_id
-	 * @param body
-	 * @param mime
-	 */
-	protected Post(Date ptime, int id, String user_id, String body, String mime) {
-		super();
-		this.ptime = ptime;
-		this.id = id;
-		this.user_id = user_id;
-		this.body = body;
-		this.mime = mime;
-	}
-
-	/**
-	 * @param ptime
-	 * @param id
-	 * @param user_id
-	 * @param link
-	 * @param mime
-	 * @param body
-	 */
-	protected Post(Date ptime, int id, String user_id, URL link, String mime,
-			String body) {
-		super();
-		this.ptime = ptime;
-		this.id = id;
-		this.user_id = user_id;
-		this.link = link;
-		this.mime = mime;
-		this.body = body;
-	}
-
-	public Post(String user_id, String body, String link, String mime) {
-		// TODO Auto-generated constructor stub
-	}
+	protected List<Tag> tags;	
 
 	/**
 	 * @return the ptime
@@ -213,4 +151,7 @@ public class Post {
 		this.tags = tags;
 	}
 
+	public class TextPost extends Post {
+
+	}
 }

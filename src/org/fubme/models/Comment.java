@@ -33,6 +33,7 @@ public class Comment {
 		this.time = time;
 		this.body = body;
 	}
+	
 
 	/**
 	 * @return the post_id

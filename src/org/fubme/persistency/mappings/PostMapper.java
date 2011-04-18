@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.fubme.models.Comment;
 import org.fubme.models.Post;
 import org.fubme.models.User;
 import org.fubme.persistency.DBConnection;
