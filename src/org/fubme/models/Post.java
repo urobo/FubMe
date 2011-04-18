@@ -5,13 +5,8 @@ package org.fubme.models;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import org.postgresql.jdbc2.TimestampUtils;
 
 /**
  * @author riccardo

@@ -3,12 +3,10 @@
  */
 package org.fubme.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
-import java.util.Calendar;
-
-import org.fubme.mappings.PostMapper;
 import org.fubme.models.Post;
+import org.fubme.persistency.mappings.PostMapper;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,13 +18,13 @@ import org.junit.Test;
  * 
  */
 public class HelperTest {
-
-	/**
+	private static Post post = null;
+	/**org.fubme.persistency.mappings
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		Post post = Post.createPost("urobo", "testpost", null, Post.TEXT);
+		post = Post.createPost("urobo", "testpost", null, Post.TEXT);
 		PostMapper.createPost(post);
 	}
 

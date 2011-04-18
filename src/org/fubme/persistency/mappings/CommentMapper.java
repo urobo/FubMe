@@ -18,16 +18,14 @@ import org.fubme.persistency.DBConnection;
  * @author riccardo
  * 
  */
-public abstract class PostMapper {
-
-	public static final void createPost(Post post) {
+public abstract class CommentMapper {
+	public static final void createCommentToPost(Comment comment) {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "INSERT INTO post (" + Post.LUSER_ID + ",'" + Post.LINK
-				+ "' ," + Post.BODY + "," + Post.MIME + ") VALUES ('"
-				+ post.getUser_id() + "','" + post.getLink().toString() + "','"
-				+ post.getBody() + "','" + post.getMime() + "')";
-		// TODO: insert tags
+		String sql = "INSERT INTO luser_comments_post (" + Comment.LUSER_ID
+				+ "," + Comment.POST_ID + "," + Comment.BODY + ") VALUES('"
+				+ comment.getLuser_id() + "'," + comment.getPost_id() + ",'"
+				+ comment.getBody() + "')";
 		try {
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
@@ -47,5 +45,4 @@ public abstract class PostMapper {
 			}
 		}
 	}
-
 }

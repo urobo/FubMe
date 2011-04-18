@@ -3,7 +3,6 @@
  */
 package org.fubme.models;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**

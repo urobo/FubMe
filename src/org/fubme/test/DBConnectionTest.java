@@ -4,6 +4,7 @@
 package org.fubme.test;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -55,6 +56,7 @@ public class DBConnectionTest {
 			stmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			fail();
 			e.printStackTrace();
 		}
 
