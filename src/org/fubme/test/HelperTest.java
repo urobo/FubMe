@@ -5,6 +5,7 @@ package org.fubme.test;
 
 import static org.junit.Assert.fail;
 
+import org.fubme.factories.PostFactory;
 import org.fubme.models.Post;
 import org.fubme.persistency.mappings.PostMapper;
 import org.junit.After;
@@ -27,7 +28,7 @@ public class HelperTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		post = Post.createPost("urobo", "testpost", null, Post.TEXT);
+		post = PostFactory.getPost("urobo", "testpost", null, Post.TEXT);
 		PostMapper.createPost(post);
 
 	}

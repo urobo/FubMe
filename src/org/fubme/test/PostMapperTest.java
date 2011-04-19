@@ -3,10 +3,13 @@
  */
 package org.fubme.test;
 
+import static org.junit.Assert.fail;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * @author riccardo
@@ -40,6 +43,16 @@ public class PostMapperTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
+	}
+
+	/**
+	 * Test method for
+	 * {@link org.fubme.persistency.mappings.PostMapper#createPost(org.fubme.models.Post)}
+	 * .
+	 */
+	@Test
+	public void testCreatePost() {
+		fail("Not yet implemented");
 	}
 
 }

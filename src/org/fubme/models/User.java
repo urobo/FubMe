@@ -3,7 +3,7 @@
  */
 package org.fubme.models;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.fubme.models.Interfaces.LowPrivilegedUser;
@@ -17,7 +17,7 @@ public class User extends FubMeUser implements LowPrivilegedUser {
 	protected String bio;
 	protected String firstname;
 	protected String lastname;
-	protected Date birthdate;
+	protected Timestamp birthdate;
 	protected String location;
 
 	public User(String id, String pswd, String email) {
@@ -77,7 +77,7 @@ public class User extends FubMeUser implements LowPrivilegedUser {
 	/**
 	 * @return the birthdate
 	 */
-	public Date getBirthdate() {
+	public Timestamp getBirthdate() {
 		return birthdate;
 	}
 
@@ -85,7 +85,7 @@ public class User extends FubMeUser implements LowPrivilegedUser {
 	 * @param birthdate
 	 *            the birthdate to set
 	 */
-	public void setBirthdate(Date birthdate) {
+	public void setBirthdate(Timestamp birthdate) {
 		this.birthdate = birthdate;
 	}
 

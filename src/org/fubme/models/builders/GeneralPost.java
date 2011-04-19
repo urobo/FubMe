@@ -4,7 +4,7 @@
 package org.fubme.models.builders;
 
 import java.net.URL;
-import java.util.Date;
+import java.sql.Timestamp;
 
 import org.fubme.models.Post;
 
@@ -14,7 +14,7 @@ import org.fubme.models.Post;
  */
 public class GeneralPost extends Post {
 
-	public GeneralPost(Date ptime, int id, String user_id, URL url,
+	public GeneralPost(Timestamp ptime, int id, String user_id, URL url,
 			String body, String mime) {
 		this.ptime = ptime;
 		this.id = id;

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.fubme.factories.PostFactory;
 import org.fubme.models.Comment;
 import org.fubme.models.Post;
 import org.fubme.models.Tag;
@@ -39,8 +40,7 @@ public abstract class Helper {
 				Comment comment = new Comment(
 						resultset.getInt(Comment.POST_ID),
 						resultset.getString(Comment.LUSER_ID),
-						org.fubme.helper.Utils.getDateFromTimestamp(resultset
-								.getTimestamp(Comment.TIME)),
+						resultset.getTimestamp(Comment.TIME),
 						resultset.getString(Comment.BODY));
 				comments.add(comment);
 			}
@@ -106,19 +106,19 @@ public abstract class Helper {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
 		ResultSet resultset = null;
-		String sql = "SELECT * FROM post WHERE luser_id = '" + user.getId()
-				+ "' ORDER BY date limit " + limit;
+		String sql = "SELECT * FROM post WHERE " + Post.LUSER_ID + " = '"
+				+ user.getId() + "' ORDER BY ptime limit " + limit;
 		try {
 			stmt = connection.createStatement();
 			resultset = stmt.executeQuery(sql);
 			while (resultset.next()) {
-				Post post = Post.getPost(org.fubme.helper.Utils
-						.getDateFromTimestamp(resultset
-								.getTimestamp(Post.PTIME)), resultset
-						.getInt(Post.ID), resultset.getString(Post.LUSER_ID),
-						resultset.getString(Post.BODY), resultset
-								.getString(Post.LINK), resultset
-								.getString(Post.MIME));
+				Post post = PostFactory.getPost(
+						resultset.getTimestamp(Post.PTIME),
+						resultset.getInt(Post.ID),
+						resultset.getString(Post.LUSER_ID),
+						resultset.getString(Post.BODY),
+						resultset.getString(Post.LINK),
+						resultset.getString(Post.MIME));
 				post.setComments(Helper.getComments(post, user));
 				post.setTags(Helper.getTags(post));
 				posts.add(post);

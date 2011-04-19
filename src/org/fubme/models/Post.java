@@ -4,7 +4,7 @@
 package org.fubme.models;
 
 import java.net.URL;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ public abstract class Post {
 
 	public static final String TEXT = "text/plain";
 
-	protected Date ptime;
+	protected Timestamp ptime;
 	protected int id;
 	protected String user_id;
 	protected String body;
@@ -33,7 +33,7 @@ public abstract class Post {
 	/**
 	 * @return the ptime
 	 */
-	public Date getPtime() {
+	public Timestamp getPtime() {
 		return ptime;
 	}
 
@@ -41,7 +41,7 @@ public abstract class Post {
 	 * @param ptime
 	 *            the ptime to set
 	 */
-	public void setPtime(Date ptime) {
+	public void setPtime(Timestamp ptime) {
 		this.ptime = ptime;
 	}
 

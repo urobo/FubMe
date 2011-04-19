@@ -22,10 +22,20 @@ public abstract class PostMapper {
 	public static final void createPost(Post post) {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "INSERT INTO post (" + Post.LUSER_ID + ",'" + Post.LINK
-				+ "' ," + Post.BODY + "," + Post.MIME + ") VALUES ('"
-				+ post.getUser_id() + "','" + post.getLink().toString() + "','"
-				+ post.getBody() + "','" + post.getMime() + "')";
+		String sql = "INSERT INTO post ("
+				+ Post.LUSER_ID
+				+ ","
+				+ Post.LINK
+				+ " ,"
+				+ Post.BODY
+				+ ","
+				+ Post.MIME
+				+ ") VALUES ('"
+				+ post.getUser_id()
+				+ "','"
+				+ ((post.getLink() != null) ? post.getLink().toString()
+						: "null") + "','" + post.getBody() + "','"
+				+ post.getMime() + "')";
 		// TODO: insert tags
 		try {
 			stmt = connection.createStatement();

@@ -3,7 +3,7 @@
  */
 package org.fubme.models.builders;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import org.fubme.models.Post;
 
@@ -13,7 +13,8 @@ import org.fubme.models.Post;
  */
 public class TextPost extends Post {
 
-	public TextPost(Date ptime, int id, String user_id, String body, String mime) {
+	public TextPost(Timestamp ptime, int id, String user_id, String body,
+			String mime) {
 		this.ptime = ptime;
 		this.id = id;
 		this.user_id = user_id;

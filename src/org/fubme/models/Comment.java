@@ -3,6 +3,7 @@
  */
 package org.fubme.models;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -10,15 +11,48 @@ import java.util.Date;
  * 
  */
 public class Comment {
+	public static final String ID = "id";
 	public static final String POST_ID = "post_id";
 	public static final String LUSER_ID = "luser_id";
 	public static final String TIME = "time";
 	public static final String BODY = "body";
 
+	protected int id;
 	protected int post_id;
 	protected String luser_id;
-	protected Date time;
+	protected Timestamp time;
 	protected String body;
+
+	/**
+	 * @param post_id
+	 * @param luser_id
+	 * @param body
+	 */
+	public Comment(int post_id, String luser_id, String body) {
+		this.post_id = post_id;
+		this.luser_id = luser_id;
+		this.body = body;
+	}
+
+
+
+	/**
+	 * @param id
+	 * @param post_id
+	 * @param luser_id
+	 * @param time
+	 * @param body
+	 */
+	public Comment(int id, int post_id, String luser_id, Timestamp time,
+			String body) {
+		this.id = id;
+		this.post_id = post_id;
+		this.luser_id = luser_id;
+		this.time = time;
+		this.body = body;
+	}
+
+
 
 	/**
 	 * @param post_id
@@ -26,13 +60,14 @@ public class Comment {
 	 * @param time
 	 * @param body
 	 */
-	public Comment(int post_id, String luser_id, Date time, String body) {
-		super();
+	public Comment(int post_id, String luser_id, Timestamp time, String body) {
 		this.post_id = post_id;
 		this.luser_id = luser_id;
 		this.time = time;
 		this.body = body;
 	}
+	
+
 
 	/**
 	 * @return the post_id
@@ -75,7 +110,7 @@ public class Comment {
 	 * @param time
 	 *            the time to set
 	 */
-	public void setTime(Date time) {
+	public void setTime(Timestamp time) {
 		this.time = time;
 	}
 

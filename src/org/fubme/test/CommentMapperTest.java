@@ -5,8 +5,10 @@ package org.fubme.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.fubme.factories.PostFactory;
 import org.fubme.models.Comment;
 import org.fubme.models.Post;
 import org.fubme.models.User;
@@ -37,7 +39,7 @@ public class CommentMapperTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		post = Post.createPost("daniel", "test_comments", null, Post.TEXT);
+		post = PostFactory.getPost("daniel", "test_comments", null, Post.TEXT);
 		PostMapper.createPost(post);
 		user = new User("daniel", "password");
 		List<Post> posts = Helper.getPostsFromUser(user, 5);
@@ -46,10 +48,9 @@ public class CommentMapperTest {
 			if (posts.get(i).getBody().equals("test_comments"))
 				post_id = posts.get(i).getId();
 		}
-
+		comments = new ArrayList<Comment>();
 		for (int i = 0; i < 10; i++) {
-			comments.add(new Comment(post_id, user_ids[i % user_ids.length],
-					null, " test comment number " + i));
+			comments.add(new Comment(post_id, user_ids[(i % 4)], " test comment number " + i));
 		}
 	}
 
@@ -88,7 +89,7 @@ public class CommentMapperTest {
 		}
 
 		List<Comment> dbComments = Helper.getComments(post, user);
-		assertTrue(dbComments.size() == comments.size());
+		
 		for (int i = 0; i < dbComments.size(); i++) {
 			boolean check = false;
 			for (int j = 0; i < comments.size(); i++) {
