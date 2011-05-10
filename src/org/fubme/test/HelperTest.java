@@ -5,8 +5,12 @@ package org.fubme.test;
 
 import static org.junit.Assert.fail;
 
+import java.sql.Connection;
+import java.sql.Statement;
+
 import org.fubme.factories.PostFactory;
 import org.fubme.models.Post;
+import org.fubme.persistency.DBConnection;
 import org.fubme.persistency.mappings.PostMapper;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,6 +24,7 @@ import org.junit.Test;
  */
 public class HelperTest {
 	private static Post post = null;
+	private static final String testBody = "helpertest";
 
 	/**
 	 * org.fubme.persistency.mappings
@@ -28,7 +33,7 @@ public class HelperTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		post = PostFactory.getPost("urobo", "testpost", null, Post.TEXT);
+		post = PostFactory.getPost("urobo", testBody, null, Post.TEXT);
 		PostMapper.createPost(post);
 
 	}
@@ -38,6 +43,11 @@ public class HelperTest {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		Connection connection = DBConnection.getConnection();
+		Statement stmt = null;
+		String sql = "DELETE FROM post where post.body = '"+testBody+"'";
+		stmt = connection.createStatement();
+		stmt.executeUpdate(sql);
 	}
 
 	/**

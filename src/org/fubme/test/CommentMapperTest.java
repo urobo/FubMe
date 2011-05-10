@@ -5,6 +5,8 @@ package org.fubme.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import org.fubme.factories.PostFactory;
 import org.fubme.models.Comment;
 import org.fubme.models.Post;
 import org.fubme.models.User;
+import org.fubme.persistency.DBConnection;
 import org.fubme.persistency.Helper;
 import org.fubme.persistency.mappings.CommentMapper;
 import org.fubme.persistency.mappings.PostMapper;
@@ -31,6 +34,7 @@ public class CommentMapperTest {
 	private static List<Comment> comments = null;
 	private static int post_id = -1;
 	private static User user = null;
+	private static String testBody = "commentmappertest";
 
 	private static String[] user_ids = { "urobo", "ozzy", "dio", "edavia" };
 
@@ -39,18 +43,18 @@ public class CommentMapperTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		post = PostFactory.getPost("daniel", "test_comments", null, Post.TEXT);
+		post = PostFactory.getPost("daniel", testBody, null, Post.TEXT);
 		PostMapper.createPost(post);
 		user = new User("daniel", "password");
 		List<Post> posts = Helper.getPostsFromUser(user, 5);
 
 		for (int i = 0; i < posts.size(); i++) {
-			if (posts.get(i).getBody().equals("test_comments"))
+			if (posts.get(i).getBody().equals(testBody))
 				post_id = posts.get(i).getId();
 		}
 		comments = new ArrayList<Comment>();
 		for (int i = 0; i < 10; i++) {
-			comments.add(new Comment(post_id, user_ids[(i % 4)], " test comment number " + i));
+			comments.add(new Comment(post_id, user_ids[(i % 4)], testBody));
 		}
 	}
 
@@ -59,6 +63,11 @@ public class CommentMapperTest {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		Connection connection = DBConnection.getConnection();
+		Statement stmt = null;
+		String sql = "DELETE FROM post where post.body = '"+testBody+"'";
+		stmt = connection.createStatement();
+		stmt.executeUpdate(sql);
 	}
 
 	/**
