@@ -22,14 +22,24 @@ import org.fubme.models.User;
  * @author riccardo
  * 
  */
-public abstract class Helper {
 
+public abstract class Helper {
+	
+	
+	
+	/**
+	 * Retrieves all comments given a post filtering out all comments from those users blocked by the user passed as parameter
+	 * 
+	 * @param post 
+	 * @param user
+	 * @return a list of comments
+	 */
 	public static final List<Comment> getComments(Post post, User user) {
 		List<Comment> comments = new ArrayList<Comment>();
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
 		ResultSet resultset = null;
-		String sql = "SELECT lcp.id, lcp.body, lcp.luser_id, lcp.time from luser_comments_post as lcp join post as p on p.id = lcp.post_id where p.id = "
+		String sql = "SELECT lcp.id,lcp.body,lcp.luser_id,lcp.time,lcp.post_id from luser_comments_post as lcp join post as p on p.id = lcp.post_id where p.id = "
 				+ post.getId()
 				+ " and lcp.luser_id not in (select wrongdoing_id from luser_reports_luser where whistleblower_id = '"
 				+ user.getId() + "')";
