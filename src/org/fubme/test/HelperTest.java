@@ -94,14 +94,19 @@ public class HelperTest {
 	public static void tearDownAfterClass() throws Exception {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "DELETE FROM post where post.body = '"+testBody+"'";
+		final String sql = "DELETE FROM post where post.body = '"+testBody+"'";
 		stmt = connection.createStatement();
 		stmt.executeUpdate(sql);	
 				
 		stmt = null;
-		String sql1 = "DELETE FROM post_tagged_as where post_id = "+post.getId();
+		final String sql1 = "DELETE FROM post_tagged_as where post_id = "+post.getId();
 		stmt = connection.createStatement();
 		stmt.executeUpdate(sql1);
+		
+		stmt = null;
+		final String sql2 = "DELETE FROM fuser where id = '"+testUser.getId()+"'";
+		stmt = connection.createStatement();
+		stmt.executeUpdate(sql2);
 	}
 
 	/**
