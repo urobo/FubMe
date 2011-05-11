@@ -6,7 +6,6 @@ package org.fubme.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,11 +17,14 @@ import java.util.List;
 import org.fubme.factories.PostFactory;
 import org.fubme.models.Comment;
 import org.fubme.models.Post;
+import org.fubme.models.Tag;
 import org.fubme.models.User;
 import org.fubme.persistency.DBConnection;
 import org.fubme.persistency.Helper;
 import org.fubme.persistency.mappings.CommentMapper;
 import org.fubme.persistency.mappings.PostMapper;
+import org.fubme.persistency.mappings.Tagger;
+import org.fubme.persistency.mappings.UserMapper;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -34,10 +36,16 @@ import org.junit.Test;
  * 
  */
 public class HelperTest {
+	private static User testUser = null;
+	private static List<Post> posts = null;
 	private static Post post = null;
 	private static List<Comment> comments = null;
+	private static List<Tag> tags = null;
 	private static final String testBody = "helpertest";
 	
+	private static final String[] tagList = {"taghelper1","taghelper2","taghelper3","taghelper4","taghelper5",};
+	private static final int POSTS_NUMBER = 10;
+
 	private static String[] user_ids = { "urobo", "ozzy", "dio", "edavia" };
 
 	/**
@@ -61,10 +69,21 @@ public class HelperTest {
 		int id = idSet.getInt(Post.ID);
 		post.setId(id);
 		
+		tags = new ArrayList<Tag>();
+		for (int i = 0; i < tagList.length;i++)
+			tags.add(new Tag(tagList[i]));
+		Tagger.tagAs(post, tags);
+		
 		comments = new ArrayList<Comment>();
 		for (int i = 0; i<user_ids.length; i++){
 			comments.add(new Comment(post.getId(), user_ids[i], testBody));
 			CommentMapper.createCommentToPost(comments.get(i));
+		}
+		
+		testUser = new User(testBody, "password", testBody+"@"+testBody+".com");
+		UserMapper.createUser(testUser);
+		for (int i = 0; i < POSTS_NUMBER; i++){
+			PostMapper.createPost(PostFactory.getPost(testUser.getId(), testBody, null, Post.TEXT));
 		}
 	}
 
@@ -78,6 +97,11 @@ public class HelperTest {
 		String sql = "DELETE FROM post where post.body = '"+testBody+"'";
 		stmt = connection.createStatement();
 		stmt.executeUpdate(sql);	
+				
+		stmt = null;
+		String sql1 = "DELETE FROM post_tagged_as where post_id = "+post.getId();
+		stmt = connection.createStatement();
+		stmt.executeUpdate(sql1);
 	}
 
 	/**
@@ -123,7 +147,13 @@ public class HelperTest {
 	 */
 	@Test
 	public void testGetTags() {
-		fail("Not yet implemented");
+		List<Tag> rTags = Helper.getTags(post);
+		assertEquals(rTags.size(), tagList.length);
+		HashMap<String,String> fastCheck = new HashMap<String,String>();
+		for (int i = 0 ; i < rTags.size(); i++)
+			fastCheck.put(rTags.get(i).getName(), rTags.get(i).getName());
+		for (int i = 0 ; i < tagList.length; i++)
+			assertTrue(fastCheck.containsKey(tagList[i]));
 	}
 
 	/**
@@ -133,7 +163,10 @@ public class HelperTest {
 	 */
 	@Test
 	public void testGetPostsFromUser() {
-		fail("Not yet implemented");
+		List<Post> rPost = Helper.getPostsFromUser(testUser, 100);
+		assertEquals(rPost.size(),POSTS_NUMBER);
+		for (int i = 0; i< POSTS_NUMBER; i++)
+			assertEquals(rPost.get(i).getBody(), testBody);
 	}
 
 }
