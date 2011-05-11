@@ -6,36 +6,30 @@ package org.fubme.persistency.mappings;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.fubme.models.Post;
+import org.fubme.models.Tag;
 import org.fubme.models.User;
 import org.fubme.persistency.DBConnection;
 
 /**
  * @author riccardo
- * 
+ *
  */
-public abstract class PostMapper {
-
-	public static final void createPost(Post post) {
+public abstract class Tagger {
+	public static final void tagAs(Post post, List<Tag> tags){
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "INSERT INTO post ("
-				+ Post.LUSER_ID
-				+ ","
-				+ Post.LINK
-				+ " ,"
-				+ Post.BODY
-				+ ","
-				+ Post.MIME
-				+ ") VALUES ('"
-				+ post.getUser_id()
-				+ "','"
-				+ ((post.getLink() != null) ? post.getLink().toString()
-						: "null") + "','" + post.getBody() + "','"
-				+ post.getMime() + "')";
+		
+		String sql = "INSERT INTO post_tagged_as (post_id,tag_Name) VALUES ";
+		for (int i = 0 ; i < tags.size();i++){
+			sql += "("+ post.getId() +",'"+ tags.get(i).getName() +"')";
+			if (i != tags.size()-1)
+				sql += ", ";
+			}
 		try {
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
@@ -55,5 +49,4 @@ public abstract class PostMapper {
 			}
 		}
 	}
-
 }
