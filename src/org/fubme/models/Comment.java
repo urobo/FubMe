@@ -34,8 +34,6 @@ public class Comment {
 		this.body = body;
 	}
 
-
-
 	/**
 	 * @param id
 	 * @param post_id
@@ -52,8 +50,6 @@ public class Comment {
 		this.body = body;
 	}
 
-
-
 	/**
 	 * @param post_id
 	 * @param luser_id
@@ -66,8 +62,6 @@ public class Comment {
 		this.time = time;
 		this.body = body;
 	}
-	
-
 
 	/**
 	 * @return the post_id

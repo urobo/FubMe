@@ -65,7 +65,7 @@ public class CommentMapperTest {
 	public static void tearDownAfterClass() throws Exception {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "DELETE FROM post where post.body = '"+testBody+"'";
+		String sql = "DELETE FROM post where post.body = '" + testBody + "'";
 		stmt = connection.createStatement();
 		stmt.executeUpdate(sql);
 	}
@@ -98,7 +98,7 @@ public class CommentMapperTest {
 		}
 
 		List<Comment> dbComments = Helper.getComments(post, user);
-		
+
 		for (int i = 0; i < dbComments.size(); i++) {
 			boolean check = false;
 			for (int j = 0; i < comments.size(); i++) {

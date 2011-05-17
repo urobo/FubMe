@@ -27,14 +27,16 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 /**
  * @author riccardo
- *
+ * 
  */
 public class TaggerTest {
 	private static final String testBody = "taggertest";
 	private static Post post = null;
-	private static final String[] tagList = {"tagname1","tagname2","tagname3","tagname4","tagname5",};
+	private static final String[] tagList = { "tagname1", "tagname2",
+			"tagname3", "tagname4", "tagname5", };
 
 	/**
 	 * @throws java.lang.Exception
@@ -43,18 +45,18 @@ public class TaggerTest {
 	public static void setUpBeforeClass() throws Exception {
 		post = PostFactory.getPost("daniel", testBody, null, Post.TEXT);
 		PostMapper.createPost(post);
-		
+
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "SELECT * FROM post where body = '"+testBody+"'";
+		String sql = "SELECT * FROM post where body = '" + testBody + "'";
 		stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_UPDATABLE);
+				ResultSet.CONCUR_UPDATABLE);
 		ResultSet idSet = stmt.executeQuery(sql);
 		idSet.next();
-		
+
 		int id = idSet.getInt(Post.ID);
 		post.setId(id);
-		
+
 	}
 
 	/**
@@ -64,15 +66,16 @@ public class TaggerTest {
 	public static void tearDownAfterClass() throws Exception {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "DELETE FROM post where post.body = '"+testBody+"'";
+		String sql = "DELETE FROM post where post.body = '" + testBody + "'";
 		stmt = connection.createStatement();
 		stmt.executeUpdate(sql);
-		
+
 		stmt = null;
-		String sql1 = "DELETE FROM post_tagged_as where post_id = "+post.getId();
+		String sql1 = "DELETE FROM post_tagged_as where post_id = "
+				+ post.getId();
 		stmt = connection.createStatement();
 		stmt.executeUpdate(sql1);
-		
+
 	}
 
 	/**
@@ -90,7 +93,9 @@ public class TaggerTest {
 	}
 
 	/**
-	 * Test method for {@link org.fubme.persistency.mappings.Tagger#tagAs(org.fubme.models.Post, java.util.List)}.
+	 * Test method for
+	 * {@link org.fubme.persistency.mappings.Tagger#tagAs(org.fubme.models.Post, java.util.List)}
+	 * .
 	 */
 	@Test
 	public void testTagAs() {
@@ -98,18 +103,20 @@ public class TaggerTest {
 		for (int i = 0; i < tagList.length; i++)
 			tags.add(new Tag(tagList[i]));
 		Tagger.tagAs(post, tags);
-		
+
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "SELECT * from post_tagged_as where post_id = "+ post.getId();
+		String sql = "SELECT * from post_tagged_as where post_id = "
+				+ post.getId();
 		try {
 			stmt = connection.createStatement();
 			ResultSet result = stmt.executeQuery(sql);
-			HashMap<String,String> fastCheck = new HashMap<String,String>();
-			while(result.next()){
-				fastCheck.put(result.getString("tag_name"), result.getString("tag_name"));
+			HashMap<String, String> fastCheck = new HashMap<String, String>();
+			while (result.next()) {
+				fastCheck.put(result.getString("tag_name"),
+						result.getString("tag_name"));
 			}
-			for (int i = 0 ; i < tags.size() ; i++){
+			for (int i = 0; i < tags.size(); i++) {
 				assertTrue(fastCheck.containsKey(tags.get(i).getName()));
 			}
 		} catch (SQLException ex) {
@@ -126,7 +133,7 @@ public class TaggerTest {
 				connection = null;
 			}
 		}
-		
+
 	}
 
 }

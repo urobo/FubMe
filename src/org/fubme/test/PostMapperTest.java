@@ -31,16 +31,18 @@ import org.junit.Test;
  */
 public class PostMapperTest {
 	private static List<Post> metaPost = new ArrayList<Post>();
-	private static String user_ids[] = {"daniel","urobo","edavia","dio"};
+	private static String user_ids[] = { "daniel", "urobo", "edavia", "dio" };
 	private static String testBody = "postmappertest";
+
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		for (int i = 0; i<user_ids.length ; i++)
-			metaPost.add(PostFactory.getPost(user_ids[i], testBody, null, Post.TEXT));
-		
+		for (int i = 0; i < user_ids.length; i++)
+			metaPost.add(PostFactory.getPost(user_ids[i], testBody, null,
+					Post.TEXT));
+
 	}
 
 	/**
@@ -50,7 +52,7 @@ public class PostMapperTest {
 	public static void tearDownAfterClass() throws Exception {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "DELETE FROM post where post.body = '"+testBody+"'";
+		String sql = "DELETE FROM post where post.body = '" + testBody + "'";
 		stmt = connection.createStatement();
 		stmt.executeUpdate(sql);
 	}
@@ -76,30 +78,33 @@ public class PostMapperTest {
 	 */
 	@Test
 	public void testCreatePost() {
-		for (int i = 0 ; i < user_ids.length ; i ++)
+		for (int i = 0; i < user_ids.length; i++)
 			PostMapper.createPost(metaPost.get(i));
-		
+
 		Connection connection = DBConnection.getConnection();
-		
+
 		Statement stmt = null;
-		String sql = "SELECT luser_id from post where post.body = '"+testBody+"'";
-		
+		String sql = "SELECT luser_id from post where post.body = '" + testBody
+				+ "'";
+
 		try {
-			stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+			stmt = connection.createStatement(
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet results = stmt.executeQuery(sql);
 			Post partial = null;
-			while (!metaPost.isEmpty()){
+			while (!metaPost.isEmpty()) {
 				if (partial != null || metaPost.get(0).equals(partial))
 					fail("some posts have not been submitted");
 				partial = metaPost.get(0);
 				results.beforeFirst();
-				
-				while(results.next()){
+
+				while (results.next()) {
 					System.out.println(results.getString(Post.LUSER_ID));
 					System.out.println(metaPost.get(0).getUser_id());
-					if (results.getString(Post.LUSER_ID).equals(metaPost.get(0).getUser_id()))
-					metaPost.remove(0);
+					if (results.getString(Post.LUSER_ID).equals(
+							metaPost.get(0).getUser_id()))
+						metaPost.remove(0);
 				}
 			}
 		} catch (SQLException ex) {
@@ -116,7 +121,7 @@ public class PostMapperTest {
 				connection = null;
 			}
 		}
-		
+
 	}
 
 }

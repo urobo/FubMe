@@ -24,13 +24,12 @@ import org.fubme.models.User;
  */
 
 public abstract class Helper {
-	
-	
-	
+
 	/**
-	 * Retrieves all comments given a post filtering out all comments from those users blocked by the user passed as parameter
+	 * Retrieves all comments given a post filtering out all comments from those
+	 * users blocked by the user passed as parameter
 	 * 
-	 * @param post 
+	 * @param post
 	 * @param user
 	 * @return a list of comments
 	 */
