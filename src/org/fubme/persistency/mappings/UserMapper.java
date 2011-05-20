@@ -4,13 +4,16 @@
 package org.fubme.persistency.mappings;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Timestamp;
 
+import org.fubme.models.Post;
 import org.fubme.models.User;
+import org.fubme.models.UserList;
 import org.fubme.persistency.DBConnection;
 
 /**
@@ -78,6 +81,82 @@ public abstract class UserMapper {
 			}
 		}
 
+	}
+
+	public static final void follows(User follower, User toBeFollowed) {
+		Connection connection = DBConnection.getConnection();
+		Statement stmt = null;
+		String sql = "INSERT INTO luser_follows_luser (luser_id_follower,luser_id_followed) VALUES ('"
+				+ follower.getId() + "','" + toBeFollowed.getId() + "')";
+		try {
+			stmt = connection.createStatement();
+			stmt.executeUpdate(sql);
+		} catch (SQLException ex) {
+			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			if (stmt != null)
+				stmt = null;
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+
+				}
+				connection = null;
+			}
+		}
+	}
+
+	public static final void unfollows(User follower, User toBeUnfollowed) {
+		Connection connection = DBConnection.getConnection();
+		Statement stmt = null;
+		String sql = "DELETE FROM luser_follows_luser where luser_id_follower = '" 
+				+ follower.getId() + "' and luser_id_followed = '" + toBeUnfollowed.getId() + "')";
+		try {
+			stmt = connection.createStatement();
+			stmt.executeUpdate(sql);
+		} catch (SQLException ex) {
+			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			if (stmt != null)
+				stmt = null;
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+
+				}
+				connection = null;
+			}
+		}
+	}
+	
+	public static final void addAUserToUserList (User listOwner,UserList list, User toBeAdded){
+		Connection connection = DBConnection.getConnection();
+		Statement stmt = null;
+		String sql = "SELECT * from luser_lists_luser where id = '"+list.getId()+"' and luser_id_listed = '"+toBeAdded.getId()+"'";
+		
+		try {
+			stmt = connection.createStatement();
+			ResultSet rList = stmt.executeQuery(sql);
+			if(!rList.next()){
+				sql = "INSERT INTO luser_lists_luser (id, luser_id_list_owner,luser_id_listed) VALUES ('"+list.getId()+"','"+listOwner.getId()+"','"+toBeAdded.getId()+"')";
+				stmt.executeUpdate(sql);
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			if (stmt != null)
+				stmt = null;
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+
+				}
+				connection = null;
+			}
+		}
 	}
 
 }
