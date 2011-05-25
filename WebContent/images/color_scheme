@@ -1,0 +1,11 @@
+
+thin :          #fff1e5
+bright :        #e77a03
+base :          #e86b17
+dark :          #cf5f15
+
+
+dark-alternative :      #543d2e 
+medium-alternative :    #a87b5d
+
+

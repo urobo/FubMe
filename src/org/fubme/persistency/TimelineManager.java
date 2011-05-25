@@ -21,7 +21,7 @@ import org.fubme.models.User;
  * 
  */
 public abstract class TimelineManager {
-	static final List<Post> getTimelineForUser(User user, int limit) {
+	public static final List<Post> getTimelineForUser(User user, int limit) {
 		List<Post> result = new ArrayList<Post>();
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
