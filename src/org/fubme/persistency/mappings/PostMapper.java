@@ -55,11 +55,12 @@ public abstract class PostMapper {
 			}
 		}
 	}
-	
+
 	public static final void likes(User user, Post post) {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "INSERT INTO luser_likes_post (luser_id , post_id) VALUES ('"+user.getId()+"',"+post.getId()+")";
+		String sql = "INSERT INTO luser_likes_post (luser_id , post_id) VALUES ('"
+				+ user.getId() + "'," + post.getId() + ")";
 		try {
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);

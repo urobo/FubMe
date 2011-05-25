@@ -67,7 +67,8 @@ public abstract class UserMapper {
 			stmt1 = connection.createStatement();
 			stmt1.executeUpdate(sql1);
 		} catch (SQLException ex) {
-			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;
@@ -92,7 +93,8 @@ public abstract class UserMapper {
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (SQLException ex) {
-			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;
@@ -110,13 +112,16 @@ public abstract class UserMapper {
 	public static final void unfollows(User follower, User toBeUnfollowed) {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "DELETE FROM luser_follows_luser where luser_id_follower = '" 
-				+ follower.getId() + "' and luser_id_followed = '" + toBeUnfollowed.getId() + "')";
+		String sql = "DELETE FROM luser_follows_luser where luser_id_follower = '"
+				+ follower.getId()
+				+ "' and luser_id_followed = '"
+				+ toBeUnfollowed.getId() + "')";
 		try {
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (SQLException ex) {
-			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;
@@ -130,21 +135,30 @@ public abstract class UserMapper {
 			}
 		}
 	}
-	
-	public static final void addAUserToUserList (User listOwner,UserList list, User toBeAdded){
+
+	public static final void addAUserToUserList(User listOwner, UserList list,
+			User toBeAdded) {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "SELECT * from luser_lists_luser where id = '"+list.getId()+"' and luser_id_listed = '"+toBeAdded.getId()+"'";
-		
+		String sql = "SELECT * from luser_lists_luser where id = '"
+				+ list.getId() + "' and luser_id_listed = '"
+				+ toBeAdded.getId() + "'";
+
 		try {
 			stmt = connection.createStatement();
 			ResultSet rList = stmt.executeQuery(sql);
-			if(!rList.next()){
-				sql = "INSERT INTO luser_lists_luser (id, luser_id_list_owner,luser_id_listed) VALUES ('"+list.getId()+"','"+listOwner.getId()+"','"+toBeAdded.getId()+"')";
+			if (!rList.next()) {
+				sql = "INSERT INTO luser_lists_luser (id, luser_id_list_owner,luser_id_listed) VALUES ('"
+						+ list.getId()
+						+ "','"
+						+ listOwner.getId()
+						+ "','"
+						+ toBeAdded.getId() + "')";
 				stmt.executeUpdate(sql);
 			}
 		} catch (SQLException ex) {
-			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;

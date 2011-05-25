@@ -25,14 +25,19 @@ public abstract class TimelineManager {
 		List<Post> result = new ArrayList<Post>();
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = 	"SELECT * from post where luser_id in (select luser_id_followed from luser_follows_luser where luser_id_follower = '"+user.getId()+"') and luser_id  not in (select wrongdoing_id from luser_reports_luser where whistleblower_id = '"+user.getId()+"') limit "+ limit;
+		String sql = "SELECT * from post where luser_id in (select luser_id_followed from luser_follows_luser where luser_id_follower = '"
+				+ user.getId()
+				+ "') and luser_id  not in (select wrongdoing_id from luser_reports_luser where whistleblower_id = '"
+				+ user.getId() + "') order by ptime,id limit " + limit;
 		try {
-			stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+			stmt = connection.createStatement(
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
 			ResultSet timeline = stmt.executeQuery(sql);
-			while(timeline.next()){
-				Post post = PostFactory.getPost(timeline.getTimestamp(Post.PTIME),
-						timeline.getInt(Post.ID), 
+			while (timeline.next()) {
+				Post post = PostFactory.getPost(
+						timeline.getTimestamp(Post.PTIME),
+						timeline.getInt(Post.ID),
 						timeline.getString(Post.LUSER_ID),
 						timeline.getString(Post.BODY),
 						timeline.getString(Post.LINK),
@@ -52,6 +57,7 @@ public abstract class TimelineManager {
 				}
 				connection = null;
 			}
+		}
 		return result;
 	}
 }

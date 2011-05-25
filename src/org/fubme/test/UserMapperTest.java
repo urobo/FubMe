@@ -49,6 +49,8 @@ public class UserMapperTest {
 		String sql = "DELETE FROM fuser where id = '" + user.getId() + "'";
 		stmt = connection.createStatement();
 		stmt.executeUpdate(sql);
+		stmt.close();
+		connection.close();
 	}
 
 	/**
@@ -76,9 +78,9 @@ public class UserMapperTest {
 
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		final String sql = "SELECT FROM * fuser where id = '" + user.getId()
+		final String sql = "SELECT * FROM fuser where id = '" + user.getId()
 				+ "'";
-		final String sql1 = "SELECT FROM * luser where id = '" + user.getId()
+		final String sql1 = "SELECT * FROM luser where id = '" + user.getId()
 				+ "'";
 		try {
 			stmt = connection.createStatement();
@@ -87,6 +89,7 @@ public class UserMapperTest {
 			assertEquals(rFuser.getString("id"), user.getId());
 			assertEquals(rFuser.getString("pswd"), user.getPswd());
 			assertEquals(rFuser.getString("email"), user.getEmail());
+			stmt.close();
 
 			stmt = connection.createStatement();
 			ResultSet rLuser = stmt.executeQuery(sql1);
@@ -106,8 +109,14 @@ public class UserMapperTest {
 			if (user.getLastname() instanceof String)
 				assertEquals(rLuser.getString("lastname"), user.getLastname());
 
+			stmt.close();
+			rFuser.close();
+			rLuser.close();
+
 		} catch (SQLException ex) {
-			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+			fail(ex.getMessage());
+			Logger.getLogger(UserMapperTest.class.getName()).log(Level.SEVERE,
+					"UserMapperTest.testCreateUser()", ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;

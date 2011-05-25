@@ -92,7 +92,8 @@ public abstract class Helper {
 			resultset.close();
 		} catch (SQLException ex) {
 			tags = null;
-			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(Helper.class.getName())
+					.log(Level.SEVERE, null, ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;
@@ -136,7 +137,8 @@ public abstract class Helper {
 			resultset.close();
 		} catch (SQLException ex) {
 			posts = null;
-			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(Helper.class.getName())
+					.log(Level.SEVERE, null, ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;
