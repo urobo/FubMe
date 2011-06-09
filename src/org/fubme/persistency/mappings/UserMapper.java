@@ -83,17 +83,19 @@ public abstract class UserMapper {
 		}
 
 	}
-	
-	public static final boolean checkUserData(String attribute, String value){
+
+	public static final boolean checkUserData(String attribute, String value) {
 		boolean exist = true;
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "SELECT "+ attribute +" FROM fuser where "+attribute +"='"+value+"'";
+		String sql = "SELECT " + attribute + " FROM fuser where " + attribute
+				+ "='" + value + "'";
 		try {
 			stmt = connection.createStatement();
 			ResultSet result = stmt.executeQuery(sql);
 			System.out.println(attribute + "\t" + value);
-			if (result.next())return true;
+			if (result.next())
+				return true;
 			return false;
 		} catch (SQLException ex) {
 			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
@@ -109,10 +111,10 @@ public abstract class UserMapper {
 				}
 				connection = null;
 			}
-		}		
+		}
 		return exist;
 	}
-	
+
 	public static final void follows(User follower, User toBeFollowed) {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;

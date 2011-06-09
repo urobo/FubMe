@@ -40,14 +40,17 @@ public abstract class PostMapper {
 		try {
 			stmt = connection.createStatement();
 			ResultSet id = stmt.executeQuery(sql);
-			if (post.getTags()!= null){
-				id.next();
+			id.next();
+			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE,
+					"post number " + id.getInt("id"));
+			if (post.getTags() != null) {
 				post.setId(id.getInt("id"));
 				Tagger.tagAs(post);
 			}
 			stmt.close();
 		} catch (SQLException ex) {
-			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;

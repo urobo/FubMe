@@ -26,7 +26,8 @@ public abstract class Tagger {
 
 		String sql = "INSERT INTO post_tagged_as (post_id,tag_Name) VALUES ";
 		for (int i = 0; i < post.getTags().size(); i++) {
-			sql += "(" + post.getId() + ",'" + post.getTags().get(i).getName() + "')";
+			sql += "(" + post.getId() + ",'" + post.getTags().get(i).getName()
+					+ "')";
 			if (i != post.getTags().size() - 1)
 				sql += ", ";
 		}
