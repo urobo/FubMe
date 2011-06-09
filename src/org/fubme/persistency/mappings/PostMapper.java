@@ -4,6 +4,7 @@
 package org.fubme.persistency.mappings;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -35,10 +36,15 @@ public abstract class PostMapper {
 				+ "','"
 				+ ((post.getLink() != null) ? post.getLink().toString()
 						: "null") + "','" + post.getBody() + "','"
-				+ post.getMime() + "')";
+				+ post.getMime() + "') RETURNING id";
 		try {
 			stmt = connection.createStatement();
-			stmt.executeUpdate(sql);
+			ResultSet id = stmt.executeQuery(sql);
+			if (post.getTags()!= null){
+				id.next();
+				post.setId(id.getInt("id"));
+				Tagger.tagAs(post);
+			}
 			stmt.close();
 		} catch (SQLException ex) {
 			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);

@@ -102,7 +102,8 @@ public class TaggerTest {
 		List<Tag> tags = new ArrayList<Tag>();
 		for (int i = 0; i < tagList.length; i++)
 			tags.add(new Tag(tagList[i]));
-		Tagger.tagAs(post, tags);
+		post.setTags(tags);
+		Tagger.tagAs(post);
 
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
