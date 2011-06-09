@@ -1,33 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-        			<title>Search</title>
-                <link rel="stylesheet" type="text/css" href="fubme.css" />
-        </head>
-        <body>
-                 <div class="header">  
-                         <div class="title"> <h1>welcome on fubme</h1></div>
-                           <div class= "links">
-              
-                                  <a href="">
-                                        <img src="images/profile.png" alt="profile"/>
-                                  </a>
-                                  <a href="">
-                                          <img src="images/home.png" alt="home"/>
-                                  </a>
-                                  <a href="">
-                                          <img src="images/search.png" alt="search"/>
-                                  </a>
-                                  <a href="">
-                                          <img src="images/settings.png" alt="settings"/>
-                                  </a>
-        
-                            </div>
-                        </div>
-                  <hr/>
+<jsp:include page="/header.jsp" />
+
                   
 						<div id="search">
 						
@@ -186,23 +158,4 @@ http://uroboatsonet.blogspot.com/ </i>
 								</ul>								
 							</div>                   
                   </div>
-                  <hr/>
-                         <div class="footer">
-   
-                                  <div class= "links">
-                                          <a href="">
-                                                <img src="images/profile.png" alt="profile"/>
-                                          </a>
-                                          <a href="">
-                                                <img src="images/home.png" alt="home"/>
-                                          </a>
-                                          <a href="">
-                                                <img src="images/search.png" alt="search"/>
-                                          </a>
-                                          <a href="">
-                                                <img src="images/settings.png" alt="settings"/>
-                                          </a>
-                                   </div>
-                        </div>
-        </body>
-</html>
+<jsp:include page="/footer.jsp" />  
