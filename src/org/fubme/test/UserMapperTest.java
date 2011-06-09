@@ -66,7 +66,35 @@ public class UserMapperTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-
+	/**
+	 * Test method for
+	 * {@link org.fubme.persistency.mappings.UserMapper#checkUserData(java.lang.String,java.lang.String)}
+	 * .
+	 */
+	@Test
+	public void testCheckUserData() {
+		String attribute = "id";
+		String value0 = "urobo";
+		String value1 = "kratos";
+		boolean result = UserMapper.checkUserData(attribute, value0);
+		System.out.println(attribute+"\t"+value0+"\t"+result);
+		assertTrue(result);
+		result = UserMapper.checkUserData(attribute, value1);
+		System.out.println(attribute+"\t"+value1+"\t"+result);
+		assertFalse(result);
+		
+		attribute = "email";
+		value0 = "rico.sleeps@gmail.com";
+		value1 = testBody+ "@"+testBody+".com";
+		result = UserMapper.checkUserData(attribute, value0);
+		System.out.println(attribute+"\t"+value0+"\t"+result);
+		assertTrue(result);
+		
+		result = UserMapper.checkUserData(attribute, value1);
+		System.out.println(attribute+"\t"+value1+"\t"+result);
+		assertFalse(result);
+	}
+	
 	/**
 	 * Test method for
 	 * {@link org.fubme.persistency.mappings.UserMapper#createUser(org.fubme.models.User)}

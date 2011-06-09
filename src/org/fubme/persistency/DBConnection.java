@@ -19,7 +19,7 @@ public abstract class DBConnection {
 	public static void connect() {
 		try {
 			if (connection == null) {
-				String host = "localhost";
+				String host = "127.0.0.1";
 				String database = "fubme";
 				String username = "fubme";
 				String password = "fubme";
