@@ -21,7 +21,7 @@
                                 </form>
                         </div>
                         <div class="sign" id="signin">
-                                <form action="Login" method="post" name="signin">
+                                <form action="Home" method="post" name="signin">
                                 <label>username</label> <input type="text" name="username"/>
                                 <label>password</label> <input type="password" name="password"/>
                                 <input type="submit" value="Sign in" name="signin" style="display:block;float:right;"/>

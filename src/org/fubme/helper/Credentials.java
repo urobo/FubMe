@@ -17,7 +17,7 @@ import org.fubme.persistency.DBConnection;
  * @author riccardo
  * 
  */
-public abstract class Login {
+public abstract class Credentials {
 	public static final User validateUserCredentials(String id, String pswd) {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
@@ -32,7 +32,7 @@ public abstract class Login {
 				return new User(id, pswd);
 		} catch (SQLException ex) {
 
-			Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(Credentials.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;
