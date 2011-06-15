@@ -9,7 +9,7 @@
         <div id = "instant">
         
         
-                <textarea id= "status" rows="4" cols="105">
+                <textarea id= "status" rows="1" cols="105">
                          What are you thinking?
                 </textarea>
        
@@ -27,15 +27,15 @@
 			if(timeline != null){
 				for (int i = 0; i < timeline.size(); i++){
 					Post post = timeline.get(i);
-					out.print("<li><div class=\"post\"><div class=\"postimage\"><img src=\"pp1.jpg\" height=\"48px\" width=\"48px\" alt=\"profile picture\"/></div><div class=\"posttext\">"+post.getBody()+"<div class= \"tag\">");
+					out.print("<li><div class=\"post\"><div class=\"postimage\"><img src=\"pp1.jpg\" height=\"48px\" width=\"48px\" alt=\"profile picture\"/></div><div class=\"author\">"+post.getUser_id()+"</div><div class=\"posttext\">"+post.getBody()+"<div class= \"tag\">");
 					if(post.getTags() instanceof List<?>)
 					for(int j = 0; j< post.getTags().size(); j++){
-					out.print("<a href = \"\" #"+ post.getTags().get(j).getName() +"</a>");	
+					out.print("<a href = \"http://127.0.0.1:8080/FubMe/Search?tags="+post.getTags().get(j).getName()+"\"> #"+ post.getTags().get(j).getName() +"</a>");	
 					}	
 			    	out.print("</div><hr/> <div class=\"miscellanea\"><button name=\"comment\" type=\"submit\" class=\"linkbutton\">Comment</button><button name=\"like\" type=\"submit\" class=\"linkbutton\">Like</button><button name=\"reblog\" type=\"submit\" class=\"linkbutton\">ReBlog</button></div>");           
 			    	if (post.getComments() instanceof List<?>)
 			    	for (int j = 0 ; j<post.getComments().size(); j++){          
-			    	     out.print("<div class = \"comment\"><p>"+post.getComments().get(j).getBody()+"</p></div>");
+			    	     out.print("<div class = \"comment\"><div class=\"author\">"+post.getComments().get(j).getLuser_id()+"</div>"+post.getComments().get(j).getBody()+"</div>");
 			    	}
 			  	 	 out.print("</div></li>");
 					}

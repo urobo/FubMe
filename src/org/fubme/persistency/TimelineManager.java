@@ -44,7 +44,9 @@ public abstract class TimelineManager {
 						timeline.getString(Post.MIME));
 				post.setComments(Helper.getComments(post, user));
 				post.setTags(Helper.getTags(post));
-				
+				for (int i = 0 ; i < post.getTags().size(); i++){
+					System.out.println(post.getId() + "\t"+ post.getTags().get(i).getName());
+				}
 				result.add(post);
 			}
 		} catch (SQLException ex) {

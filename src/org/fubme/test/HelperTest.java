@@ -165,8 +165,10 @@ public class HelperTest {
 		HashMap<String, String> fastCheck = new HashMap<String, String>();
 		for (int i = 0; i < rTags.size(); i++)
 			fastCheck.put(rTags.get(i).getName(), rTags.get(i).getName());
-		for (int i = 0; i < tagList.length; i++)
+		for (int i = 0; i < tagList.length; i++){
 			assertTrue(fastCheck.containsKey(tagList[i]));
+			System.out.println(tagList[i]);
+			}
 	}
 
 	/**

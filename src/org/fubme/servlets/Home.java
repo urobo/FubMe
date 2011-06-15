@@ -50,7 +50,7 @@ public class Home extends HttpServlet {
 		if (user!=null){
 			List<org.fubme.models.Post> timeline = TimelineManager.getTimelineForUser(new User(username,password), maxPosts);
 			request.setAttribute("timeline", timeline);
-			RequestDispatcher view = getServletContext().getRequestDispatcher("home.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("home.jsp");
 			view.forward(request, response);
 		}else{
 			RequestDispatcher view = request.getRequestDispatcher("login.jsp");
