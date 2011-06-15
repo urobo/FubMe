@@ -1,11 +1,19 @@
 package org.fubme.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.fubme.models.User;
+import org.fubme.persistency.TrackTag;
 
 /**
  * Servlet implementation class Search
@@ -27,8 +35,24 @@ public class Search extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String tag = request.getParameter("tags");
-		
+		HttpSession session = request.getSession();
+		if (session!=null){
+			User user = (User)session.getAttribute("loggedUser");
+			String tag = request.getParameter("tags");
+			StringTokenizer st = new StringTokenizer(tag,"+");
+			List<String> tags = new ArrayList<String>();
+			while (st.hasMoreElements())
+				tags.add(st.nextToken());
+			List<org.fubme.models.Post> result = TrackTag.searchPostTaggedAs(user, tags, 25);
+			request.setAttribute("search", result);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}else{
+			request.setAttribute("error", "first you have to login");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+			dispatcher.forward(request, response);
+		}
 		
 	}
 
