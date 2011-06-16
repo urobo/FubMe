@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.fubme.models.User;
+import org.fubme.persistency.Helper;
+
 /**
  * Servlet implementation class Post
  */
@@ -27,7 +30,16 @@ public class Post extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		if (request.getSession() == null){
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+			return;
+		} else {
+			int id = Integer.parseInt(request.getParameter("post_id"));
+			org.fubme.models.Post post = Helper.getPost(id,(User)request.getSession().getAttribute("loggedUser"));
+			request.setAttribute("post", post);
+			request.getRequestDispatcher("post.jsp").forward(request, response);
+			return;
+		}
 	}
 
 	/**

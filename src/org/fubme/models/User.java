@@ -28,6 +28,27 @@ public class User extends FubMeUser implements LowPrivilegedUser {
 	public User(String id, String pswd) {
 		super(id, pswd, null);
 	}
+	
+	/**
+	 * @param id
+	 * @param pswd
+	 * @param email
+	 * @param bio
+	 * @param firstname
+	 * @param lastname
+	 * @param birthdate
+	 * @param location
+	 */
+	public User(String id, String pswd, String email, String bio,
+			String firstname, String lastname, Timestamp birthdate,
+			String location) {
+		super(id, pswd, email);
+		this.bio = bio;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.birthdate = birthdate;
+		this.location = location;
+	}
 
 	/**
 	 * @return the bio

@@ -55,6 +55,7 @@ public abstract class TrackTag {
 					System.out.println(post.getId() + "\t"
 							+ post.getTags().get(i).getName());
 				}
+				System.out.println(post.getId()+"\t"+post.getBody());
 				posts.add(post);
 			}
 		} catch (SQLException ex) {

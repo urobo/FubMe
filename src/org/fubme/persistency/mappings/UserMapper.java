@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -202,5 +204,102 @@ public abstract class UserMapper {
 			}
 		}
 	}
+	
+	public static final List<User> getFollowers(User user){
+		List<User> followers = new ArrayList<User>();
+		Connection connection = DBConnection.getConnection();
+		Statement stmt = null;
+		String sql = "select * from luser where id in (select luser_id_follower from luser_follows_luser where luser_id_followed = '"+ user.getId()+"'";
+		try {
+			stmt = connection.createStatement();
+			ResultSet result = stmt.executeQuery(sql);
+			while(result.next()){
+				followers.add(new User(result.getString("id"), null));
+			}
+			return followers;
+		} catch (SQLException ex) {
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				stmt = null;
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
 
+				}
+				connection = null;
+			}
+		}
+		return null;
+		
+	}
+	
+	public static final List<User> getFollowing(User user){
+		List<User> following = new ArrayList<User>();
+		Connection connection = DBConnection.getConnection();
+		Statement stmt = null;
+		String sql = "select * from luser where id in (select luser_id_followed from luser_follows_luser where luser_id_follower = '"+ user.getId()+"'";
+		try {
+			stmt = connection.createStatement();
+			ResultSet result = stmt.executeQuery(sql);
+			while(result.next()){
+				following.add(new User(result.getString("id"), null));
+			}
+			return following;
+		} catch (SQLException ex) {
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				stmt = null;
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+
+				}
+				connection = null;
+			}
+		}
+		return null;
+		
+	}
+	
+	public static final User getUserInfo(User user){
+		Connection connection = DBConnection.getConnection();
+		Statement stmt = null;
+		String sql = "select * from luser where id = '"+user.getId()+"'";
+		
+		try {
+			stmt = connection.createStatement();
+			ResultSet result = stmt.executeQuery(sql);
+			while(result.next()){
+				return new User(result.getString("id"), 
+								null, 
+								null, 
+								result.getString("bio"),
+								result.getString("firstname"),
+								result.getString("lastname"),
+								result.getTimestamp("birthdate"),
+								result.getString("location"));
+			}
+		} catch (SQLException ex) {
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				stmt = null;
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+
+				}
+				connection = null;
+			}
+		}
+		return null;
+	}
 }

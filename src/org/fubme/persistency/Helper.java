@@ -155,4 +155,44 @@ public abstract class Helper {
 		}
 		return posts;
 	}
+
+	public static final Post getPost(int id,User user) {
+		Connection connection = DBConnection.getConnection();
+		Statement stmt = null;
+		String sql = "select * from post where post.id = "+id;
+		Post post = null;
+		try{
+		stmt = connection.createStatement();
+		ResultSet result = stmt.executeQuery(sql);
+		while(result.next()){
+			post = PostFactory.getPost(result.getTimestamp("ptime"),
+					result.getInt("id"),
+					result.getString("luser_id"),
+					result.getString("body"),
+					result.getString("link"), 
+					result.getString("mime"));
+			post.setComments(Helper.getComments(post, user));
+			post.setTags(Helper.getTags(post));
+		}
+	} catch (SQLException ex) {
+		post = null;
+		Logger.getLogger(Helper.class.getName())
+				.log(Level.SEVERE, null, ex);
+	} finally {
+		if (stmt != null)
+			stmt = null;
+		if (resultset != null)
+			resultset = null;
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+
+			}
+			connection = null;
+		}
+	}
+		
+		return null;
+	}
 }

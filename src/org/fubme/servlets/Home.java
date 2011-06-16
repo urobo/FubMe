@@ -54,9 +54,7 @@ public class Home extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		if (session != null) {
-
 			User user = (User) session.getAttribute("loggedUser");
-			System.out.println(user.getId() + "\t" + user.getPswd());
 			List<org.fubme.models.Post> timeline = TimelineManager
 					.getTimelineForUser(user, maxPosts);
 			request.setAttribute("timeline", timeline);

@@ -4,9 +4,11 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.fubme.models.User;
 import org.fubme.persistency.mappings.UserMapper;
@@ -16,6 +18,21 @@ import org.fubme.persistency.mappings.UserMapper;
  */
 public class Signup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private void setLoginCookies(HttpServletRequest request,
+			HttpServletResponse response, String nickname, String password) {
+
+		Cookie userNameCookie = new Cookie("username", nickname);
+		Cookie passwordCookie = new Cookie("password", password);
+		// Cookie age in seconds: 30 days * 24 hours * 60 minutes * 60 seconds
+		int maxAge = 30 * 24 * 60 * 60;
+		
+		userNameCookie.setMaxAge(maxAge);
+		passwordCookie.setMaxAge(maxAge);
+		userNameCookie.setPath("/");
+		passwordCookie.setPath("/");
+		response.addCookie(userNameCookie);
+		response.addCookie(passwordCookie);
+	}
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -31,7 +48,9 @@ public class Signup extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		if (request.getSession() == null){
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+		}
 	}
 
 	/**
@@ -52,8 +71,11 @@ public class Signup extends HttpServlet {
 				&& email.equals(emailConfirmation))
 			if (!UserMapper.checkUserData("id", username)) {
 				if (!UserMapper.checkUserData("email", email)) {
-					UserMapper.createUser(new User(username, password, email));
-
+					User user = new User(username, password, email);
+					UserMapper.createUser(user);
+					HttpSession session = request.getSession(true);
+					setLoginCookies(request,response,username,password);
+					session.setAttribute("loggedUser", user );
 					view = request.getRequestDispatcher("home.jsp");
 					view.forward(request, response);
 				} else {
