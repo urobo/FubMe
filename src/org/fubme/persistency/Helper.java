@@ -181,8 +181,7 @@ public abstract class Helper {
 	} finally {
 		if (stmt != null)
 			stmt = null;
-		if (resultset != null)
-			resultset = null;
+		
 		if (connection != null) {
 			try {
 				connection.close();

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,12 +41,10 @@ public class Search extends HttpServlet {
 		if (session!=null){
 			User user = (User)session.getAttribute("loggedUser");
 			String tag = request.getParameter("tags");
-			StringTokenizer st = new StringTokenizer(tag,"+");
 			List<String> tags = new ArrayList<String>();
-			while (st.hasMoreElements())
-				tags.add(st.nextToken());
+			tags.add(tag);
 			List<org.fubme.models.Post> result = TrackTag.searchPostTaggedAs(user, tags, 25);
-			request.setAttribute("search", result);
+			request.setAttribute("posts", result);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
 			dispatcher.forward(request, response);
 			return;
