@@ -80,4 +80,14 @@
     <servlet-name>Signup</servlet-name>
     <url-pattern>/Signup</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Action</display-name>
+    <servlet-name>Action</servlet-name>
+    <servlet-class>org.fubme.servlets.Action</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Action</servlet-name>
+    <url-pattern>/Action</url-pattern>
+  </servlet-mapping>
 </web-app>

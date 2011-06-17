@@ -32,12 +32,14 @@ public class Profile extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		if (request.getSession() == null){
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+		if (request.getSession() == null) {
+			request.getRequestDispatcher("login.jsp")
+					.forward(request, response);
 			return;
-		}else{
-			User user = new User(request.getParameter("user"),null);
-			List<org.fubme.models.Post> posts = TimelineManager.getProfileForUser(user, 25);
+		} else {
+			User user = new User(request.getParameter("user"), null);
+			List<org.fubme.models.Post> posts = TimelineManager
+					.getProfileForUser(user, 25);
 			List<User> followers = UserMapper.getFollowers(user);
 			List<User> following = UserMapper.getFollowing(user);
 			User info = UserMapper.getUserInfo(user);
@@ -45,7 +47,8 @@ public class Profile extends HttpServlet {
 			request.setAttribute("following", following);
 			request.setAttribute("posts", posts);
 			request.setAttribute("info", info);
-			request.getRequestDispatcher("profile.jsp").forward(request, response);
+			request.getRequestDispatcher("profile.jsp").forward(request,
+					response);
 			return;
 		}
 	}

@@ -44,8 +44,9 @@ public abstract class TimelineManager {
 						timeline.getString(Post.MIME));
 				post.setComments(Helper.getComments(post, user));
 				post.setTags(Helper.getTags(post));
-				for (int i = 0 ; i < post.getTags().size(); i++){
-					System.out.println(post.getId() + "\t"+ post.getTags().get(i).getName());
+				for (int i = 0; i < post.getTags().size(); i++) {
+					System.out.println(post.getId() + "\t"
+							+ post.getTags().get(i).getName());
 				}
 				result.add(post);
 			}
@@ -65,11 +66,13 @@ public abstract class TimelineManager {
 		}
 		return result;
 	}
+
 	public static final List<Post> getProfileForUser(User user, int limit) {
 		List<Post> result = new ArrayList<Post>();
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "SELECT * from post where luser_id = '"+ user.getId() +"' order by ptime,id limit " + limit;
+		String sql = "SELECT * from post where luser_id = '" + user.getId()
+				+ "' order by ptime,id limit " + limit;
 		try {
 			stmt = connection.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -85,8 +88,9 @@ public abstract class TimelineManager {
 						timeline.getString(Post.MIME));
 				post.setComments(Helper.getComments(post, user));
 				post.setTags(Helper.getTags(post));
-				for (int i = 0 ; i < post.getTags().size(); i++){
-					System.out.println(post.getId() + "\t"+ post.getTags().get(i).getName());
+				for (int i = 0; i < post.getTags().size(); i++) {
+					System.out.println(post.getId() + "\t"
+							+ post.getTags().get(i).getName());
 				}
 				result.add(post);
 			}

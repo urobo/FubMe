@@ -36,7 +36,7 @@ public class Home extends HttpServlet {
 		Cookie passwordCookie = new Cookie("password", password);
 		// Cookie age in seconds: 30 days * 24 hours * 60 minutes * 60 seconds
 		int maxAge = 30 * 24 * 60 * 60;
-		
+
 		userNameCookie.setMaxAge(maxAge);
 		passwordCookie.setMaxAge(maxAge);
 		userNameCookie.setPath("/");

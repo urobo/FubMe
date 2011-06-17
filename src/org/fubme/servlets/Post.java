@@ -15,7 +15,7 @@ import org.fubme.persistency.Helper;
  */
 public class Post extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -30,12 +30,14 @@ public class Post extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		if (request.getSession() == null){
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+		if (request.getSession() == null) {
+			request.getRequestDispatcher("login.jsp")
+					.forward(request, response);
 			return;
 		} else {
-			int id = Integer.parseInt(request.getParameter("post_id"));
-			org.fubme.models.Post post = Helper.getPost(id,(User)request.getSession().getAttribute("loggedUser"));
+			String id_str = request.getParameter("id");
+			org.fubme.models.Post post = Helper.getPost(id_str, ((User) request
+					.getSession().getAttribute("loggedUser")));
 			request.setAttribute("post", post);
 			request.getRequestDispatcher("post.jsp").forward(request, response);
 			return;

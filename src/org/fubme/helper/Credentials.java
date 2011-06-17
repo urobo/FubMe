@@ -32,7 +32,8 @@ public abstract class Credentials {
 				return new User(id, pswd);
 		} catch (SQLException ex) {
 
-			Logger.getLogger(Credentials.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(Credentials.class.getName()).log(Level.SEVERE,
+					null, ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;

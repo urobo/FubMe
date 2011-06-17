@@ -26,16 +26,16 @@ public abstract class TrackTag {
 		List<Post> posts = new ArrayList<Post>();
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql="";
-		for (int i = 0; i < tags.size(); i++){
-		if (!sql.isEmpty()) sql += " union";
-		 sql += "SELECT * from post where id in (select post_id from post_tagged_as where tag_name = '"
-				+ tags.get(i)
-				+ "') and id not in (SELECT post.id from post,luser_reports_luser where whistleblower_id = '"
-				+ user.getId()
-				+ "' and wrongdoing_id = post.luser_id) ";
+		String sql = "";
+		for (int i = 0; i < tags.size(); i++) {
+			if (!sql.isEmpty())
+				sql += " union";
+			sql += "SELECT * from post where id in (select post_id from post_tagged_as where tag_name = '"
+					+ tags.get(i)
+					+ "') and id not in (SELECT post.id from post,luser_reports_luser where whistleblower_id = '"
+					+ user.getId() + "' and wrongdoing_id = post.luser_id) ";
 		}
-		sql += "limit "+ limit;
+		sql += "limit " + limit;
 		try {
 			stmt = connection.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -50,10 +50,10 @@ public abstract class TrackTag {
 						timeline.getString(Post.LINK),
 						timeline.getString(Post.MIME));
 				post.setComments(Helper.getComments(post, user));
-				
+
 				post.setTags(Helper.getTags(post));
 				for (int i = 0; i < post.getTags().size(); i++) {
-					System.out.println("TrackTag\t"+post.getId() + "\t"
+					System.out.println("TrackTag\t" + post.getId() + "\t"
 							+ post.getTags().get(i).getName());
 				}
 				posts.add(post);

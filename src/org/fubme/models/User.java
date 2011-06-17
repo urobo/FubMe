@@ -28,7 +28,7 @@ public class User extends FubMeUser implements LowPrivilegedUser {
 	public User(String id, String pswd) {
 		super(id, pswd, null);
 	}
-	
+
 	/**
 	 * @param id
 	 * @param pswd

@@ -18,6 +18,7 @@ import org.fubme.persistency.mappings.UserMapper;
  */
 public class Signup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	private void setLoginCookies(HttpServletRequest request,
 			HttpServletResponse response, String nickname, String password) {
 
@@ -25,7 +26,7 @@ public class Signup extends HttpServlet {
 		Cookie passwordCookie = new Cookie("password", password);
 		// Cookie age in seconds: 30 days * 24 hours * 60 minutes * 60 seconds
 		int maxAge = 30 * 24 * 60 * 60;
-		
+
 		userNameCookie.setMaxAge(maxAge);
 		passwordCookie.setMaxAge(maxAge);
 		userNameCookie.setPath("/");
@@ -48,8 +49,9 @@ public class Signup extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		if (request.getSession() == null){
-			request.getRequestDispatcher("login.jsp").forward(request, response);
+		if (request.getSession() == null) {
+			request.getRequestDispatcher("login.jsp")
+					.forward(request, response);
 		}
 	}
 
@@ -74,8 +76,8 @@ public class Signup extends HttpServlet {
 					User user = new User(username, password, email);
 					UserMapper.createUser(user);
 					HttpSession session = request.getSession(true);
-					setLoginCookies(request,response,username,password);
-					session.setAttribute("loggedUser", user );
+					setLoginCookies(request, response, username, password);
+					session.setAttribute("loggedUser", user);
 					view = request.getRequestDispatcher("home.jsp");
 					view.forward(request, response);
 				} else {
