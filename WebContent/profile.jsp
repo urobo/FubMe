@@ -6,18 +6,14 @@
 	<div id="bio">
 		<img src="pp1.jpg" height="80px" width="80px" alt="profile picture" />
 		<p>
-			<b>
-				<%
-					out.print(((User) request.getAttribute("info")).getId());
-				%>
-			</b>
+			<b> <%
+ 	out.print(((User) request.getAttribute("info")).getId());
+ %> </b>
 		</p>
 		<p>
-			<i>
-				<%
-					out.print(((User) request.getAttribute("info")).getBio());
-				%>
-			</i>
+			<i> <%
+ 	out.print(((User) request.getAttribute("info")).getBio());
+ %> </i>
 		</p>
 	</div>
 	<div class="contacts" id="followers">
@@ -101,8 +97,19 @@
 					for (int i = 0; i < posts.size(); i++) {
 						Post post = posts.get(i);
 						out.print("<li><div class=\"post\"><div class=\"postimage\"><img src=\"pp1.jpg\" height=\"48px\" width=\"48px\" alt=\"profile picture\"/></div><div class=\"author\">"
-								+ post.getUser_id()
-								+ "</div><div class=\"posttext\">"
+								+ post.getUser_id());
+						if (post.getVia_user_id() != null) {
+							out.print(" via <a href= \"" + request.getScheme()
+									+ "://" + request.getServerName() + ":"
+									+ request.getServerPort()
+									+ request.getContextPath() + "/Profile");
+
+							out.print("?user=" + post.getVia_user_id()
+									+ "\" class=\"author\">"
+									+ post.getVia_user_id() + "</a>");
+						}
+
+						out.print("</div><div class=\"posttext\">"
 								+ post.getBody() + "<div class= \"tag\">");
 						if (post.getTags() instanceof List<?>)
 							for (int j = 0; j < post.getTags().size(); j++) {
@@ -128,8 +135,9 @@
 												.getLuser_id()
 										+ "\" class=\"author\">"
 										+ post.getComments().get(j)
-												.getLuser_id() + "</a>"
-										+ "</div>"
+												.getLuser_id() + "</a>");
+
+								out.print("</div>"
 										+ post.getComments().get(j).getBody()
 										+ "</div>");
 							}

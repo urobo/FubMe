@@ -11,6 +11,10 @@ import java.util.List;
  * @author riccardo
  * 
  */
+/**
+ * @author riccardo
+ *
+ */
 public abstract class Post {
 	public static final String PTIME = "ptime";
 	public static final String ID = "id";
@@ -18,12 +22,14 @@ public abstract class Post {
 	public static final String BODY = "body";
 	public static final String LINK = "link";
 	public static final String MIME = "mime";
+	public static final String VIA_USER_ID = "via_luser_id";
 
 	public static final String TEXT = "text/plain";
 
 	protected Timestamp ptime;
 	protected int id;
 	protected String user_id;
+	protected String via_user_id;
 	protected String body;
 	protected URL link;
 	protected String mime;
@@ -153,4 +159,23 @@ public abstract class Post {
 	public class TextPost extends Post {
 
 	}
+
+	public void setId(String id) {
+		this.id = Integer.parseInt(id);
+	}
+
+	/**
+	 * @return the via_user_id
+	 */
+	public String getVia_user_id() {
+		return via_user_id;
+	}
+
+	/**
+	 * @param via_user_id the via_user_id to set
+	 */
+	public void setVia_user_id(String via_user_id) {
+		this.via_user_id = via_user_id;
+	}
+	
 }

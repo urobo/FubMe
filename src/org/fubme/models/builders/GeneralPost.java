@@ -29,5 +29,15 @@ public class GeneralPost extends Post {
 		this.body = body;
 		this.mime = mime;
 	}
+	
+	public GeneralPost(Timestamp ptime, int id, String user_id, URL url,
+			String body, String mime,String via_user_id){
+		this.ptime = ptime;
+		this.id = id;
+		this.user_id = user_id;
+		this.link = url;
+		this.mime = mime;
+		this.via_user_id = via_user_id;
+	}
 
 }

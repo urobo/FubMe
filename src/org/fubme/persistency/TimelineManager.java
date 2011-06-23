@@ -25,10 +25,13 @@ public abstract class TimelineManager {
 		List<Post> result = new ArrayList<Post>();
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "SELECT * from post where luser_id in (select luser_id_followed from luser_follows_luser where luser_id_follower = '"
+		
+		String sql = "SELECT post.ptime,post.id,post.luser_id, post.body,post.link,post.mime, luser_shares_post.ptime as reblog_time, luser_shares_post.post_id,luser_shares_post.luser_id as nos_luser_id , luser_shares_post.via_luser_id from post left outer join luser_shares_post on post.id = luser_shares_post.post_id where post.luser_id in (select luser_id_followed from luser_follows_luser where luser_id_follower = '"
 				+ user.getId()
-				+ "') and luser_id  not in (select wrongdoing_id from luser_reports_luser where whistleblower_id = '"
-				+ user.getId() + "') order by ptime,id limit " + limit;
+				+ "') and post.luser_id  not in (select wrongdoing_id from luser_reports_luser where whistleblower_id = '"
+				+ user.getId()
+				+ "') order by post.ptime,luser_shares_post.ptime,post.id limit "
+				+ limit;
 		try {
 			stmt = connection.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -41,7 +44,8 @@ public abstract class TimelineManager {
 						timeline.getString(Post.LUSER_ID),
 						timeline.getString(Post.BODY),
 						timeline.getString(Post.LINK),
-						timeline.getString(Post.MIME));
+						timeline.getString(Post.MIME),
+						timeline.getString(Post.VIA_USER_ID));
 				post.setComments(Helper.getComments(post, user));
 				post.setTags(Helper.getTags(post));
 				for (int i = 0; i < post.getTags().size(); i++) {

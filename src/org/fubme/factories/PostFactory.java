@@ -45,4 +45,23 @@ public abstract class PostFactory {
 		}
 		return post;
 	}
+	
+	public static final Post getPost(Timestamp ptime, int id, String user_id,
+			String body, String link, String mime,String via_user_id) {
+		Post post = null;
+		try {
+
+			if (mime.equals(Post.TEXT)) {
+				post = new TextPost(ptime, id, user_id, body, mime,via_user_id);
+			} else {
+				post = new GeneralPost(ptime, id, user_id, new URL(link), body,
+						mime,via_user_id);
+			}
+			return post;
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

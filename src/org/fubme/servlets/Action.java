@@ -36,7 +36,12 @@ public class Action extends HttpServlet {
 					Integer.parseInt(post_id), null, null, null,
 					org.fubme.models.Post.TEXT));
 		} else if (action.equals("shares")) {
-
+			String viaUser = request.getParameter("via");
+			String post_id = request.getParameter("post_id");
+			User user = (User) session.getAttribute("loggedUser");
+			org.fubme.models.Post post = PostFactory.getPost(viaUser, null, null, org.fubme.models.Post.TEXT);
+			post.setId(post_id);
+			PostMapper.shares(new User(viaUser, null), user, post);
 		} else if (action.equals("reports")) {
 
 		} else if (action.equals("follows")) {
