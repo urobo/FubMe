@@ -28,8 +28,8 @@ public class Comment {
 	 * @param luser_id
 	 * @param body
 	 */
-	public Comment(int post_id, String luser_id, String body) {
-		this.post_id = post_id;
+	public Comment(String post_id, String luser_id, String body) {
+		this.post_id = Integer.parseInt(post_id);
 		this.luser_id = luser_id;
 		this.body = body;
 	}
@@ -41,10 +41,10 @@ public class Comment {
 	 * @param time
 	 * @param body
 	 */
-	public Comment(int id, int post_id, String luser_id, Timestamp time,
+	public Comment(int id, String post_id, String luser_id, Timestamp time,
 			String body) {
 		this.id = id;
-		this.post_id = post_id;
+		this.post_id = Integer.parseInt(post_id);
 		this.luser_id = luser_id;
 		this.time = time;
 		this.body = body;
@@ -56,8 +56,8 @@ public class Comment {
 	 * @param time
 	 * @param body
 	 */
-	public Comment(int post_id, String luser_id, Timestamp time, String body) {
-		this.post_id = post_id;
+	public Comment(String post_id, String luser_id, Timestamp time, String body) {
+		this.post_id = Integer.parseInt(post_id);
 		this.luser_id = luser_id;
 		this.time = time;
 		this.body = body;

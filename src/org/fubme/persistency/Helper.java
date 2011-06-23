@@ -46,8 +46,8 @@ public abstract class Helper {
 			stmt = connection.createStatement();
 			resultset = stmt.executeQuery(sql);
 			while (resultset.next()) {
-				Comment comment = new Comment(
-						resultset.getInt(Comment.POST_ID),
+				Comment comment = new Comment(""
+						+ resultset.getInt(Comment.POST_ID),
 						resultset.getString(Comment.LUSER_ID),
 						resultset.getTimestamp(Comment.TIME),
 						resultset.getString(Comment.BODY));
@@ -172,7 +172,8 @@ public abstract class Helper {
 				post.setComments(Helper.getComments(post, user));
 				post.setTags(Helper.getTags(post));
 			}
-			System.out.println("Helper.getPost() \t"+post.getId()+"\t"+post.getBody()+"\t"+post.getUser_id()+"\t");
+			System.out.println("Helper.getPost() \t" + post.getId() + "\t"
+					+ post.getBody() + "\t" + post.getUser_id() + "\t");
 			return post;
 		} catch (SQLException ex) {
 			post = null;

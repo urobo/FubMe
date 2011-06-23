@@ -25,6 +25,7 @@ public abstract class CommentMapper {
 				+ "," + Comment.POST_ID + "," + Comment.BODY + ") VALUES('"
 				+ comment.getLuser_id() + "'," + comment.getPost_id() + ",'"
 				+ comment.getBody() + "')";
+		System.out.println(sql);
 		try {
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);

@@ -78,7 +78,7 @@ public class HelperTest {
 
 		comments = new ArrayList<Comment>();
 		for (int i = 0; i < user_ids.length; i++) {
-			comments.add(new Comment(post.getId(), user_ids[i], testBody));
+			comments.add(new Comment("" + post.getId(), user_ids[i], testBody));
 			CommentMapper.createCommentToPost(comments.get(i));
 		}
 

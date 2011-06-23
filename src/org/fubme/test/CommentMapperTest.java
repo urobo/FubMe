@@ -54,7 +54,7 @@ public class CommentMapperTest {
 		}
 		comments = new ArrayList<Comment>();
 		for (int i = 0; i < 10; i++) {
-			comments.add(new Comment(post_id, user_ids[(i % 4)], testBody));
+			comments.add(new Comment("" + post_id, user_ids[(i % 4)], testBody));
 		}
 	}
 
