@@ -69,7 +69,19 @@
 								+ ((User) request.getSession().getAttribute(
 										"loggedUser")).getId()
 								+ "\" class=\"linkbutton\">Like</a>");
-						out.print("<button name=\"reblog\" type=\"submit\" class=\"linkbutton\">ReBlog</button></form></div>");
+						out.print("<a href=\""
+								+ request.getScheme()
+								+ "://"
+								+ request.getServerName()
+								+ ":"
+								+ request.getServerPort()
+								+ request.getContextPath()
+								+ "/Action?action=shares&post_id="
+								+ post.getId()
+								+ "&user_id="
+								+ ((User) request.getSession().getAttribute(
+										"loggedUser")).getId()
+								+ "\" class=\"linkbutton\">ReBlog</a></form></div>");
 						if (post.getComments() instanceof List<?>)
 							for (int j = 0; j < post.getComments().size(); j++) {
 								out.print("<div class = \"comment\"><div class=\"author\"><a href= \""

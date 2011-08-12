@@ -25,13 +25,16 @@ public abstract class TimelineManager {
 		List<Post> result = new ArrayList<Post>();
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		
-		String sql = "SELECT post.ptime,post.id,post.luser_id, post.body,post.link,post.mime, luser_shares_post.ptime as reblog_time, luser_shares_post.post_id,luser_shares_post.luser_id as nos_luser_id , luser_shares_post.via_luser_id from post left outer join luser_shares_post on post.id = luser_shares_post.post_id where post.luser_id in (select luser_id_followed from luser_follows_luser where luser_id_follower = '"
+
+		String sql = "SELECT post.ptime,post.id,post.luser_id,post.body, post.link,post.mime,lsp.via_luser_id from post,luser_shares_post as lsp where not exists (select * from post join luser_shares_post as shared on post.id = shared.post_id) and post.luser_id in (select luser_id_followed from luser_follows_luser where luser_id_follower = '"
 				+ user.getId()
 				+ "') and post.luser_id  not in (select wrongdoing_id from luser_reports_luser where whistleblower_id = '"
 				+ user.getId()
-				+ "') order by post.ptime,luser_shares_post.ptime,post.id limit "
-				+ limit;
+				+ "') Union SELECT lsp.ptime,post.id,lsp.luser_id,post.body, post.link,post.mime,lsp.via_luser_id from post join luser_shares_post as lsp on post.id = lsp.post_id where lsp.luser_id in (select luser_id_followed from luser_follows_luser where luser_id_follower = '"
+				+ user.getId()
+				+ "') and lsp.luser_id  not in (select wrongdoing_id from luser_reports_luser where whistleblower_id = '"
+				+ user.getId() + "') order by ptime,id limit " + limit;
+
 		try {
 			stmt = connection.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,

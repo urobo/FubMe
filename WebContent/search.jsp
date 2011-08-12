@@ -67,8 +67,33 @@
 										+ "\"> #"
 										+ post.getTags().get(j).getName() + "</a>");
 							}
-						out.print("</div><hr/> <div class=\"miscellanea\"><button name=\"comment\" type=\"submit\" class=\"linkbutton\">Comment</button><button name=\"like\" type=\"submit\" class=\"linkbutton\">Like</button><button name=\"reblog\" type=\"submit\" class=\"linkbutton\">ReBlog</button></div>");
-						if (post.getComments() instanceof List<?>)
+						out.print("</div><hr/> <div class=\"miscellanea\"><button name=\"comment\" type=\"submit\" class=\"linkbutton\">Comment</button>");
+						out.print("<a href=\""
+								+ request.getScheme()
+								+ "://"
+								+ request.getServerName()
+								+ ":"
+								+ request.getServerPort()
+								+ request.getContextPath()
+								+ "/Action?action=likes&post_id="
+								+ post.getId()
+								+ "&user_id="
+								+ ((User) request.getSession().getAttribute(
+										"loggedUser")).getId()
+								+ "\" class=\"linkbutton\">Like</a>");
+						out.print("<a href=\""
+								+ request.getScheme()
+								+ "://"
+								+ request.getServerName()
+								+ ":"
+								+ request.getServerPort()
+								+ request.getContextPath()
+								+ "/Action?action=shares&post_id="
+								+ post.getId()
+								+ "&user_id="
+								+ ((User) request.getSession().getAttribute(
+										"loggedUser")).getId()
+								+ "\" class=\"linkbutton\">ReBlog</a></form></div>");
 							for (int j = 0; j < post.getComments().size(); j++) {
 								out.print("<div class = \"comment\"><div class=\"author\"><a href= \""
 										+ request.getScheme()
