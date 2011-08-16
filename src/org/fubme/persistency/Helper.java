@@ -39,9 +39,7 @@ public abstract class Helper {
 		Statement stmt = null;
 		ResultSet resultset = null;
 		String sql = "SELECT lcp.id,lcp.body,lcp.luser_id,lcp.time,lcp.post_id from luser_comments_post as lcp join post as p on p.id = lcp.post_id where p.id = "
-				+ post.getId()
-				+ " and lcp.luser_id not in (select wrongdoing_id from luser_reports_luser where whistleblower_id = '"
-				+ user.getId() + "')";
+				+ post.getId();
 		try {
 			stmt = connection.createStatement();
 			resultset = stmt.executeQuery(sql);
