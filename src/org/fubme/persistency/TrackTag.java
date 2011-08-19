@@ -32,8 +32,7 @@ public abstract class TrackTag {
 				sql += " union";
 			sql += "SELECT * from post where id in (select post_id from post_tagged_as where tag_name = '"
 					+ tags.get(i)
-					+ "') and id not in (SELECT post.id from post,luser_reports_luser where whistleblower_id = '"
-					+ user.getId() + "' and wrongdoing_id = post.luser_id) ";
+					+ "')";
 		}
 		sql += "limit " + limit;
 		try {

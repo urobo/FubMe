@@ -55,7 +55,11 @@ body {
 	margin-right: auto;
 	margin-bottom: 50px;
 }
+#likelist{
+	
+}
 
+a {text-decoration:none}
 #timeline{
 	border: 0 none;
 	font-weight: bold;

@@ -193,4 +193,75 @@ public abstract class Helper {
 
 		return null;
 	}
+
+	public static final List<User> getLikes(Post post) {
+		List<User> likes = new ArrayList<User>();
+		Connection connection = DBConnection.getConnection();
+		Statement stmt = null;
+
+		String sql = "SELECT luser_id from luser_likes_post where post_id = "
+				+ post.getId();
+		try {
+			stmt = connection.createStatement();
+			ResultSet result = stmt.executeQuery(sql);
+			while (result.next()) {
+				likes.add(new User(result.getString("luser_id"), null));
+			}
+		} catch (SQLException ex) {
+			post = null;
+			Logger.getLogger(Helper.class.getName())
+					.log(Level.SEVERE, null, ex);
+		} finally {
+			if (stmt != null)
+				stmt = null;
+
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+
+				}
+				connection = null;
+			}
+		}
+
+		return likes;
+	}
+
+	public static final boolean doesUserLikesPost(User user, Post post) {
+		Connection connection = DBConnection.getConnection();
+		Statement stmt = null;
+		String sql = "select luser_id from luser_likes_post where post_id = "
+				+ post.getId() + "and luser_id = '"+user.getId()+"'";
+		try {
+			stmt = connection.createStatement();
+			ResultSet result = stmt.executeQuery(sql);
+			if (result.next()) {
+				
+				Logger.getLogger(Helper.class.getName()).log(Level.SEVERE,
+						user.getId() + " likes post " + post.getId());
+				return true;
+				
+			}
+		} catch (SQLException ex) {
+			post = null;
+			Logger.getLogger(Helper.class.getName())
+					.log(Level.SEVERE, null, ex);
+		} finally {
+			if (stmt != null)
+				stmt = null;
+
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+
+				}
+				connection = null;
+			}
+		}
+		Logger.getLogger(Helper.class.getName()).log(Level.SEVERE,
+				user.getId() + " doesn't like post " + post.getId());
+		return false;
+	}
 }

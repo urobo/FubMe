@@ -1,4 +1,5 @@
 <%@page import="java.util.List"%>
+<%@page import="org.fubme.persistency.Helper"%>
 <%@page import="org.fubme.models.*"%>
 <jsp:include page="/header.jsp" />
 
@@ -56,19 +57,49 @@
 										+ post.getTags().get(j).getName()
 										+ "</a>");
 							}
-						out.print("</div><div class=\"miscellanea\"><a href=\""
+						out.print("</div><div class=\"miscellanea\">");
+								out.print("<div id=\"likelist\" class=\"author\">");
+								
+								List<User> likeList = Helper.getLikes(post);
+								for (int j = 0; j< likeList.size(); j++){
+								 	out.print("<span><a style=\"text-decoration:none\" href= \"" + request.getScheme()
+										+ "://" + request.getServerName() + ":"
+										+ request.getServerPort()
+										+ request.getContextPath() + "/Profile");
+
+									out.print("?user=" + likeList.get(j).getId()
+										+ "\" class=\"author\">"										
+										+ likeList.get(j).getId()+ "</a></span>");
+									if(j!=likeList.size()-1)out.print(", ");
+								}
+								if(likeList.size()!=0)out.print(" liked this");
+								out.print(" </div>");
+								
+								out.print("<a href=\""
 								+ request.getScheme()
 								+ "://"
 								+ request.getServerName()
 								+ ":"
 								+ request.getServerPort()
 								+ request.getContextPath()
-								+ "/Action?action=likes&post_id="
-								+ post.getId()
-								+ "&user_id="
-								+ ((User) request.getSession().getAttribute(
+								+ "/Action?action=");
+								
+								if (Helper.doesUserLikesPost(((User) request.getSession().getAttribute(
+										"loggedUser")),post)){
+										out.print("unlikes&post_id=");
+										out.print(post.getId()
+											+ "&user_id="
+											+ ((User) request.getSession().getAttribute(
+											"loggedUser")).getId()
+											+ "\" class=\"linkbutton\">UnLike</a>");
+										
+								} else { out.print("likes&post_id=");		
+									out.print(post.getId()
+									+ "&user_id="
+									+ ((User) request.getSession().getAttribute(
 										"loggedUser")).getId()
-								+ "\" class=\"linkbutton\">Like</a>");
+									+ "\" class=\"linkbutton\">Like</a>");
+								}
 						out.print("</div>");
 						if (post.getComments() instanceof List<?>)
 							for (int j = 0; j < post.getComments().size(); j++) {

@@ -112,4 +112,26 @@ public abstract class PostMapper {
 			}
 		}
 	}
+	public static final void unlikes(User user, Post post){
+		Connection connection = DBConnection.getConnection();
+		Statement stmt = null;
+		String sql = " DELETE FROM luser_likes_post where luser_id =  '"+user.getId()+"' and post_id = "+ post.getId();
+		try {
+			stmt = connection.createStatement();
+			stmt.executeUpdate(sql);
+		} catch (SQLException ex) {
+			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			if (stmt != null)
+				stmt = null;
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+
+				}
+				connection = null;
+			}
+		}
+	}
 }
