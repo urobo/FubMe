@@ -13,7 +13,7 @@ import java.util.List;
  */
 /**
  * @author riccardo
- *
+ * 
  */
 public abstract class Post {
 	public static final String PTIME = "ptime";
@@ -172,10 +172,11 @@ public abstract class Post {
 	}
 
 	/**
-	 * @param via_user_id the via_user_id to set
+	 * @param via_user_id
+	 *            the via_user_id to set
 	 */
 	public void setVia_user_id(String via_user_id) {
 		this.via_user_id = via_user_id;
 	}
-	
+
 }

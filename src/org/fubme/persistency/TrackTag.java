@@ -31,8 +31,7 @@ public abstract class TrackTag {
 			if (!sql.isEmpty())
 				sql += " union";
 			sql += "SELECT * from post where id in (select post_id from post_tagged_as where tag_name = '"
-					+ tags.get(i)
-					+ "')";
+					+ tags.get(i) + "')";
 		}
 		sql += "limit " + limit;
 		try {

@@ -26,6 +26,8 @@ public abstract class Credentials {
 		try {
 			stmt = connection.createStatement();
 			resultset = stmt.executeQuery(sql);
+			Logger.getLogger(Credentials.class.getName())
+					.log(Level.SEVERE, sql);
 			resultset.next();
 			String password = resultset.getString("pswd");
 			if (pswd.equals(password))

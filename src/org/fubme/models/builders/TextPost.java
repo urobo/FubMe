@@ -27,9 +27,9 @@ public class TextPost extends Post {
 		this.body = body;
 		this.mime = mime;
 	}
-	
+
 	public TextPost(Timestamp ptime, int id, String user_id, String body,
-			String mime, String via_user_id){
+			String mime, String via_user_id) {
 		this.ptime = ptime;
 		this.id = id;
 		this.user_id = user_id;

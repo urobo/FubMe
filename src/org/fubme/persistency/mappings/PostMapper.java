@@ -64,16 +64,22 @@ public abstract class PostMapper {
 			}
 		}
 	}
-	
-	public static final void shares (User viaUser, User byUser, Post post){
+
+	public static final void shares(User viaUser, User byUser, Post post) {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = "INSERT INTO luser_shares_post (post_id,luser_id,via_luser_id) values ("+post.getId()+",'"+byUser.getId()+"','"+viaUser.getId()+"')";
+		String sql = "INSERT INTO luser_shares_post (post_id,luser_id,via_luser_id) values ("
+				+ post.getId()
+				+ ",'"
+				+ byUser.getId()
+				+ "','"
+				+ viaUser.getId() + "')";
 		try {
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (SQLException ex) {
-			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;
@@ -86,9 +92,9 @@ public abstract class PostMapper {
 				connection = null;
 			}
 		}
-		
+
 	}
-	
+
 	public static final void likes(User user, Post post) {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
@@ -98,7 +104,8 @@ public abstract class PostMapper {
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (SQLException ex) {
-			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;
@@ -112,15 +119,18 @@ public abstract class PostMapper {
 			}
 		}
 	}
-	public static final void unlikes(User user, Post post){
+
+	public static final void unlikes(User user, Post post) {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
-		String sql = " DELETE FROM luser_likes_post where luser_id =  '"+user.getId()+"' and post_id = "+ post.getId();
+		String sql = " DELETE FROM luser_likes_post where luser_id =  '"
+				+ user.getId() + "' and post_id = " + post.getId();
 		try {
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (SQLException ex) {
-			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;

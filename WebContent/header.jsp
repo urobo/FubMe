@@ -14,7 +14,6 @@
 
         <body>
                  <div class="header">  
-                         <div class="title"> <h1>welcome on fubme</h1></div>
                            <div class= "links">
               
                                   <%

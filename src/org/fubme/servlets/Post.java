@@ -7,8 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.fubme.factories.PostFactory;
 import org.fubme.models.User;
-import org.fubme.persistency.Helper;
+import org.fubme.persistency.mappings.PostMapper;
 
 /**
  * Servlet implementation class Post
@@ -35,11 +36,11 @@ public class Post extends HttpServlet {
 					.forward(request, response);
 			return;
 		} else {
-			String id_str = request.getParameter("id");
-			org.fubme.models.Post post = Helper.getPost(id_str, ((User) request
-					.getSession().getAttribute("loggedUser")));
-			request.setAttribute("post", post);
-			request.getRequestDispatcher("post.jsp").forward(request, response);
+			String postBody = request.getParameter("post_body");
+			PostMapper.createPost(PostFactory.getPost(((User) request
+					.getSession().getAttribute("loggedUser")).getId(),
+					postBody, null, org.fubme.models.Post.TEXT));
+			request.getRequestDispatcher("home.jsp").forward(request, response);
 			return;
 		}
 	}
@@ -50,7 +51,19 @@ public class Post extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		if (request.getSession() == null) {
+			request.getRequestDispatcher("login.jsp")
+					.forward(request, response);
+			return;
+		} else {
+			String post_body = request.getParameter("post_body");
+			PostMapper.createPost(PostFactory.getPost(((User) request
+					.getSession().getAttribute("loggedUser")).getId(),
+					post_body, null, org.fubme.models.Post.TEXT));
+
+			request.getRequestDispatcher("Home").forward(request, response);
+			return;
+		}
 	}
 
 }

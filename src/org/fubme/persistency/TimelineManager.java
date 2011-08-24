@@ -30,7 +30,7 @@ public abstract class TimelineManager {
 				+ user.getId()
 				+ "') or luser_id = '"
 				+ user.getId()
-				+ "' order by ptime,id limit " + limit;
+				+ "' order by id desc limit " + limit;
 
 		try {
 			stmt = connection.createStatement(

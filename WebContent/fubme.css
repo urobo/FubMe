@@ -5,6 +5,13 @@
 	font-style: normal; 
 }
 
+@font-face { 
+	font-family:'Gotham Light'; 
+	src: local ('Gotham Light'),url('Gotham-Light.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal; 
+}
+
 body {
 	background-color:white;
 	font-family:"Gotham Book",Gotham,sans-serif;
@@ -93,7 +100,7 @@ a {text-decoration:none}
 }
 
 .links{
-	text-align: right;
+	text-align: left;
 	font-size: 20px;
 	color:white;
 }
@@ -311,3 +318,7 @@ button.rounded:hover span {
 	background-position: 0% -30px;
 }
 
+textarea{
+	font-family:"Gotham Light",Gotham,sans-serif;
+	
+}

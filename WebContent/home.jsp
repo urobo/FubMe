@@ -8,15 +8,16 @@
 <div class="section" id="canvas">
 
 	<div id="instant">
-
-
-		<textarea id="status" rows="1" cols="105">
-                         What are you thinking?
-                </textarea>
-
-		<button class="rounded" id="publish" type="submit" name="publish">
-			<span>post it!</span>
-		</button>
+		<%
+			out.print("<form action=\" " + request.getScheme()
+									+ "://" + request.getServerName() + ":"
+									+ request.getServerPort()
+									+ request.getContextPath() + "/Post");
+			out.print("\" method=\"post\" >");
+			out.print("<textarea id= \"status\" rows=\"2\" cols=\"103\" name=\"post_body\">What are you thinking? lol</textarea>");
+     		out.print("<button class=\"rounded\" id= \"publish\" type = \"submit\" name= \"publish\"><span>post it!</span></button>");
+     		out.print("</form>");
+         %>
 	</div>
 
 	<div class="rounded" id="timeline">

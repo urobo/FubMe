@@ -232,16 +232,16 @@ public abstract class Helper {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
 		String sql = "select luser_id from luser_likes_post where post_id = "
-				+ post.getId() + "and luser_id = '"+user.getId()+"'";
+				+ post.getId() + "and luser_id = '" + user.getId() + "'";
 		try {
 			stmt = connection.createStatement();
 			ResultSet result = stmt.executeQuery(sql);
 			if (result.next()) {
-				
+
 				Logger.getLogger(Helper.class.getName()).log(Level.SEVERE,
 						user.getId() + " likes post " + post.getId());
 				return true;
-				
+
 			}
 		} catch (SQLException ex) {
 			post = null;
