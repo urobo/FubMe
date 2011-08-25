@@ -67,7 +67,7 @@
 										+ "\"> #"
 										+ post.getTags().get(j).getName() + "</a>");
 							}
-						out.print("</div><hr/> <div class=\"miscellanea\"><button name=\"comment\" type=\"submit\" class=\"linkbutton\">Comment</button>");
+						out.print("</div><div class=\"miscellanea\"><button name=\"comment\" type=\"submit\" class=\"linkbutton\">Comment</button>");
 						out.print("<a href=\""
 								+ request.getScheme()
 								+ "://"

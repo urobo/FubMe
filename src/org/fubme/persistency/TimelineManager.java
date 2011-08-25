@@ -75,7 +75,7 @@ public abstract class TimelineManager {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
 		String sql = "SELECT * from post where luser_id = '" + user.getId()
-				+ "' order by ptime,id limit " + limit;
+				+ "' order by id desc limit " + limit;
 		try {
 			stmt = connection.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,

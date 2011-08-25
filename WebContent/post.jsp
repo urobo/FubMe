@@ -33,7 +33,7 @@
 						+ post.getTags().get(j).getName() + "\"> #"
 						+ post.getTags().get(j).getName() + "</a>");
 			}
-		out.print("</div><hr/> <div class=\"miscellanea\"><button name=\"comment\" type=\"submit\" class=\"linkbutton\">Comment</button><button name=\"like\" type=\"submit\" class=\"linkbutton\">Like</button><button name=\"reblog\" type=\"submit\" class=\"linkbutton\">ReBlog</button></div>");
+		out.print("</div> <div class=\"miscellanea\"><button name=\"comment\" type=\"submit\" class=\"linkbutton\">Comment</button><button name=\"like\" type=\"submit\" class=\"linkbutton\">Like</button><button name=\"reblog\" type=\"submit\" class=\"linkbutton\">ReBlog</button></div>");
 		if (post.getComments() instanceof List<?>)
 			for (int j = 0; j < post.getComments().size(); j++) {
 				out.print("<div class = \"comment\"><div class=\"author\"><a href= \""
