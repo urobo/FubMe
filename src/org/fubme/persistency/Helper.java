@@ -154,7 +154,7 @@ public abstract class Helper {
 		return posts;
 	}
 
-	public static final Post getPost(String id, User user) {
+	public static final Post getPost(String id,User user) {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
 		String sql = "select * from post where id = " + id;

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.fubme.factories.PostFactory;
 import org.fubme.models.User;
+import org.fubme.persistency.Helper;
 import org.fubme.persistency.mappings.PostMapper;
 
 /**
@@ -36,11 +37,10 @@ public class Post extends HttpServlet {
 					.forward(request, response);
 			return;
 		} else {
-			String postBody = request.getParameter("post_body");
-			PostMapper.createPost(PostFactory.getPost(((User) request
-					.getSession().getAttribute("loggedUser")).getId(),
-					postBody, null, org.fubme.models.Post.TEXT));
-			request.getRequestDispatcher("home.jsp").forward(request, response);
+			String post_id= request.getParameter("id");
+			org.fubme.models.Post post = Helper.getPost(post_id,((User) request.getSession().getAttribute("loggedUser")));
+			request.setAttribute("post", post);
+			request.getRequestDispatcher("post.jsp").forward(request, response);
 			return;
 		}
 	}

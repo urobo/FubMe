@@ -97,18 +97,14 @@
 				if (posts != null) {
 					for (int i = 0; i < posts.size(); i++) {
 						Post post = posts.get(i);
-						out.print("<li><div class=\"post\"><div class=\"postimage\"><img src=\"pp1.jpg\" height=\"48px\" width=\"48px\" alt=\"profile picture\"/></div><div class=\"author\">"
-								+ post.getUser_id());
-						if (post.getVia_user_id() != null) {
-							out.print(" via <a href= \"" + request.getScheme()
+							out.print("<li><div class=\"post\"><div class=\"postimage\"><img src=\"pp1.jpg\" height=\"48px\" width=\"48px\" alt=\"profile picture\"/></div><div class=\"author\"><a href= \"" + request.getScheme()
 									+ "://" + request.getServerName() + ":"
 									+ request.getServerPort()
 									+ request.getContextPath() + "/Profile");
 
-							out.print("?user=" + post.getVia_user_id()
+							out.print("?user=" + post.getUser_id()
 									+ "\" class=\"author\">"
-									+ post.getVia_user_id() + "</a>");
-						}
+									+ post.getUser_id() + "</a>");
 						out.print("</div><div class=\"posttext\">"
 								+ post.getBody() + "<div class= \"tag\">");
 						if (post.getTags() instanceof List<?>)
