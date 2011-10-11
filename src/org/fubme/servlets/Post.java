@@ -1,7 +1,9 @@
 package org.fubme.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.fubme.factories.PostFactory;
 import org.fubme.models.User;
 import org.fubme.persistency.Helper;
+import org.fubme.persistency.TimelineManager;
 import org.fubme.persistency.mappings.PostMapper;
 
 /**
@@ -57,12 +60,17 @@ public class Post extends HttpServlet {
 			return;
 		} else {
 			String post_body = request.getParameter("post_body");
-			PostMapper.createPost(PostFactory.getPost(((User) request
-					.getSession().getAttribute("loggedUser")).getId(),
+			User user = ((User) request
+					.getSession().getAttribute("loggedUser"));
+			PostMapper.createPost(PostFactory.getPost(user.getId(),
 					post_body, null, org.fubme.models.Post.TEXT));
-
-			request.getRequestDispatcher("Home").forward(request, response);
+			List<org.fubme.models.Post> timeline = TimelineManager
+					.getTimelineForUser(user, Home.maxPosts);
+			request.setAttribute("timeline", timeline);
+			RequestDispatcher view = request.getRequestDispatcher("home.jsp");
+			view.forward(request, response);
 			return;
+			
 		}
 	}
 

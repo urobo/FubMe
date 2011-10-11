@@ -19,7 +19,7 @@ import org.fubme.persistency.TimelineManager;
  */
 public class Home extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final int maxPosts = 25;
+	public static final int maxPosts = 25;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -76,13 +76,38 @@ public class Home extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		User user = org.fubme.helper.Credentials.validateUserCredentials(
-				username, password);
+		User user = null;
+		HttpSession session = null;
+		String password = null;
+		String username = null;
+		if (request.getSession() == null) {
+			username = request.getParameter("username");
+			password = request.getParameter("password");
+			session = request.getSession(true);
+		} else {
+			session = request.getSession();
+			user = (User) session.getAttribute("loggedUser");
+			if (user == null) {
+				if (request.getCookies() != null) {
+					Cookie[] cookies = request.getCookies();
+					for (int i = 0; i < cookies.length; i++) {
+						String key = cookies[i].getName();
+						if (key.equals("username"))
+							username = cookies[i].getValue();
+						else if (key.equals("password"))
+							password = cookies[i].getValue();
+					}
+				}else{
+					RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+					request.setAttribute("error", "Invalid user credentials");
+					view.forward(request, response);
+					return;
+				}
+			}
+		}
+		user = org.fubme.helper.Credentials.validateUserCredentials(username,
+				password);
 		if (user != null) {
-			HttpSession session = request.getSession(true);
 			setLoginCookies(request, response, user.getId(), user.getPswd());
 			session.setAttribute("loggedUser", user);
 			List<org.fubme.models.Post> timeline = TimelineManager

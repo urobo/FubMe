@@ -12,6 +12,13 @@
 	font-style: normal; 
 }
 
+@font-face { 
+	font-family:'Gotham Light Italic'; 
+	src: local ('Gotham Light Italic'),url('Gotham-LightItalic.ttf') format('truetype');
+	font-weight: normal;
+	font-style: italic; 
+}
+
 body {
 	background-color:white;
 	font-family:"Gotham Book",Gotham,sans-serif;
@@ -25,11 +32,13 @@ body {
 	font-size: 20px;
 	width: 65%;
 }
+
 #error{
 	color : #de162e;
 	font-size:20px;
 	width= 100%;
 }
+
 #search{
 	padding: 15px;
 	margin: 2px;
@@ -40,7 +49,6 @@ body {
 	border: 1px solid #e86b17;
 }
 
-
 #status{
 	width: 100%;
 	font-family:"Gotham Book",Gotham,sans-serif;
@@ -50,8 +58,10 @@ body {
 
 #publish{
 	font-family:"Gotham Book",Gotham,sans-serif;
-	position:relative;font-family:"Gotham Book",Gotham,sans-serif;
+	position:relative;
 	float: right;
+	margin-right: 0px;
+	margin-bottom: 0px;
 }
 
 #instant{
@@ -62,11 +72,16 @@ body {
 	margin-right: auto;
 	margin-bottom: 50px;
 }
+
 #likelist{
 	
 }
 
-a {text-decoration:none}
+a 
+{
+	text-decoration:none
+}
+
 #timeline{
 	border: 0 none;
 	font-weight: bold;
@@ -141,6 +156,12 @@ label{
 	font-size: 18px;
 }
 
+.hint{
+	font-family:"Gotham Light Italic",Gotham,sans-serif;
+	font-size: x-small;
+	font-style:italic;
+}
+
 .postimage{
 	padding:5px;
 	border:none;
@@ -181,6 +202,12 @@ label{
 	background: transparent url( images/btn_right.png ) no-repeat scroll right top;
 	clear: left;
 	font-size: 25px;
+}
+
+#tags{
+	font-family: "Gotham Light",Gotham,sans-serif;
+	font-size: medium;
+	color:  #974107;
 }
 
 #posts span {
@@ -235,11 +262,14 @@ label{
 	text-align: right;
 	font-size: 24px;
 }
+
 .linkbutton{
+	font-family:"Gotham Light",Gotham,sans-serif;
+
 	border-style: none;
 	background-color: white;
-	color:#e77a03;
-	font-size: 16px;
+	color:  #974107;
+
 }
 
 .tag{
@@ -292,7 +322,7 @@ button {
 	width: auto;
 }
 
-button.rounded {
+button.rounded {normal
 	background: transparent url( images/btn_right.png ) no-repeat scroll right top;
 	clear: left;
 	font-size: 0.8em;

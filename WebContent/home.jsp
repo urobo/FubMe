@@ -15,6 +15,7 @@
 									+ request.getContextPath() + "/Post");
 			out.print("\" method=\"post\" >");
 			out.print("<textarea id= \"status\" rows=\"2\" cols=\"103\" name=\"post_body\">What are you thinking? lol</textarea>");
+     		out.print("<span id= \"tags\">tags: </span><input type=\"text\" name=\"tags\"/><span class=\"hint\"> hint: comma separated tags</span>");
      		out.print("<button class=\"rounded\" id= \"publish\" type = \"submit\" name= \"publish\"><span>post it!</span></button>");
      		out.print("</form>");
          %>
