@@ -76,49 +76,28 @@ public class Home extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		if (request.getSession() == null) {
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
-			User user = org.fubme.helper.Credentials.validateUserCredentials(
-					username, password);
-			if (user != null) {
-				HttpSession session = request.getSession(true);
-				setLoginCookies(request, response, user.getId(), user.getPswd());
-				session.setAttribute("loggedUser", user);
-				List<org.fubme.models.Post> timeline = TimelineManager
-						.getTimelineForUser(new User(username, password),
-								maxPosts);
-				request.setAttribute("timeline", timeline);
-				RequestDispatcher view = request
-						.getRequestDispatcher("home.jsp");
-				view.forward(request, response);
-				return;
-			} else {
-				RequestDispatcher view = request
-						.getRequestDispatcher("login.jsp");
-				request.setAttribute("error", "Invalid user credentials");
-				view.forward(request, response);
-				return;
-			}
-		} else {
-			User user = new User(null, null);
-			Cookie[] credentials = request.getCookies();
-			for (int i = 0; i < credentials.length; i++) {
-				String key = credentials[i].getName();
-				String value = credentials[i].getValue();
-				if (key.equals("username"))
-					user.setId(value);
-				else if (key.equals("password"))
-					user.setPswd(value);
-			}
-			request.getSession().setAttribute("loggedUser", user);
+
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		User user = org.fubme.helper.Credentials.validateUserCredentials(
+				username, password);
+		if (user != null) {
+			HttpSession session = request.getSession(true);
+			setLoginCookies(request, response, user.getId(), user.getPswd());
+			session.setAttribute("loggedUser", user);
 			List<org.fubme.models.Post> timeline = TimelineManager
-					.getTimelineForUser(user, maxPosts);
+					.getTimelineForUser(new User(username, password), maxPosts);
 			request.setAttribute("timeline", timeline);
 			RequestDispatcher view = request.getRequestDispatcher("home.jsp");
 			view.forward(request, response);
 			return;
+		} else {
+			RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+			request.setAttribute("error", "Invalid user credentials");
+			view.forward(request, response);
+			return;
 		}
+
 	}
 
 }
