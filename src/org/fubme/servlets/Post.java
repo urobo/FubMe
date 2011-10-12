@@ -1,6 +1,7 @@
 package org.fubme.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.fubme.factories.PostFactory;
+import org.fubme.models.Tag;
 import org.fubme.models.User;
 import org.fubme.persistency.Helper;
 import org.fubme.persistency.TimelineManager;
@@ -62,8 +64,18 @@ public class Post extends HttpServlet {
 			String post_body = request.getParameter("post_body");
 			User user = ((User) request
 					.getSession().getAttribute("loggedUser"));
-			PostMapper.createPost(PostFactory.getPost(user.getId(),
-					post_body, null, org.fubme.models.Post.TEXT));
+			org.fubme.models.Post post = PostFactory.getPost(user.getId(),post_body, null, org.fubme.models.Post.TEXT);
+			String tmpTags = request.getParameter("tags");
+			if (tmpTags != null){
+				String[] tags = tmpTags.split(",");
+				List<Tag> taglist = new ArrayList<Tag>();
+				for (int i = 0 ; i < tags.length ; i++){
+					taglist.add(new Tag(tags[i].trim()));
+				}
+				post.setTags(taglist);
+			}
+			PostMapper.createPost(post);
+			
 			List<org.fubme.models.Post> timeline = TimelineManager
 					.getTimelineForUser(user, Home.maxPosts);
 			request.setAttribute("timeline", timeline);

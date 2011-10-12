@@ -51,7 +51,6 @@ body {
 
 #status{
 	width: 100%;
-	font-family:"Gotham Book",Gotham,sans-serif;
 	font-size: 20px;
 	text-align:left
 }
@@ -60,8 +59,7 @@ body {
 	font-family:"Gotham Book",Gotham,sans-serif;
 	position:relative;
 	float: right;
-	margin-right: 0px;
-	margin-bottom: 0px;
+
 }
 
 #instant{
@@ -77,8 +75,7 @@ body {
 	
 }
 
-a 
-{
+a{
 	text-decoration:none
 }
 
