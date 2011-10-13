@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import org.fubme.models.User;
 import org.fubme.persistency.DBConnection;
+import org.fubme.servlets.Home;
 
 /**
  * @author riccardo
@@ -21,6 +22,7 @@ public abstract class Credentials {
 	public static final User validateUserCredentials(String id, String pswd) {
 		Connection connection = DBConnection.getConnection();
 		Statement stmt = null;
+		Logger.getLogger(Home.class.getName()).log(Level.SEVERE, "validating credentials for user: username : " + id + " password : " + pswd);
 		String sql = "Select * from fuser where id = '" + id + "'";
 		ResultSet resultset = null;
 		try {

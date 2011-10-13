@@ -220,7 +220,7 @@ public abstract class UserMapper {
 			return followers;
 		} catch (SQLException ex) {
 			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
-					null, ex);
+					ex.getMessage(), ex);
 		} finally {
 			if (stmt != null)
 				stmt = null;

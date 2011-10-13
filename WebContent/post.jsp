@@ -10,6 +10,7 @@
 	<div class="rounded" id="timeline">
 		<span>Post</span>
 	</div>
+	<div class="stream">
 	<%
 		Post post = (Post) request.getAttribute("post");
 		
@@ -108,7 +109,7 @@
 
 						out.print("</div>");
 	%>
-
+</div>
 </div>
 
 <jsp:include page="/footer.jsp" />

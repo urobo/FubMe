@@ -31,6 +31,7 @@ body {
 	text-align: left;
 	font-size: 20px;
 	width: 65%;
+	margin-left:7%;
 }
 
 #error{
@@ -84,8 +85,9 @@ a{
 	font-weight: bold;
 	padding: 0 15px 0 0;
 	text-align: center;
-	margin: 5px;
+	
 	width: auto;
+	
 }
 
 #timeline.rounded {
@@ -131,7 +133,7 @@ label{
 }
 
 .rightcolumn{
-	width: 30%;
+	width: 20%;
 	float: right;
 	-moz-border-radius: 20px 20px 20px 20px;
 	border-radius: 20px 20px 20px 20px;
@@ -150,12 +152,16 @@ label{
 	background-color: white;
 	text-align: left;
 	font-size: 18px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .hint{
 	font-family:"Gotham Light Italic",Gotham,sans-serif;
 	font-size: x-small;
 	font-style:italic;
+	color:#974107;
 }
 
 .postimage{
@@ -191,7 +197,7 @@ label{
 	font-weight: bold;
 	padding: 0 15px 0 0;
 	text-align: center;
-	margin: 5px;
+	margin: 0px;
 	width: auto;
 }
 
@@ -291,9 +297,17 @@ label{
 	float:left;
 }
 
-
+.stream{
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #d3c8cb;
+	padding-top:15px;
+	padding-bottom:15px;
+}
 ul {
 	list-style-type: none;
+	
 }
 
 hr {

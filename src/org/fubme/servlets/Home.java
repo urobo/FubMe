@@ -2,6 +2,8 @@ package org.fubme.servlets;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -74,6 +76,7 @@ public class Home extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	//FIXME: null credentials when session exists
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		User user = null;
@@ -83,12 +86,14 @@ public class Home extends HttpServlet {
 		if (request.getSession() == null) {
 			username = request.getParameter("username");
 			password = request.getParameter("password");
+			Logger.getLogger(Home.class.getName()).log(Level.SEVERE, "creating new session");
 			session = request.getSession(true);
 		} else {
 			session = request.getSession();
 			user = (User) session.getAttribute("loggedUser");
 			if (user == null) {
 				if (request.getCookies() != null) {
+					Logger.getLogger(Home.class.getName()).log(Level.SEVERE, "fetching cookies");
 					Cookie[] cookies = request.getCookies();
 					for (int i = 0; i < cookies.length; i++) {
 						String key = cookies[i].getName();
@@ -105,8 +110,10 @@ public class Home extends HttpServlet {
 				}
 			}
 		}
+		
 		user = org.fubme.helper.Credentials.validateUserCredentials(username,
 				password);
+		
 		if (user != null) {
 			setLoginCookies(request, response, user.getId(), user.getPswd());
 			session.setAttribute("loggedUser", user);

@@ -20,12 +20,12 @@
      		out.print("</form>");
          %>
 	</div>
-
+	
 	<div class="rounded" id="timeline">
 		<span>Timeline</span>
 	</div>
 
-	<ul>
+	<ul class="stream">
 		<%
 			if (request.getAttribute("timeline") instanceof List<?>) {
 				List<Post> timeline = (List<Post>) request

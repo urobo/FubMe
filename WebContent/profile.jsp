@@ -81,16 +81,23 @@
 <div class="section" id="canvas">
 
 	<%
-		if (((User) request.getSession().getAttribute("loggedUser"))
-				.getId().equals(request.getParameter("user")))
-			out.print("<div id = \"instant\"><textarea id= \"status\" rows=\"1\" cols=\"100\"></textarea><button class=\"rounded\" id= \"publish\" type = \"submit\" name= \"publish\"><span>post it!</span></button></div>");
-	%>
+		if (((User) request.getSession().getAttribute("loggedUser")).getId().equals(request.getParameter("user"))){
+			out.print("<div id=\"instant\">");
+			out.print("<form action=\""+ request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Post");
+			out.print("\" method=\"post\" >");
+			out.print("<textarea id= \"status\" rows=\"2\" cols=\"103\" name=\"post_body\">What are you thinking? lol</textarea>");
+     		out.print("<span id=\"tags\">tags: </span><input type=\"text\" name=\"tags\"/><span class=\"hint\"> hint: comma separated tags</span>");
+     		out.print("<button class=\"rounded\" id= \"publish\" type = \"submit\" name= \"publish\"><span>post it!</span></button>");
+     		out.print("</form>");
+       		out.print("</div>");	
+       		}
+        %>
 
 	<div class="rounded" id="posts">
 		<span>posts</span>
 	</div>
 
-	<ul>
+	<ul class="stream">
 		<%
 			if (request.getAttribute("posts") instanceof List<?>) {
 				List<Post> posts = (List<Post>) request.getAttribute("posts");
