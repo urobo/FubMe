@@ -2,8 +2,6 @@ package org.fubme.servlets;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.fubme.helper.Credentials;
 import org.fubme.models.User;
 import org.fubme.persistency.TimelineManager;
 
@@ -28,13 +27,12 @@ public class Home extends HttpServlet {
 	 */
 	public Home() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	private void setLoginCookies(HttpServletRequest request,
-			HttpServletResponse response, String nickname, String password) {
+			HttpServletResponse response, String username, String password) {
 
-		Cookie userNameCookie = new Cookie("username", nickname);
+		Cookie userNameCookie = new Cookie("username", username);
 		Cookie passwordCookie = new Cookie("password", password);
 		// Cookie age in seconds: 30 days * 24 hours * 60 minutes * 60 seconds
 		int maxAge = 30 * 24 * 60 * 60;
@@ -54,82 +52,76 @@ public class Home extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null && cookies.length > 0) {
+			String username = null;
+			String password = null;
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName().equals("username"))
+					username = cookies[i].getValue();
+				else if (cookies[i].getName().equals("password"))
+					password = cookies[i].getValue();
+			}
+			if (username != null && password != null) {
+				User user = Credentials.validateUserCredentials(username,
+						password);
+				if (user != null) {
+					if (session == null)
+						session = request.getSession(true);
+					if (session.getAttribute("loggedUser") == null)
+						session.setAttribute("loggedUser", user);
+					List<org.fubme.models.Post> timeline = TimelineManager
+							.getTimelineForUser(user, maxPosts);
+					request.setAttribute("timeline", timeline);
+					RequestDispatcher view = request
+							.getRequestDispatcher("home.jsp");
+					view.forward(request, response);
+					return;
+				}
 
-		if (session != null) {
-			User user = (User) session.getAttribute("loggedUser");
-			List<org.fubme.models.Post> timeline = TimelineManager
-					.getTimelineForUser(user, maxPosts);
-			request.setAttribute("timeline", timeline);
-			RequestDispatcher view = request.getRequestDispatcher("home.jsp");
-			view.forward(request, response);
-			return;
-
-		} else {
-			RequestDispatcher view = request.getRequestDispatcher("login.jsp");
-			request.setAttribute("error", "Invalid user credentials");
-			view.forward(request, response);
-			return;
+			}
 		}
+		request.setAttribute("Error", "You have to login first!");
+		RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+		view.forward(request, response);
+		return;
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	//FIXME: null credentials when session exists
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		User user = null;
 		HttpSession session = null;
 		String password = null;
 		String username = null;
-		if (request.getSession() == null) {
-			username = request.getParameter("username");
-			password = request.getParameter("password");
-			Logger.getLogger(Home.class.getName()).log(Level.SEVERE, "creating new session");
-			session = request.getSession(true);
-		} else {
-			session = request.getSession();
-			user = (User) session.getAttribute("loggedUser");
-			if (user == null) {
-				if (request.getCookies() != null) {
-					Logger.getLogger(Home.class.getName()).log(Level.SEVERE, "fetching cookies");
-					Cookie[] cookies = request.getCookies();
-					for (int i = 0; i < cookies.length; i++) {
-						String key = cookies[i].getName();
-						if (key.equals("username"))
-							username = cookies[i].getValue();
-						else if (key.equals("password"))
-							password = cookies[i].getValue();
-					}
-				}else{
-					RequestDispatcher view = request.getRequestDispatcher("login.jsp");
-					request.setAttribute("error", "Invalid user credentials");
-					view.forward(request, response);
-					return;
-				}
+		username = request.getParameter("username");
+		password = request.getParameter("password");
+		if (username != null && password != null) {
+			user = Credentials.validateUserCredentials(username, password);
+			if (user != null) {
+				session = request.getSession();
+				if (session == null)
+					session = request.getSession(true);
+				if (session.getAttribute("loggedUser") == null)
+					session.setAttribute("loggedUser", user);
+				setLoginCookies(request, response, username, password);
+				List<org.fubme.models.Post> timeline = TimelineManager
+						.getTimelineForUser(new User(username, password),
+								maxPosts);
+				request.setAttribute("timeline", timeline);
+				RequestDispatcher view = request
+						.getRequestDispatcher("home.jsp");
+				view.forward(request, response);
+				return;
 			}
 		}
-		
-		user = org.fubme.helper.Credentials.validateUserCredentials(username,
-				password);
-		
-		if (user != null) {
-			setLoginCookies(request, response, user.getId(), user.getPswd());
-			session.setAttribute("loggedUser", user);
-			List<org.fubme.models.Post> timeline = TimelineManager
-					.getTimelineForUser(new User(username, password), maxPosts);
-			request.setAttribute("timeline", timeline);
-			RequestDispatcher view = request.getRequestDispatcher("home.jsp");
-			view.forward(request, response);
-			return;
-		} else {
-			RequestDispatcher view = request.getRequestDispatcher("login.jsp");
-			request.setAttribute("error", "Invalid user credentials");
-			view.forward(request, response);
-			return;
-		}
-
+		request.setAttribute("Error", "Invalid Credentials! Try again");
+		RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+		view.forward(request, response);
+		return;
 	}
-
 }

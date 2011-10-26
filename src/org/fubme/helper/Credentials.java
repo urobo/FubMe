@@ -21,7 +21,9 @@ import org.fubme.servlets.Home;
 public abstract class Credentials {
 	public static final User validateUserCredentials(String id, String pswd) {
 		Connection connection = DBConnection.getConnection();
+		Logger.getLogger(Credentials.class.getName()).log(Level.SEVERE, (connection!=null)?"connection not null":"connection null");
 		Statement stmt = null;
+		
 		Logger.getLogger(Home.class.getName()).log(Level.SEVERE, "validating credentials for user: username : " + id + " password : " + pswd);
 		String sql = "Select * from fuser where id = '" + id + "'";
 		ResultSet resultset = null;
