@@ -4,9 +4,9 @@
 package org.fubme.helper;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,15 +20,18 @@ import org.fubme.servlets.Home;
  */
 public abstract class Credentials {
 	public static final User validateUserCredentials(String id, String pswd) {
-		Connection connection = DBConnection.getConnection();
-		Logger.getLogger(Credentials.class.getName()).log(Level.SEVERE, (connection!=null)?"connection not null":"connection null");
-		Statement stmt = null;
-		
-		Logger.getLogger(Home.class.getName()).log(Level.SEVERE, "validating credentials for user: username : " + id + " password : " + pswd);
-		String sql = "Select * from fuser where id = '" + id + "'";
+		PreparedStatement stmt = null;
+		Connection connection = null;
+		Logger.getLogger(Home.class.getName()).log(
+				Level.SEVERE,
+				"validating credentials for user: username : " + id
+						+ " password : " + pswd);
+		String sql = "Select * from fuser where id = ?";
 		ResultSet resultset = null;
 		try {
-			stmt = connection.createStatement();
+			connection = DBConnection.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(0, Integer.parseInt(id));
 			resultset = stmt.executeQuery(sql);
 			Logger.getLogger(Credentials.class.getName())
 					.log(Level.SEVERE, sql);
@@ -42,17 +45,21 @@ public abstract class Credentials {
 					null, ex);
 		} finally {
 			if (stmt != null)
-				stmt = null;
-
+				try {
+					stmt.close();
+				} catch (SQLException e2) {
+				}
 			if (resultset != null)
-				resultset = null;
+				try {
+					resultset.close();
+				} catch (SQLException e1) {
+				}
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-
 				}
-				connection = null;
+
 			}
 		}
 		return null;

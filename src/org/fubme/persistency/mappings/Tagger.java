@@ -19,7 +19,7 @@ import org.fubme.persistency.DBConnection;
  */
 public abstract class Tagger {
 	public static final void tagAs(Post post) {
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 		Statement stmt = null;
 
 		String sql = "INSERT INTO post_tagged_as (post_id,tag_Name) VALUES ";
@@ -30,6 +30,7 @@ public abstract class Tagger {
 				sql += ", ";
 		}
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
 			stmt.close();
@@ -37,14 +38,18 @@ public abstract class Tagger {
 			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			if (stmt != null)
-				stmt = null;
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-
+					e.printStackTrace();
 				}
-				connection = null;
 			}
 		}
 	}

@@ -24,9 +24,11 @@ public abstract class TrackTag {
 	public static final List<Post> searchPostTaggedAs(User user,
 			List<String> tags, int limit) {
 		List<Post> posts = new ArrayList<Post>();
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 		Statement stmt = null;
+		ResultSet resultset = null;
 		String sql = "";
+
 		for (int i = 0; i < tags.size(); i++) {
 			if (!sql.isEmpty())
 				sql += " union";
@@ -34,19 +36,21 @@ public abstract class TrackTag {
 					+ tags.get(i) + "')";
 		}
 		sql += "limit " + limit;
+
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
-			ResultSet timeline = stmt.executeQuery(sql);
-			while (timeline.next()) {
+			resultset = stmt.executeQuery(sql);
+			while (resultset.next()) {
 				Post post = PostFactory.getPost(
-						timeline.getTimestamp(Post.PTIME),
-						timeline.getInt(Post.ID),
-						timeline.getString(Post.LUSER_ID),
-						timeline.getString(Post.BODY),
-						timeline.getString(Post.LINK),
-						timeline.getString(Post.MIME));
+						resultset.getTimestamp(Post.PTIME),
+						resultset.getInt(Post.ID),
+						resultset.getString(Post.LUSER_ID),
+						resultset.getString(Post.BODY),
+						resultset.getString(Post.LINK),
+						resultset.getString(Post.MIME));
 				post.setComments(Helper.getComments(post, user));
 
 				post.setTags(Helper.getTags(post));
@@ -60,14 +64,23 @@ public abstract class TrackTag {
 			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			if (stmt != null)
-				stmt = null;
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			if (resultset != null)
+				try {
+					resultset.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-
+					e.printStackTrace();
 				}
-				connection = null;
 			}
 		}
 

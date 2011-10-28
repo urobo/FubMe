@@ -105,11 +105,12 @@ public class TaggerTest {
 		post.setTags(tags);
 		Tagger.tagAs(post);
 
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 		Statement stmt = null;
 		String sql = "SELECT * from post_tagged_as where post_id = "
 				+ post.getId();
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement();
 			ResultSet result = stmt.executeQuery(sql);
 			HashMap<String, String> fastCheck = new HashMap<String, String>();

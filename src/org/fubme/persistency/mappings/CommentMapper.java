@@ -19,7 +19,7 @@ import org.fubme.persistency.DBConnection;
  */
 public abstract class CommentMapper {
 	public static final void createCommentToPost(Comment comment) {
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 		Statement stmt = null;
 		String sql = "INSERT INTO luser_comments_post (" + Comment.LUSER_ID
 				+ "," + Comment.POST_ID + "," + Comment.BODY + ") VALUES('"
@@ -27,6 +27,7 @@ public abstract class CommentMapper {
 				+ comment.getBody() + "')";
 		System.out.println(sql);
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
 			stmt.close();
@@ -34,14 +35,17 @@ public abstract class CommentMapper {
 			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			if (stmt != null)
-				stmt = null;
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-
+					e.printStackTrace();
 				}
-				connection = null;
 			}
 		}
 	}

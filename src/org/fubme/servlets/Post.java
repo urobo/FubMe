@@ -42,8 +42,9 @@ public class Post extends HttpServlet {
 					.forward(request, response);
 			return;
 		} else {
-			String post_id= request.getParameter("id");
-			org.fubme.models.Post post = Helper.getPost(post_id,((User) request.getSession().getAttribute("loggedUser")));
+			String post_id = request.getParameter("id");
+			org.fubme.models.Post post = Helper.getPost(post_id,
+					((User) request.getSession().getAttribute("loggedUser")));
 			request.setAttribute("post", post);
 			request.getRequestDispatcher("post.jsp").forward(request, response);
 			return;
@@ -62,27 +63,27 @@ public class Post extends HttpServlet {
 			return;
 		} else {
 			String post_body = request.getParameter("post_body");
-			User user = ((User) request
-					.getSession().getAttribute("loggedUser"));
-			org.fubme.models.Post post = PostFactory.getPost(user.getId(),post_body, null, org.fubme.models.Post.TEXT);
+			User user = ((User) request.getSession().getAttribute("loggedUser"));
+			org.fubme.models.Post post = PostFactory.getPost(user.getId(),
+					post_body, null, org.fubme.models.Post.TEXT);
 			String tmpTags = request.getParameter("tags");
-			if (tmpTags != null){
+			if (tmpTags != null) {
 				String[] tags = tmpTags.split(",");
 				List<Tag> taglist = new ArrayList<Tag>();
-				for (int i = 0 ; i < tags.length ; i++){
+				for (int i = 0; i < tags.length; i++) {
 					taglist.add(new Tag(tags[i].trim()));
 				}
 				post.setTags(taglist);
 			}
 			PostMapper.createPost(post);
-			
+
 			List<org.fubme.models.Post> timeline = TimelineManager
 					.getTimelineForUser(user, Home.maxPosts);
 			request.setAttribute("timeline", timeline);
 			RequestDispatcher view = request.getRequestDispatcher("home.jsp");
 			view.forward(request, response);
 			return;
-			
+
 		}
 	}
 

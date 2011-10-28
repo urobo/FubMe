@@ -23,9 +23,9 @@ import org.fubme.models.User;
 public abstract class TimelineManager {
 	public static final List<Post> getTimelineForUser(User user, int limit) {
 		List<Post> result = new ArrayList<Post>();
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 		Statement stmt = null;
-
+		ResultSet resultset = null;
 		String sql = "SELECT * from post where luser_id in (select luser_id_followed from luser_follows_luser where luser_id_follower = '"
 				+ user.getId()
 				+ "') or luser_id = '"
@@ -33,18 +33,19 @@ public abstract class TimelineManager {
 				+ "' order by id desc limit " + limit;
 
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
-			ResultSet timeline = stmt.executeQuery(sql);
-			while (timeline.next()) {
+			resultset = stmt.executeQuery(sql);
+			while (resultset.next()) {
 				Post post = PostFactory.getPost(
-						timeline.getTimestamp(Post.PTIME),
-						timeline.getInt(Post.ID),
-						timeline.getString(Post.LUSER_ID),
-						timeline.getString(Post.BODY),
-						timeline.getString(Post.LINK),
-						timeline.getString(Post.MIME));
+						resultset.getTimestamp(Post.PTIME),
+						resultset.getInt(Post.ID),
+						resultset.getString(Post.LUSER_ID),
+						resultset.getString(Post.BODY),
+						resultset.getString(Post.LINK),
+						resultset.getString(Post.MIME));
 				post.setComments(Helper.getComments(post, user));
 				post.setTags(Helper.getTags(post));
 				for (int i = 0; i < post.getTags().size(); i++) {
@@ -57,14 +58,23 @@ public abstract class TimelineManager {
 			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			if (stmt != null)
-				stmt = null;
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			if (resultset != null)
+				try {
+					resultset.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-
+					e.printStackTrace();
 				}
-				connection = null;
 			}
 		}
 		return result;
@@ -72,23 +82,25 @@ public abstract class TimelineManager {
 
 	public static final List<Post> getProfileForUser(User user, int limit) {
 		List<Post> result = new ArrayList<Post>();
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 		Statement stmt = null;
+		ResultSet resultset = null;
 		String sql = "SELECT * from post where luser_id = '" + user.getId()
 				+ "' order by id desc limit " + limit;
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
-			ResultSet timeline = stmt.executeQuery(sql);
-			while (timeline.next()) {
+			resultset = stmt.executeQuery(sql);
+			while (resultset.next()) {
 				Post post = PostFactory.getPost(
-						timeline.getTimestamp(Post.PTIME),
-						timeline.getInt(Post.ID),
-						timeline.getString(Post.LUSER_ID),
-						timeline.getString(Post.BODY),
-						timeline.getString(Post.LINK),
-						timeline.getString(Post.MIME));
+						resultset.getTimestamp(Post.PTIME),
+						resultset.getInt(Post.ID),
+						resultset.getString(Post.LUSER_ID),
+						resultset.getString(Post.BODY),
+						resultset.getString(Post.LINK),
+						resultset.getString(Post.MIME));
 				post.setComments(Helper.getComments(post, user));
 				post.setTags(Helper.getTags(post));
 				for (int i = 0; i < post.getTags().size(); i++) {
@@ -101,14 +113,23 @@ public abstract class TimelineManager {
 			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			if (stmt != null)
-				stmt = null;
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			if (resultset != null)
+				try {
+					resultset.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-
+					e.printStackTrace();
 				}
-				connection = null;
 			}
 		}
 		return result;

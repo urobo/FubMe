@@ -43,9 +43,10 @@ public class DBConnectionTest {
 	@Test
 	public void testGetConnection() {
 		Statement stmt = null;
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 		String sql = "SELECT * FROM fuser;";
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement();
 			ResultSet set = stmt.executeQuery(sql);
 			while (set.next()) {

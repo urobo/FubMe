@@ -4,79 +4,27 @@
 package org.fubme.persistency;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
 
 /**
  * @author riccardo
  * 
  */
-public abstract class DBConnection {
-	private static Connection connection = null;
+public final class DBConnection {
 
-	public static void connect() {
-		try {
-			if (connection == null) {
-				String host = "127.0.0.1";
-				String database = "fubme";
-				String username = "fubme";
-				String password = "fubme";
-				String url = "jdbc:postgresql://" + host + "/" + database;
-				String driverJDBC = "org.postgresql.Driver";
-				Class.forName(driverJDBC);
-				connection = DriverManager.getConnection(url, username,
-						password);
+	private static final BasicDataSource dataSource = new BasicDataSource();
 
-			} else if (connection.isClosed()) {
-				connection = null;
-				connect();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace(System.err);
-		} catch (Exception e) {
-			e.printStackTrace(System.err);
-		}
+	static {
+		dataSource.setDriverClassName("org.postgresql.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/data");
+		dataSource.setUsername("USERNAME");
+		dataSource.setPassword("PASSWORD");
 	}
 
-	public static void disconnect() {
-		if (connection != null) {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				Logger.getLogger(DBConnection.class.getName()).log(
-						Level.SEVERE, null, e);
-			}
-		}
-	}
-
-	public static Connection getConnection() {
-
-		try {
-			if (connection != null && !connection.isClosed()) {
-				return connection;
-			} else {
-				connect();
-				return connection;
-			}
-		} catch (SQLException e) {
-			Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE,
-					null, e);
-			return null;
-		}
-	}
-
-	@Override
-	public void finalize() {
-		if (connection != null) {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				Logger.getLogger(DBConnection.class.getName()).log(
-						Level.SEVERE, null, e);
-			}
-		}
+	public static Connection getConnection() throws SQLException {
+		return dataSource.getConnection();
 	}
 
 }

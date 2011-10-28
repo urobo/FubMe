@@ -21,7 +21,7 @@ import org.fubme.persistency.DBConnection;
 public abstract class PostMapper {
 
 	public static final void createPost(Post post) {
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 		Statement stmt = null;
 		String sql = "INSERT INTO post ("
 				+ Post.LUSER_ID
@@ -38,6 +38,7 @@ public abstract class PostMapper {
 						: "null") + "','" + post.getBody() + "','"
 				+ post.getMime() + "') RETURNING id";
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement();
 			ResultSet id = stmt.executeQuery(sql);
 			id.next();
@@ -53,20 +54,24 @@ public abstract class PostMapper {
 					null, ex);
 		} finally {
 			if (stmt != null)
-				stmt = null;
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-
+					e.printStackTrace();
 				}
-				connection = null;
 			}
 		}
 	}
 
 	public static final void shares(User viaUser, User byUser, Post post) {
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 		Statement stmt = null;
 		String sql = "INSERT INTO luser_shares_post (post_id,luser_id,via_luser_id) values ("
 				+ post.getId()
@@ -75,6 +80,7 @@ public abstract class PostMapper {
 				+ "','"
 				+ viaUser.getId() + "')";
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (SQLException ex) {
@@ -82,25 +88,30 @@ public abstract class PostMapper {
 					null, ex);
 		} finally {
 			if (stmt != null)
-				stmt = null;
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-
+					e.printStackTrace();
 				}
-				connection = null;
 			}
 		}
 
 	}
 
 	public static final void likes(User user, Post post) {
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 		Statement stmt = null;
 		String sql = "INSERT INTO luser_likes_post (luser_id , post_id) VALUES ('"
 				+ user.getId() + "'," + post.getId() + ")";
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (SQLException ex) {
@@ -108,24 +119,29 @@ public abstract class PostMapper {
 					null, ex);
 		} finally {
 			if (stmt != null)
-				stmt = null;
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-
+					e.printStackTrace();
 				}
-				connection = null;
 			}
 		}
 	}
 
 	public static final void unlikes(User user, Post post) {
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 		Statement stmt = null;
 		String sql = " DELETE FROM luser_likes_post where luser_id =  '"
 				+ user.getId() + "' and post_id = " + post.getId();
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement();
 			stmt.executeUpdate(sql);
 		} catch (SQLException ex) {
@@ -133,14 +149,18 @@ public abstract class PostMapper {
 					null, ex);
 		} finally {
 			if (stmt != null)
-				stmt = null;
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-
+					e.printStackTrace();
 				}
-				connection = null;
 			}
 		}
 	}

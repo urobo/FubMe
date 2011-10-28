@@ -81,13 +81,14 @@ public class PostMapperTest {
 		for (int i = 0; i < user_ids.length; i++)
 			PostMapper.createPost(metaPost.get(i));
 
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 
 		Statement stmt = null;
 		String sql = "SELECT luser_id from post where post.body = '" + testBody
 				+ "'";
 
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);

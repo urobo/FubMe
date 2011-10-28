@@ -108,13 +108,14 @@ public class UserMapperTest {
 	public void testCreateUser() {
 		UserMapper.createUser(user);
 
-		Connection connection = DBConnection.getConnection();
+		Connection connection = null;
 		Statement stmt = null;
 		final String sql = "SELECT * FROM fuser where id = '" + user.getId()
 				+ "'";
 		final String sql1 = "SELECT * FROM luser where id = '" + user.getId()
 				+ "'";
 		try {
+			connection = DBConnection.getConnection();
 			stmt = connection.createStatement();
 			ResultSet rFuser = stmt.executeQuery(sql);
 			rFuser.next();
