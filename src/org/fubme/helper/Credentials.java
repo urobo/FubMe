@@ -31,8 +31,8 @@ public abstract class Credentials {
 		try {
 			connection = DBConnection.getConnection();
 			stmt = connection.prepareStatement(sql);
-			stmt.setInt(0, Integer.parseInt(id));
-			resultset = stmt.executeQuery(sql);
+			stmt.setString(1, id);
+			resultset = stmt.executeQuery();
 			Logger.getLogger(Credentials.class.getName())
 					.log(Level.SEVERE, sql);
 			resultset.next();
