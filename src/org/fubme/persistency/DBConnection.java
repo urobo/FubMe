@@ -19,7 +19,7 @@ public final class DBConnection {
 	private static final String host = "127.0.0.1";
 	private static final String username = "fubme";
 	private static final String password = "fubme";
-	
+
 	static {
 		dataSource.setDriverClassName("org.postgresql.Driver");
 		String url = "jdbc:postgresql://" + host + "/" + database;

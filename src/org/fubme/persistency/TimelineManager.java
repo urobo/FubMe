@@ -4,9 +4,9 @@
 package org.fubme.persistency;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,20 +24,19 @@ public abstract class TimelineManager {
 	public static final List<Post> getTimelineForUser(User user, int limit) {
 		List<Post> result = new ArrayList<Post>();
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "SELECT * from post where luser_id in (select luser_id_followed from luser_follows_luser where luser_id_follower = '"
-				+ user.getId()
-				+ "') or luser_id = '"
-				+ user.getId()
-				+ "' order by id desc limit " + limit;
+		String sql = "SELECT * from post where luser_id in (select luser_id_followed from luser_follows_luser where luser_id_follower = ? or luser_id = ? order by id desc limit "
+				+ limit;
 
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement(
+			stmt = connection.prepareStatement(sql,
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
-			resultset = stmt.executeQuery(sql);
+			stmt.setString(1, user.getId());
+			stmt.setString(2, user.getId());
+			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				Post post = PostFactory.getPost(
 						resultset.getTimestamp(Post.PTIME),
@@ -80,19 +79,20 @@ public abstract class TimelineManager {
 		return result;
 	}
 
+	// TOOO: use prepared statements
 	public static final List<Post> getProfileForUser(User user, int limit) {
 		List<Post> result = new ArrayList<Post>();
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "SELECT * from post where luser_id = '" + user.getId()
-				+ "' order by id desc limit " + limit;
+		String sql = "SELECT * from post where luser_id = ? order by id desc limit "
+				+ limit;
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement(
+			stmt = connection.prepareStatement(sql,
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
-			resultset = stmt.executeQuery(sql);
+			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				Post post = PostFactory.getPost(
 						resultset.getTimestamp(Post.PTIME),

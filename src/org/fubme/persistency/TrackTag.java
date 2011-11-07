@@ -4,9 +4,9 @@
 package org.fubme.persistency;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -25,24 +25,25 @@ public abstract class TrackTag {
 			List<String> tags, int limit) {
 		List<Post> posts = new ArrayList<Post>();
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet resultset = null;
 		String sql = "";
 
 		for (int i = 0; i < tags.size(); i++) {
 			if (!sql.isEmpty())
 				sql += " union";
-			sql += "SELECT * from post where id in (select post_id from post_tagged_as where tag_name = '"
-					+ tags.get(i) + "')";
+			sql += "SELECT * from post where id in (select post_id from post_tagged_as where tag_name = ?)";
 		}
 		sql += "limit " + limit;
 
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement(
+			stmt = connection.prepareStatement(sql,
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
-			resultset = stmt.executeQuery(sql);
+			for (int i = 0; i < tags.size(); i++)
+				stmt.setString(i + 1, tags.get(i));
+			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				Post post = PostFactory.getPost(
 						resultset.getTimestamp(Post.PTIME),

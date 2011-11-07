@@ -4,9 +4,9 @@
 package org.fubme.persistency;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,14 +36,14 @@ public abstract class Helper {
 	public static final List<Comment> getComments(Post post, User user) {
 		List<Comment> comments = new ArrayList<Comment>();
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "SELECT lcp.id,lcp.body,lcp.luser_id,lcp.time,lcp.post_id from luser_comments_post as lcp join post as p on p.id = lcp.post_id where p.id = "
-				+ post.getId();
+		String sql = "SELECT lcp.id,lcp.body,lcp.luser_id,lcp.time,lcp.post_id from luser_comments_post as lcp join post as p on p.id = lcp.post_id where p.id = ?";
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			resultset = stmt.executeQuery(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, post.getId());
+			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				Comment comment = new Comment(""
 						+ resultset.getInt(Comment.POST_ID),
@@ -84,14 +84,14 @@ public abstract class Helper {
 	public static final List<Tag> getTags(Post post) {
 		List<Tag> tags = new ArrayList<Tag>();
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "SELECT tag_name from post_tagged_as where post_id = "
-				+ post.getId();
+		String sql = "SELECT tag_name from post_tagged_as where post_id = ?";
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			resultset = stmt.executeQuery(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, post.getId());
+			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				tags.add(new Tag(resultset.getString(Tag.TAG_NAME)));
 			}
@@ -128,14 +128,15 @@ public abstract class Helper {
 	public static final List<Post> getPostsFromUser(User user, int limit) {
 		List<Post> posts = new ArrayList<Post>();
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "SELECT * FROM post WHERE " + Post.LUSER_ID + " = '"
-				+ user.getId() + "' ORDER BY ptime limit " + limit;
+		String sql = "SELECT * FROM post WHERE " + Post.LUSER_ID
+				+ " = ? ORDER BY ptime limit " + limit;
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			resultset = stmt.executeQuery(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, user.getId());
+			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				Post post = PostFactory.getPost(
 						resultset.getTimestamp(Post.PTIME),
@@ -180,14 +181,15 @@ public abstract class Helper {
 
 	public static final Post getPost(String id, User user) {
 		Connection connection = null;
-		Statement stmt = null;
-		String sql = "select * from post where id = " + id;
+		PreparedStatement stmt = null;
+		String sql = "select * from post where id = ?";
 		Post post = null;
 		ResultSet resultset = null;
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			resultset = stmt.executeQuery(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, Integer.parseInt(id));
+			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				post = PostFactory.getPost(resultset.getTimestamp("ptime"),
 						resultset.getInt("id"),
@@ -233,14 +235,14 @@ public abstract class Helper {
 	public static final List<User> getLikes(Post post) {
 		List<User> likes = new ArrayList<User>();
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "SELECT luser_id from luser_likes_post where post_id = "
-				+ post.getId();
+		String sql = "SELECT luser_id from luser_likes_post where post_id = ?";
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			resultset = stmt.executeQuery(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, post.getId());
+			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				likes.add(new User(resultset.getString("luser_id"), null));
 			}
@@ -274,14 +276,15 @@ public abstract class Helper {
 
 	public static final boolean doesUserLikesPost(User user, Post post) {
 		Connection connection = null;
-		Statement stmt = null;
-		String sql = "select luser_id from luser_likes_post where post_id = "
-				+ post.getId() + "and luser_id = '" + user.getId() + "'";
+		PreparedStatement stmt = null;
+		String sql = "select luser_id from luser_likes_post where post_id = ? and luser_id = ?";
 		ResultSet resultset = null;
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			resultset = stmt.executeQuery(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, post.getId());
+			stmt.setString(2, user.getId());
+			resultset = stmt.executeQuery();
 			if (resultset.next()) {
 
 				Logger.getLogger(Helper.class.getName()).log(Level.SEVERE,

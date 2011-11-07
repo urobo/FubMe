@@ -4,13 +4,12 @@
 package org.fubme.persistency.mappings;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.fubme.models.Comment;
-import org.fubme.models.User;
 import org.fubme.persistency.DBConnection;
 
 /**
@@ -20,19 +19,22 @@ import org.fubme.persistency.DBConnection;
 public abstract class CommentMapper {
 	public static final void createCommentToPost(Comment comment) {
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		String sql = "INSERT INTO luser_comments_post (" + Comment.LUSER_ID
-				+ "," + Comment.POST_ID + "," + Comment.BODY + ") VALUES('"
-				+ comment.getLuser_id() + "'," + comment.getPost_id() + ",'"
-				+ comment.getBody() + "')";
-		System.out.println(sql);
+				+ "," + Comment.POST_ID + "," + Comment.BODY
+				+ ") VALUES(? , ? , ?)";
+
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			stmt.executeUpdate(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, comment.getLuser_id());
+			stmt.setInt(2, comment.getPost_id());
+			stmt.setString(3, comment.getBody());
+			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException ex) {
-			Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(CommentMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
 		} finally {
 			if (stmt != null)
 				try {

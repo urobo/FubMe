@@ -4,9 +4,9 @@
 package org.fubme.persistency.mappings;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,20 +54,30 @@ public abstract class UserMapper {
 
 	public static final void createUser(User user) {
 		Connection connection = null;
-		Statement stmt = null;
-		Statement stmt1 = null;
-		String sql = "INSERT INTO fuser (id,pswd,email) VALUES ('"
-				+ user.getId() + "','" + user.getPswd() + "','"
-				+ user.getEmail() + "');";
+		PreparedStatement stmt = null;
+		PreparedStatement stmt1 = null;
+		String sql = "INSERT INTO fuser (id,pswd,email) VALUES ( ?, ?, ? );";
 
-		String sql1 = getUserAttributesSqlString(user);
+		String sql1 = "INSERT INTO luser (id,bio,birthdate,firstname,lastname) VALUES ( ?, ?, ?, ?, ? )";
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			stmt.executeUpdate(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, user.getId());
+			stmt.setString(2, user.getPswd());
+			stmt.setString(3, user.getEmail());
+			stmt.executeUpdate();
 
-			stmt1 = connection.createStatement();
-			stmt1.executeUpdate(sql1);
+			stmt1 = connection.prepareStatement(sql1);
+			stmt.setString(1, user.getId());
+			stmt.setString(2, (user.getBio() != null) ? user.getBio() : null);
+			stmt.setTimestamp(3,
+					(user.getBirthdate() != null) ? user.getBirthdate() : null);
+			stmt.setString(4,
+					(user.getFirstname() != null) ? user.getFirstname() : null);
+			stmt.setString(5, (user.getLastname() != null) ? user.getLastname()
+					: null);
+
+			stmt1.executeUpdate();
 		} catch (SQLException ex) {
 			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
 					null, ex);
@@ -93,14 +103,15 @@ public abstract class UserMapper {
 	public static final boolean checkUserData(String attribute, String value) {
 		boolean exist = true;
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet resultset = null;
 		String sql = "SELECT " + attribute + " FROM fuser where " + attribute
-				+ "='" + value + "'";
+				+ "= ?";
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			resultset = stmt.executeQuery(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, value);
+			resultset = stmt.executeQuery();
 			System.out.println(attribute + "\t" + value);
 			if (resultset.next())
 				return true;
@@ -135,13 +146,14 @@ public abstract class UserMapper {
 
 	public static final void follows(User follower, User toBeFollowed) {
 		Connection connection = null;
-		Statement stmt = null;
-		String sql = "INSERT INTO luser_follows_luser (luser_id_follower,luser_id_followed) VALUES ('"
-				+ follower.getId() + "','" + toBeFollowed.getId() + "')";
+		PreparedStatement stmt = null;
+		String sql = "INSERT INTO luser_follows_luser (luser_id_follower,luser_id_followed) VALUES ( ?, ? )";
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			stmt.executeUpdate(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, follower.getId());
+			stmt.setString(2, toBeFollowed.getId());
+			stmt.executeUpdate();
 		} catch (SQLException ex) {
 			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
 					null, ex);
@@ -165,15 +177,14 @@ public abstract class UserMapper {
 
 	public static final void unfollows(User follower, User toBeUnfollowed) {
 		Connection connection = null;
-		Statement stmt = null;
-		String sql = "DELETE FROM luser_follows_luser where luser_id_follower = '"
-				+ follower.getId()
-				+ "' and luser_id_followed = '"
-				+ toBeUnfollowed.getId() + "')";
+		PreparedStatement stmt = null;
+		String sql = "DELETE FROM luser_follows_luser where luser_id_follower = ? and luser_id_followed = ?)";
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			stmt.executeUpdate(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, follower.getId());
+			stmt.setString(2, toBeUnfollowed.getId());
+			stmt.executeUpdate();
 		} catch (SQLException ex) {
 			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
 					null, ex);
@@ -198,23 +209,23 @@ public abstract class UserMapper {
 	public static final void addAUserToUserList(User listOwner, UserList list,
 			User toBeAdded) {
 		Connection connection = null;
-		Statement stmt = null;
-		String sql = "SELECT * from luser_lists_luser where id = '"
-				+ list.getId() + "' and luser_id_listed = '"
-				+ toBeAdded.getId() + "'";
+		PreparedStatement stmt = null;
+		String sql = "SELECT * from luser_lists_luser where id = ? and luser_id_listed = ?";
 
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			ResultSet rList = stmt.executeQuery(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, list.getId());
+			stmt.setString(2, toBeAdded.getId());
+			ResultSet rList = stmt.executeQuery();
 			if (!rList.next()) {
-				sql = "INSERT INTO luser_lists_luser (id, luser_id_list_owner,luser_id_listed) VALUES ('"
-						+ list.getId()
-						+ "','"
-						+ listOwner.getId()
-						+ "','"
-						+ toBeAdded.getId() + "')";
-				stmt.executeUpdate(sql);
+				sql = "INSERT INTO luser_lists_luser (id, luser_id_list_owner,luser_id_listed) VALUES ( ?, ?, ? )";
+				stmt.close();
+				stmt = connection.prepareStatement(sql);
+				stmt.setString(1, list.getId());
+				stmt.setString(2, listOwner.getId());
+				stmt.setString(3, toBeAdded.getId());
+				stmt.executeUpdate();
 			}
 		} catch (SQLException ex) {
 			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
@@ -240,14 +251,14 @@ public abstract class UserMapper {
 	public static final List<User> getFollowers(User user) {
 		List<User> followers = new ArrayList<User>();
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "select * from luser where id in (select luser_id_follower from luser_follows_luser where luser_id_followed = '"
-				+ user.getId() + "'";
+		String sql = "select * from luser where id in (select luser_id_follower from luser_follows_luser where luser_id_followed = ?";
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			resultset = stmt.executeQuery(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, user.getId());
+			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				followers.add(new User(resultset.getString("id"), null));
 			}
@@ -284,14 +295,14 @@ public abstract class UserMapper {
 	public static final List<User> getFollowing(User user) {
 		List<User> following = new ArrayList<User>();
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "select * from luser where id in (select luser_id_followed from luser_follows_luser where luser_id_follower = '"
-				+ user.getId() + "'";
+		String sql = "select * from luser where id in (select luser_id_followed from luser_follows_luser where luser_id_follower = ?";
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			resultset = stmt.executeQuery(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, user.getId());
+			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				following.add(new User(resultset.getString("id"), null));
 			}
@@ -327,14 +338,15 @@ public abstract class UserMapper {
 
 	public static final User getUserInfo(User user) {
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "select * from luser where id = '" + user.getId() + "'";
+		String sql = "select * from luser where id = ?";
 
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			resultset = stmt.executeQuery(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, user.getId());
+			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				return new User(resultset.getString("id"), null, null,
 						resultset.getString("bio"),

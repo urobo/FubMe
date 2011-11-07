@@ -4,9 +4,9 @@
 package org.fubme.persistency.mappings;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,25 +22,19 @@ public abstract class PostMapper {
 
 	public static final void createPost(Post post) {
 		Connection connection = null;
-		Statement stmt = null;
-		String sql = "INSERT INTO post ("
-				+ Post.LUSER_ID
-				+ ","
-				+ Post.LINK
-				+ " ,"
-				+ Post.BODY
-				+ ","
-				+ Post.MIME
-				+ ") VALUES ('"
-				+ post.getUser_id()
-				+ "','"
-				+ ((post.getLink() != null) ? post.getLink().toString()
-						: "null") + "','" + post.getBody() + "','"
-				+ post.getMime() + "') RETURNING id";
+		PreparedStatement stmt = null;
+		String sql = "INSERT INTO post (" + Post.LUSER_ID + "," + Post.LINK
+				+ " ," + Post.BODY + "," + Post.MIME
+				+ ") VALUES ( ?, ?, ?, ? ) RETURNING id";
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			ResultSet id = stmt.executeQuery(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, post.getUser_id());
+			stmt.setString(2, (post.getLink() != null) ? post.getLink()
+					.toString() : "null");
+			stmt.setString(3, post.getBody());
+			stmt.setString(4, post.getMime());
+			ResultSet id = stmt.executeQuery();
 			id.next();
 			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE,
 					"post number " + id.getInt("id"));
@@ -70,50 +64,16 @@ public abstract class PostMapper {
 		}
 	}
 
-	public static final void shares(User viaUser, User byUser, Post post) {
-		Connection connection = null;
-		Statement stmt = null;
-		String sql = "INSERT INTO luser_shares_post (post_id,luser_id,via_luser_id) values ("
-				+ post.getId()
-				+ ",'"
-				+ byUser.getId()
-				+ "','"
-				+ viaUser.getId() + "')";
-		try {
-			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			stmt.executeUpdate(sql);
-		} catch (SQLException ex) {
-			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE,
-					null, ex);
-		} finally {
-			if (stmt != null)
-				try {
-					stmt.close();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-	}
-
 	public static final void likes(User user, Post post) {
 		Connection connection = null;
-		Statement stmt = null;
-		String sql = "INSERT INTO luser_likes_post (luser_id , post_id) VALUES ('"
-				+ user.getId() + "'," + post.getId() + ")";
+		PreparedStatement stmt = null;
+		String sql = "INSERT INTO luser_likes_post (luser_id , post_id) VALUES ( ?, ? )";
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			stmt.executeUpdate(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, user.getId());
+			stmt.setInt(2, post.getId());
+			stmt.executeUpdate();
 		} catch (SQLException ex) {
 			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE,
 					null, ex);
@@ -137,13 +97,14 @@ public abstract class PostMapper {
 
 	public static final void unlikes(User user, Post post) {
 		Connection connection = null;
-		Statement stmt = null;
-		String sql = " DELETE FROM luser_likes_post where luser_id =  '"
-				+ user.getId() + "' and post_id = " + post.getId();
+		PreparedStatement stmt = null;
+		String sql = " DELETE FROM luser_likes_post where luser_id = ? and post_id = ?";
 		try {
 			connection = DBConnection.getConnection();
-			stmt = connection.createStatement();
-			stmt.executeUpdate(sql);
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, user.getId());
+			stmt.setInt(2, post.getId());
+			stmt.executeUpdate();
 		} catch (SQLException ex) {
 			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE,
 					null, ex);
