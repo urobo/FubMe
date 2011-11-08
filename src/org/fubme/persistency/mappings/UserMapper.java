@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,35 +21,6 @@ import org.fubme.persistency.DBConnection;
  * 
  */
 public abstract class UserMapper {
-
-	private static final String getUserAttributesSqlString(User user) {
-		String attributes = "id";
-		String values = "'" + user.getId() + "'";
-
-		if (user.getBio() instanceof String) {
-			attributes += ",bio";
-			values += ",'" + user.getBio() + "'";
-		}
-
-		if (user.getBirthdate() instanceof Timestamp) {
-			attributes += ",birthdate";
-			values += "," + user.getBirthdate();
-		}
-
-		if (user.getFirstname() instanceof String) {
-			attributes += ",firstname";
-			values += ",'" + user.getFirstname() + "'";
-		}
-
-		if (user.getLastname() instanceof String) {
-			attributes += ",lastname";
-			values += ",'" + user.getLastname() + "'";
-		}
-
-		String sql = "INSERT INTO luser (" + attributes + ") VALUES (" + values
-				+ ")";
-		return sql;
-	}
 
 	public static final void createUser(User user) {
 		Connection connection = null;

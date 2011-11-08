@@ -37,7 +37,6 @@ import org.junit.Test;
  */
 public class HelperTest {
 	private static User testUser = null;
-	private static List<Post> posts = null;
 	private static Post post = null;
 	private static List<Comment> comments = null;
 	private static List<Tag> tags = null;

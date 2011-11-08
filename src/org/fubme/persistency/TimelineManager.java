@@ -26,9 +26,9 @@ public abstract class TimelineManager {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "SELECT * from post where luser_id in (select luser_id_followed from luser_follows_luser where luser_id_follower = ? or luser_id = ? order by id desc limit "
+		String sql = "SELECT * from post where luser_id in (select luser_id_followed from luser_follows_luser where luser_id_follower = ? or luser_id = ?) order by id desc limit "
 				+ limit;
-
+		Logger.getLogger(TimelineManager.class.getName()).log(Level.SEVERE, sql);
 		try {
 			connection = DBConnection.getConnection();
 			stmt = connection.prepareStatement(sql,
@@ -92,6 +92,7 @@ public abstract class TimelineManager {
 			stmt = connection.prepareStatement(sql,
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
+			stmt.setString(1, user.getId());
 			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				Post post = PostFactory.getPost(
