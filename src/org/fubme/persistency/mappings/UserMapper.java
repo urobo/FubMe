@@ -223,7 +223,7 @@ public abstract class UserMapper {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "select * from luser where id in (select luser_id_follower from luser_follows_luser where luser_id_followed = ?";
+		String sql = "select * from luser where id in (select luser_id_follower from luser_follows_luser where luser_id_followed = ?)";
 		try {
 			connection = DBConnection.getConnection();
 			stmt = connection.prepareStatement(sql);
@@ -267,7 +267,7 @@ public abstract class UserMapper {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "select * from luser where id in (select luser_id_followed from luser_follows_luser where luser_id_follower = ?";
+		String sql = "select * from luser where id in (select luser_id_followed from luser_follows_luser where luser_id_follower = ?)";
 		try {
 			connection = DBConnection.getConnection();
 			stmt = connection.prepareStatement(sql);
