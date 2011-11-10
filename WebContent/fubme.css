@@ -72,9 +72,6 @@ body {
 	margin-bottom: 50px;
 }
 
-#likelist{
-	
-}
 
 a{
 	text-decoration:none
@@ -259,6 +256,12 @@ label{
 	border-radius: 5px 5px 5px 5px;
 	border: 1px solid #e86b17;
 	min-height: 58px;
+}
+.postidentifier{
+	text-align: left;
+	color:  #974107;
+	font-size: 15px;
+	
 }
 .misc_buttons{
 	position:relative;

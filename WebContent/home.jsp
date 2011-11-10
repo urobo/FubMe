@@ -1,6 +1,11 @@
 <%@page import="java.util.List"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date" %>
+<%@page import="java.net.URL" %>
+<%@page import="java.net.URLEncoder" %>
 <%@page import="org.fubme.persistency.Helper"%>
 <%@page import="org.fubme.models.*"%>
+
 <jsp:include page="/header.jsp" />
 
 
@@ -9,6 +14,7 @@
 
 	<div id="instant">
 		<%
+			//FIXME
 			out.print("<form action=\" " + request.getScheme()
 									+ "://" + request.getServerName() + ":"
 									+ request.getServerPort()
@@ -33,6 +39,8 @@
 				if (timeline != null) {
 					for (int i = 0; i < timeline.size(); i++) {
 						Post post = timeline.get(i);
+						
+						//FIXME
 						out.print("<li><div class=\"post\"><div class=\"postimage\"><img src=\"pp1.jpg\" height=\"48px\" width=\"48px\" alt=\"profile picture\"/></div><div class=\"author\"><a href= \"" + request.getScheme()
 									+ "://" + request.getServerName() + ":"
 									+ request.getServerPort()
@@ -46,6 +54,7 @@
 								+ post.getBody() + "<div class= \"tag\">");
 						if (post.getTags() instanceof List<?>)
 							for (int j = 0; j < post.getTags().size(); j++) {
+								//FIXME
 								out.print("<a href= \"" + request.getScheme()
 										+ "://" + request.getServerName() + ":"
 										+ request.getServerPort()
@@ -56,22 +65,28 @@
 										+ post.getTags().get(j).getName()
 										+ "</a>");
 							}
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
 						out.print("</div><div class=\"miscellanea\">");
-								out.print("<div id=\"likelist\" class=\"author\">");
+								
+								out.print("<div class=\"likelist\">");
 								
 								List<User> likeList = Helper.getLikes(post);
 								for (int j = 0; j< likeList.size(); j++){
-								 	out.print("<span><a style=\"text-decoration:none\" href= \"" + request.getScheme()
+								 	out.print("<span><a style=\"text-decoration:none\" href= \"");
+								URL url = new URL( 	
+								 	     request.getScheme()
 										+ "://" + request.getServerName() + ":"
 										+ request.getServerPort()
-										+ request.getContextPath() + "/Profile");
-
-									out.print("?user=" + likeList.get(j).getId()
-										+ "\" class=\"author\">"										
-										+ likeList.get(j).getId()+ "</a></span>");
+										+ request.getContextPath() + "/Profile?user=" + likeList.get(j).getId());
+								
+									out.print(URLEncoder.encode(url.toString(),"UTF-8"));
+									out.print("\" class=\"author\">"+likeList.get(j).getId());
+									out.print("</a></span>");
 									if(j!=likeList.size()-1)out.print(", ");
 								}
-								if(likeList.size()!=0)out.print(" liked this");
+								
+								if(likeList.size()!=0)out.print(" <span>liked this</span>");
 								out.print(" </div>");
 								
 								out.print("<a href=\""
@@ -126,7 +141,20 @@
 								+ "&post_id="
 								+ post.getId()
 								+ "\" method=\"post\"><textarea name=\"comment_text\" rows=\"1\" cols=\"60\"></textarea><button name=\"comment\" type=\"submit\" class=\"linkbutton\">Comment</button></form></div>");
-
+						
+						out.print("<div class=\"postidentifier\">");
+						out.print("<span><a style=\"text-decoration:none;color:#d3c8cb\" href= \"" + request.getScheme()
+								+ "://" + request.getServerName() + ":"
+								+ request.getServerPort()
+								+ request.getContextPath() + "/Post?id=" + post.getId()+"\">");
+						
+						Date date = new Date (post.getPtime().getTime());
+						out.print("Posted "+sdf.format(date));
+						
+						
+						
+						out.print("</a></span></div>");
+						out.print("</div>");
 						out.print("</div></li>");
 					}
 				}
