@@ -75,9 +75,9 @@
 								+ ":"
 								+ request.getServerPort()
 								+ request.getContextPath()
-								+ "/Action?action=likes&post_id="
+								+ "/Action?action=likes&amp;post_id="
 								+ post.getId()
-								+ "&user_id="
+								+ "&amp;user_id="
 								+ ((User) request.getSession().getAttribute(
 										"loggedUser")).getId()
 								+ "\" class=\"linkbutton\">Like</a>");
@@ -88,9 +88,9 @@
 								+ ":"
 								+ request.getServerPort()
 								+ request.getContextPath()
-								+ "/Action?action=shares&post_id="
+								+ "/Action?action=shares&amp;post_id="
 								+ post.getId()
-								+ "&user_id="
+								+ "&amp;user_id="
 								+ ((User) request.getSession().getAttribute(
 										"loggedUser")).getId()
 								+ "\" class=\"linkbutton\">ReBlog</a></form></div>");

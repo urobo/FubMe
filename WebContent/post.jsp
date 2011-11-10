@@ -11,7 +11,7 @@
 		<span>Post</span>
 	</div>
 	<div class="stream">
-	<%
+		<%
 		Post post = (Post) request.getAttribute("post");
 		
 		out.print("<div class=\"post\"><div class=\"postimage\"><img src=\"pp1.jpg\" height=\"48px\" width=\"48px\" alt=\"profile picture\"/></div><div class=\"author\"><a href= \"" + request.getScheme()
@@ -65,16 +65,16 @@
 								
 								if (Helper.doesUserLikesPost(((User) request.getSession().getAttribute(
 										"loggedUser")),post)){
-										out.print("unlikes&post_id=");
+										out.print("unlikes&amp;post_id=");
 										out.print(post.getId()
-											+ "&user_id="
+											+ "&amp;user_id="
 											+ ((User) request.getSession().getAttribute(
 											"loggedUser")).getId()
 											+ "\" class=\"linkbutton\">UnLike</a>");
 										
-								} else { out.print("likes&post_id=");		
+								} else { out.print("likes&amp;post_id=");		
 									out.print(post.getId()
-									+ "&user_id="
+									+ "&amp;user_id="
 									+ ((User) request.getSession().getAttribute(
 										"loggedUser")).getId()
 									+ "\" class=\"linkbutton\">Like</a>");
@@ -100,16 +100,16 @@
 										+ post.getComments().get(j).getBody()
 										+ "</div>");
 							}
-						out.print("<div class=\"miscellanea\"> <form name=\"actionComment\" action=\"Action?action=comments&user_id="
+						out.print("<div class=\"miscellanea\"> <form name=\"actionComment\" action=\"Action?action=comments&amp;user_id="
 								+ ((User) request.getSession().getAttribute(
 										"loggedUser")).getId()
-								+ "&post_id="
+								+ "&amp;post_id="
 								+ post.getId()
 								+ "\" method=\"post\"><textarea name=\"comment_text\" rows=\"1\" cols=\"60\"></textarea><button name=\"comment\" type=\"submit\" class=\"linkbutton\">Comment</button></form></div>");
 
 						out.print("</div>");
 	%>
-</div>
+	</div>
 </div>
 
 <jsp:include page="/footer.jsp" />
