@@ -24,7 +24,7 @@
 			<b>Followers</b>
 		</p>
 		<p>
-		<ul>
+		<ul class="contacts" >
 			<%
 				if (request.getAttribute("followers") instanceof List<?>) {
 					List<User> followers = (List<User>) request
@@ -43,23 +43,24 @@
 		</ul>
 		</p>
 	</div>
-	<div class="contacts" id="following">
+	<div id="following">
 		<p>
 			<b>Following</b>
 		</p>
 		<p>
+		<ul class="contacts" >
 			<%
 				if (request.getAttribute("following") instanceof List<?>) {
 					List<User> following = (List<User>) request
 							.getAttribute("following");
 					for (int i = 0; i < following.size(); i++) {
-						out.print("<li><div class=\"author\"> <a href=\""
+						out.print("<li> <a class = \"author\" href=\""
 								+ request.getScheme() + "://"
 								+ request.getServerName() + ":"
 								+ request.getServerPort()
 								+ request.getContextPath() + "/Profile?user="
 								+ following.get(i).getId() + "\">"
-								+ following.get(i).getId() + "</a></div></li>");
+								+ following.get(i).getId() + "</a></li>");
 					}
 				}
 			%>

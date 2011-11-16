@@ -11,6 +11,15 @@ public abstract class FubMeUser {
 	protected String id;
 	protected String pswd;
 	protected String email;
+	protected String img;
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
 
 	/**
 	 * @param id

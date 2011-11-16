@@ -249,6 +249,11 @@ label{
 	color: #FFFFFF;
 }
 
+#following li {
+	display: inline;
+	list-style-type: none;
+	padding-right: 20px;
+}
 .people{
 	padding: 15px;
 	margin: 2px;

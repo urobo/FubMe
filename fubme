@@ -1,0 +1,832 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: administration_role; Type: TYPE; Schema: public; Owner: fubme
+--
+
+CREATE TYPE administration_role AS ENUM (
+    'censor',
+    'ban',
+    'owner'
+);
+
+
+ALTER TYPE public.administration_role OWNER TO fubme;
+
+--
+-- Name: report; Type: TYPE; Schema: public; Owner: fubme
+--
+
+CREATE TYPE report AS ENUM (
+    'offensive',
+    'spam',
+    'racist'
+);
+
+
+ALTER TYPE public.report OWNER TO fubme;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: admin; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE admin (
+    id character varying(30) NOT NULL,
+    rights administration_role NOT NULL
+);
+
+
+ALTER TABLE public.admin OWNER TO fubme;
+
+--
+-- Name: admin_blocks_luser; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE admin_blocks_luser (
+    ban_date timestamp with time zone DEFAULT now() NOT NULL,
+    wrongdoing_id character varying(30) NOT NULL,
+    admin_id character varying(30) NOT NULL,
+    category report NOT NULL,
+    reason text NOT NULL
+);
+
+
+ALTER TABLE public.admin_blocks_luser OWNER TO fubme;
+
+--
+-- Name: admin_censors_post; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE admin_censors_post (
+    censor_date timestamp with time zone DEFAULT now() NOT NULL,
+    post_id integer NOT NULL,
+    admin_id character varying(30) NOT NULL,
+    category report NOT NULL,
+    reason text NOT NULL
+);
+
+
+ALTER TABLE public.admin_censors_post OWNER TO fubme;
+
+--
+-- Name: fuser; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE fuser (
+    id character varying(30) NOT NULL,
+    pswd character varying(32) NOT NULL,
+    email character varying(50) NOT NULL,
+    img text
+);
+
+
+ALTER TABLE public.fuser OWNER TO fubme;
+
+--
+-- Name: luser; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE luser (
+    id character varying(30) NOT NULL,
+    bio text,
+    firstname character varying(20),
+    lastname character varying(30),
+    birthdate date,
+    location character varying(50)
+);
+
+
+ALTER TABLE public.luser OWNER TO fubme;
+
+--
+-- Name: luser_comments_post; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE luser_comments_post (
+    id integer NOT NULL,
+    luser_id character varying(30) NOT NULL,
+    post_id integer NOT NULL,
+    body text,
+    "time" timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.luser_comments_post OWNER TO fubme;
+
+--
+-- Name: luser_comments_post_id_seq; Type: SEQUENCE; Schema: public; Owner: fubme
+--
+
+CREATE SEQUENCE luser_comments_post_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.luser_comments_post_id_seq OWNER TO fubme;
+
+--
+-- Name: luser_comments_post_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: fubme
+--
+
+ALTER SEQUENCE luser_comments_post_id_seq OWNED BY luser_comments_post.id;
+
+
+--
+-- Name: luser_comments_post_id_seq; Type: SEQUENCE SET; Schema: public; Owner: fubme
+--
+
+SELECT pg_catalog.setval('luser_comments_post_id_seq', 40, true);
+
+
+--
+-- Name: luser_follows_luser; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE luser_follows_luser (
+    luser_id_follower character varying(30) NOT NULL,
+    luser_id_followed character varying(30) NOT NULL
+);
+
+
+ALTER TABLE public.luser_follows_luser OWNER TO fubme;
+
+--
+-- Name: luser_likes_post; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE luser_likes_post (
+    luser_id character varying(30) NOT NULL,
+    post_id integer NOT NULL
+);
+
+
+ALTER TABLE public.luser_likes_post OWNER TO fubme;
+
+--
+-- Name: luser_lists_luser; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE luser_lists_luser (
+    id character varying(30) NOT NULL,
+    luser_id_list_owner character varying(30) NOT NULL,
+    luser_id_listed character varying(30) NOT NULL
+);
+
+
+ALTER TABLE public.luser_lists_luser OWNER TO fubme;
+
+--
+-- Name: luser_owns_website; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE luser_owns_website (
+    luser_id character varying(30) NOT NULL,
+    website_url text NOT NULL
+);
+
+
+ALTER TABLE public.luser_owns_website OWNER TO fubme;
+
+--
+-- Name: luser_reports_post; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE luser_reports_post (
+    report_date timestamp with time zone DEFAULT now() NOT NULL,
+    post_id integer NOT NULL,
+    whistleblower_id character varying(30) NOT NULL,
+    wrongdoing_id character varying(30) NOT NULL,
+    category report NOT NULL,
+    reason text NOT NULL
+);
+
+
+ALTER TABLE public.luser_reports_post OWNER TO fubme;
+
+--
+-- Name: post; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE post (
+    ptime timestamp with time zone DEFAULT now() NOT NULL,
+    id integer NOT NULL,
+    luser_id character varying(30) NOT NULL,
+    body text,
+    link text,
+    mime character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.post OWNER TO fubme;
+
+--
+-- Name: post_id_seq; Type: SEQUENCE; Schema: public; Owner: fubme
+--
+
+CREATE SEQUENCE post_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.post_id_seq OWNER TO fubme;
+
+--
+-- Name: post_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: fubme
+--
+
+ALTER SEQUENCE post_id_seq OWNED BY post.id;
+
+
+--
+-- Name: post_id_seq; Type: SEQUENCE SET; Schema: public; Owner: fubme
+--
+
+SELECT pg_catalog.setval('post_id_seq', 32, true);
+
+
+--
+-- Name: post_tagged_as; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE post_tagged_as (
+    post_id integer NOT NULL,
+    tag_name character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.post_tagged_as OWNER TO fubme;
+
+--
+-- Name: website; Type: TABLE; Schema: public; Owner: fubme; Tablespace: 
+--
+
+CREATE TABLE website (
+    url text NOT NULL,
+    description text
+);
+
+
+ALTER TABLE public.website OWNER TO fubme;
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE luser_comments_post ALTER COLUMN id SET DEFAULT nextval('luser_comments_post_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE post ALTER COLUMN id SET DEFAULT nextval('post_id_seq'::regclass);
+
+
+--
+-- Data for Name: admin; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY admin (id, rights) FROM stdin;
+ozzy	censor
+rob	ban
+max	owner
+\.
+
+
+--
+-- Data for Name: admin_blocks_luser; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY admin_blocks_luser (ban_date, wrongdoing_id, admin_id, category, reason) FROM stdin;
+\.
+
+
+--
+-- Data for Name: admin_censors_post; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY admin_censors_post (censor_date, post_id, admin_id, category, reason) FROM stdin;
+\.
+
+
+--
+-- Data for Name: fuser; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY fuser (id, pswd, email, img) FROM stdin;
+dio	password	rjdio@dio.com	\N
+ozzy	password	ozzy_osb@gmail.com	\N
+jimmi	password	jpage@led_zeppelin.com	\N
+rob	password	rplant@led_zeppelin.com	\N
+frank	password	drmustache@fzappa.com	\N
+michael	password	mike@jackson5.com	\N
+max	password	max@perghercom.com	\N
+edavia	password	spider22@gmail.com	\N
+daniel	password	daniel.graziotin@tuamadre.com	\N
+enrico	password	etrentin@tritapepe.com	\N
+urobo	password	rico.sleeps@gmail.com	\N
+luca	password	lperini.bz@gmail.com	\N
+\.
+
+
+--
+-- Data for Name: luser; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY luser (id, bio, firstname, lastname, birthdate, location) FROM stdin;
+urobo	dio, incredibilmente bello e intelligente	riccardo	buttarelli	1988-07-04	Bolzano, Italy
+dio	sing me a song you are singer do me a wrong you're bringer of evil	ronnie james	dio	1942-07-10	Portsmouth, New Hampshire
+ozzy	I am Iron Man	ozzy	osbourne	1948-03-13	Aston, Birmingham, England
+jimmi	and she's buying a stairway to heaven	jimmi	page	1944-01-09	Heston, Middlesex, England
+edavia	segaiolo di professione tanta roba	enrico	dev	1988-04-22	Bolzano, Italy
+daniel	IT specialist singer bass player	daniel	graziotin	1987-04-23	San Giacomo, Italy
+luca	\N	\N	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: luser_comments_post; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY luser_comments_post (id, luser_id, post_id, body, "time") FROM stdin;
+1	daniel	1	great bro!	2011-06-23 15:23:05.412486+02
+2	urobo	1	thanks!	2011-06-23 15:23:05.412486+02
+3	daniel	1	comment!	2011-06-23 15:24:13.447523+02
+9	daniel	1	lol	2011-06-24 17:58:43.997224+02
+10	daniel	2	try it!\r\n	2011-08-16 18:31:21.99081+02
+11	daniel	1	first!	2011-08-16 18:31:57.017905+02
+12	daniel	1	oh no! cuap!	2011-08-16 18:32:05.563196+02
+13	daniel	2	m/	2011-08-16 18:33:43.274652+02
+14	daniel	2	you might find this very interesting http://twitter.com/#!/urobo/status/54199994911162369	2011-08-16 18:35:02.836209+02
+15	daniel	1	uaooo	2011-08-17 12:11:12.934263+02
+16	daniel	2	yeah\r\n	2011-08-17 12:11:21.314692+02
+17	daniel	2	yeah	2011-08-17 12:11:26.909132+02
+18	daniel	2	yo\r\n	2011-08-18 16:54:03.184354+02
+19	daniel	2	ghghghghgh	2011-08-23 09:02:37.477208+02
+20	daniel	1	hello my dear friend\r\n	2011-08-23 12:09:00.833205+02
+21	daniel	6	yey finally I committed something to dycapo	2011-08-24 14:44:31.723939+02
+22	daniel	9	that's funny man!	2011-08-24 17:06:14.64124+02
+23	daniel	6	you look so bad, man...	2011-08-24 17:08:36.930496+02
+24	daniel	7	you suck!	2011-08-24 17:08:46.760871+02
+25	daniel	8	yep	2011-08-24 17:46:33.967464+02
+26	daniel	12	metal!	2011-08-25 18:05:05.760126+02
+27	daniel	5	very well done bro!	2011-08-25 19:32:08.478214+02
+28	daniel	5	very well done bro!	2011-08-25 19:32:08.689731+02
+29	daniel	5	nice	2011-08-25 19:32:22.130726+02
+30	daniel	5	that's marvellous	2011-08-25 19:32:39.526829+02
+31	daniel	13	ciao francesca! :)	2011-08-27 14:17:36.124135+02
+32	daniel	20	durerà per sempre! uahuahauha	2011-08-27 14:20:19.906488+02
+33	daniel	19	asd	2011-10-11 15:33:02.964111+02
+34	daniel	25	lol	2011-10-11 17:15:41.266175+02
+35	daniel	25	don't you dare	2011-10-11 17:15:54.695719+02
+36	daniel	30	uh yeah!	2011-10-11 17:51:25.993711+02
+37	daniel	23	yeah!	2011-10-11 18:37:01.164163+02
+38	daniel	31	mmmm trash food	2011-10-12 14:16:22.896539+02
+39	daniel	4	indeed	2011-10-12 15:41:00.152855+02
+40	daniel	11	you are too commercial	2011-11-05 11:58:52.940995+01
+\.
+
+
+--
+-- Data for Name: luser_follows_luser; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY luser_follows_luser (luser_id_follower, luser_id_followed) FROM stdin;
+urobo	daniel
+urobo	dio
+dio	urobo
+daniel	urobo
+daniel	edavia
+ozzy	dio
+jimmi	urobo
+urobo	jimmi
+\.
+
+
+--
+-- Data for Name: luser_likes_post; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY luser_likes_post (luser_id, post_id) FROM stdin;
+urobo	2
+urobo	3
+urobo	5
+daniel	3
+daniel	2
+daniel	6
+daniel	7
+daniel	9
+daniel	8
+daniel	12
+daniel	1
+daniel	5
+daniel	20
+daniel	19
+daniel	29
+daniel	30
+daniel	31
+daniel	4
+\.
+
+
+--
+-- Data for Name: luser_lists_luser; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY luser_lists_luser (id, luser_id_list_owner, luser_id_listed) FROM stdin;
+\.
+
+
+--
+-- Data for Name: luser_owns_website; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY luser_owns_website (luser_id, website_url) FROM stdin;
+\.
+
+
+--
+-- Data for Name: luser_reports_post; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY luser_reports_post (report_date, post_id, whistleblower_id, wrongdoing_id, category, reason) FROM stdin;
+\.
+
+
+--
+-- Data for Name: post; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY post (ptime, id, luser_id, body, link, mime) FROM stdin;
+2011-06-23 15:23:05.37115+02	1	urobo	hello world	\N	text/plain
+2011-06-23 15:23:05.37115+02	2	daniel	evil metal thunder	\N	text/plain
+2011-06-23 15:23:05.37115+02	3	dio	sing me a song you're a singer	\N	text/plain
+2011-06-23 15:23:05.37115+02	4	ozzy	I am Iron Man	\N	text/plain
+2011-06-23 15:23:05.37115+02	5	jimmi	and she's buying a stairway to heaven	\N	text/plain
+2011-08-23 17:48:03.604832+02	6	daniel	I see what you have done there	null	text/plain
+2011-08-24 14:45:15.829003+02	7	daniel	no weird characters	null	text/plain
+2011-08-24 15:24:25.78338+02	8	daniel	funny dawg	null	text/plain
+2011-08-24 15:25:43.59372+02	9	daniel	'bout nothing	null	text/plain
+2011-08-24 17:46:54.296892+02	10	daniel	alex is so stupid today	null	text/plain
+2011-08-24 17:47:38.275232+02	11	daniel	alex is so stupid today	null	text/plain
+2011-08-24 17:48:25.29219+02	12	daniel	\\m/	null	text/plain
+2011-08-25 18:05:36.779602+02	13	daniel	daniel colm puppa!	null	text/plain
+2011-08-27 14:18:07.073095+02	19	daniel	what?	null	text/plain
+2011-08-27 14:18:43.394221+02	20	daniel	francesca puzza un po' di cibo buono	null	text/plain
+2011-10-11 17:08:13.804753+02	23	daniel	What are you thinking? lol	null	text/plain
+2011-10-11 17:14:56.200369+02	24	daniel	What are you thinking? lol	null	text/plain
+2011-10-11 17:15:02.350169+02	25	daniel	asd	null	text/plain
+2011-10-11 17:16:19.214026+02	26	daniel	funny why It gives invalid credentials	null	text/plain
+2011-10-11 17:32:16.048485+02	27	daniel	vodka jelly	null	text/plain
+2011-10-11 17:34:13.599962+02	28	daniel	pretty girls!	null	text/plain
+2011-10-11 17:37:48.725068+02	29	daniel	I hate THIS CRAP!	null	text/plain
+2011-10-11 17:51:17.165099+02	30	daniel	I like this CRAP! now!	null	text/plain
+2011-10-12 14:14:19.228755+02	31	daniel	pancakes	null	text/plain
+\.
+
+
+--
+-- Data for Name: post_tagged_as; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY post_tagged_as (post_id, tag_name) FROM stdin;
+1	tech
+1	programming
+2	music
+3	music
+3	news
+31	pancakes
+31	trash food
+31	smile
+31	music
+\.
+
+
+--
+-- Data for Name: website; Type: TABLE DATA; Schema: public; Owner: fubme
+--
+
+COPY website (url, description) FROM stdin;
+\.
+
+
+--
+-- Name: admin_blocks_luser_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY admin_blocks_luser
+    ADD CONSTRAINT admin_blocks_luser_pkey PRIMARY KEY (wrongdoing_id, admin_id);
+
+
+--
+-- Name: admin_censors_post_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY admin_censors_post
+    ADD CONSTRAINT admin_censors_post_pkey PRIMARY KEY (post_id);
+
+
+--
+-- Name: admin_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY admin
+    ADD CONSTRAINT admin_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fuser_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY fuser
+    ADD CONSTRAINT fuser_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: luser_follows_luser_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY luser_follows_luser
+    ADD CONSTRAINT luser_follows_luser_pkey PRIMARY KEY (luser_id_follower, luser_id_followed);
+
+
+--
+-- Name: luser_likes_post_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY luser_likes_post
+    ADD CONSTRAINT luser_likes_post_pkey PRIMARY KEY (luser_id, post_id);
+
+
+--
+-- Name: luser_lists_luser_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY luser_lists_luser
+    ADD CONSTRAINT luser_lists_luser_pkey PRIMARY KEY (id, luser_id_list_owner, luser_id_listed);
+
+
+--
+-- Name: luser_owns_website_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY luser_owns_website
+    ADD CONSTRAINT luser_owns_website_pkey PRIMARY KEY (luser_id, website_url);
+
+
+--
+-- Name: luser_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY luser
+    ADD CONSTRAINT luser_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: luser_reports_post_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY luser_reports_post
+    ADD CONSTRAINT luser_reports_post_pkey PRIMARY KEY (post_id, whistleblower_id, category);
+
+
+--
+-- Name: post_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY post
+    ADD CONSTRAINT post_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: post_tagged_as_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY post_tagged_as
+    ADD CONSTRAINT post_tagged_as_pkey PRIMARY KEY (post_id, tag_name);
+
+
+--
+-- Name: website_pkey; Type: CONSTRAINT; Schema: public; Owner: fubme; Tablespace: 
+--
+
+ALTER TABLE ONLY website
+    ADD CONSTRAINT website_pkey PRIMARY KEY (url);
+
+
+--
+-- Name: admin_blocks_luser_admin_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY admin_blocks_luser
+    ADD CONSTRAINT admin_blocks_luser_admin_id_fkey FOREIGN KEY (admin_id) REFERENCES admin(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: admin_blocks_luser_wrongdoing_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY admin_blocks_luser
+    ADD CONSTRAINT admin_blocks_luser_wrongdoing_id_fkey FOREIGN KEY (wrongdoing_id) REFERENCES luser(id) ON DELETE CASCADE;
+
+
+--
+-- Name: admin_censors_post_admin_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY admin_censors_post
+    ADD CONSTRAINT admin_censors_post_admin_id_fkey FOREIGN KEY (admin_id) REFERENCES admin(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: admin_censors_post_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY admin_censors_post
+    ADD CONSTRAINT admin_censors_post_post_id_fkey FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;
+
+
+--
+-- Name: admin_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY admin
+    ADD CONSTRAINT admin_id_fkey FOREIGN KEY (id) REFERENCES fuser(id) ON DELETE CASCADE;
+
+
+--
+-- Name: luser_comments_post_luser_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_comments_post
+    ADD CONSTRAINT luser_comments_post_luser_id_fkey FOREIGN KEY (luser_id) REFERENCES luser(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: luser_comments_post_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_comments_post
+    ADD CONSTRAINT luser_comments_post_post_id_fkey FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;
+
+
+--
+-- Name: luser_follows_luser_luser_id_followed_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_follows_luser
+    ADD CONSTRAINT luser_follows_luser_luser_id_followed_fkey FOREIGN KEY (luser_id_followed) REFERENCES luser(id) ON DELETE CASCADE;
+
+
+--
+-- Name: luser_follows_luser_luser_id_follower_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_follows_luser
+    ADD CONSTRAINT luser_follows_luser_luser_id_follower_fkey FOREIGN KEY (luser_id_follower) REFERENCES luser(id) ON DELETE CASCADE;
+
+
+--
+-- Name: luser_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser
+    ADD CONSTRAINT luser_id_fkey FOREIGN KEY (id) REFERENCES fuser(id) ON DELETE CASCADE;
+
+
+--
+-- Name: luser_likes_post_luser_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_likes_post
+    ADD CONSTRAINT luser_likes_post_luser_id_fkey FOREIGN KEY (luser_id) REFERENCES luser(id) ON DELETE CASCADE;
+
+
+--
+-- Name: luser_likes_post_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_likes_post
+    ADD CONSTRAINT luser_likes_post_post_id_fkey FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;
+
+
+--
+-- Name: luser_lists_luser_luser_id_list_owner_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_lists_luser
+    ADD CONSTRAINT luser_lists_luser_luser_id_list_owner_fkey FOREIGN KEY (luser_id_list_owner) REFERENCES luser(id) ON DELETE CASCADE;
+
+
+--
+-- Name: luser_lists_luser_luser_id_listed_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_lists_luser
+    ADD CONSTRAINT luser_lists_luser_luser_id_listed_fkey FOREIGN KEY (luser_id_listed) REFERENCES luser(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: luser_owns_website_luser_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_owns_website
+    ADD CONSTRAINT luser_owns_website_luser_id_fkey FOREIGN KEY (luser_id) REFERENCES luser(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: luser_owns_website_website_url_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_owns_website
+    ADD CONSTRAINT luser_owns_website_website_url_fkey FOREIGN KEY (website_url) REFERENCES website(url) ON DELETE CASCADE;
+
+
+--
+-- Name: luser_reports_post_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_reports_post
+    ADD CONSTRAINT luser_reports_post_post_id_fkey FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;
+
+
+--
+-- Name: luser_reports_post_whistleblower_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_reports_post
+    ADD CONSTRAINT luser_reports_post_whistleblower_id_fkey FOREIGN KEY (whistleblower_id) REFERENCES luser(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: luser_reports_post_wrongdoing_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY luser_reports_post
+    ADD CONSTRAINT luser_reports_post_wrongdoing_id_fkey FOREIGN KEY (wrongdoing_id) REFERENCES luser(id) ON DELETE CASCADE;
+
+
+--
+-- Name: post_luser_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY post
+    ADD CONSTRAINT post_luser_id_fkey FOREIGN KEY (luser_id) REFERENCES luser(id) ON DELETE CASCADE;
+
+
+--
+-- Name: post_tagged_as_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: fubme
+--
+
+ALTER TABLE ONLY post_tagged_as
+    ADD CONSTRAINT post_tagged_as_post_id_fkey FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
