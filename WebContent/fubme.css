@@ -1,46 +1,51 @@
-@font-face { 
-	font-family:'Gotham Book'; 
-	src: local ('Gotham Book'),url('Gotham-Book.ttf') format('truetype');
+@font-face {
+	font-family: 'Gotham Book';
+	src: local('Gotham Book' ), url('Gotham-Book.ttf') format('truetype');
 	font-weight: normal;
-	font-style: normal; 
+	font-style: normal;
 }
 
-@font-face { 
-	font-family:'Gotham Light'; 
-	src: local ('Gotham Light'),url('Gotham-Light.ttf') format('truetype');
+@font-face {
+	font-family: 'Gotham Light';
+	src: local('Gotham Light' ), url('Gotham-Light.ttf') format('truetype');
 	font-weight: normal;
-	font-style: normal; 
+	font-style: normal;
 }
 
-@font-face { 
-	font-family:'Gotham Light Italic'; 
-	src: local ('Gotham Light Italic'),url('Gotham-LightItalic.ttf') format('truetype');
+@font-face {
+	font-family: 'Gotham Light Italic';
+	src: local('Gotham Light Italic' ), url('Gotham-LightItalic.ttf')
+		format('truetype');
 	font-weight: normal;
-	font-style: italic; 
+	font-style: italic;
 }
 
 body {
-	background-color:white;
-	font-family:"Gotham Book",Gotham,sans-serif;
+	background-color: white;
+	font-family: "Gotham Book", Gotham, sans-serif;
 	color: black;
 }
-.author{
-	color:  #974107;
+
+.author {
+	color: #974107;
 }
-#canvas{
+
+#canvas {
 	text-align: left;
 	font-size: 20px;
 	width: 65%;
-	margin-left:7%;
+	margin-left: 7%;
 }
 
-#error{
-	color : #de162e;
-	font-size:20px;
-	width= 100%;
+#error {
+	color: #de162e;
+	font-size: 20px;
+	width
+	=
+	100%;
 }
 
-#search{
+#search {
 	padding: 15px;
 	margin: 2px;
 	color: #a6754a;
@@ -50,45 +55,42 @@ body {
 	border: 1px solid #e86b17;
 }
 
-#status{
+#status {
 	width: 100%;
 	font-size: 20px;
-	text-align:left
+	text-align: left
 }
 
-#publish{
-	font-family:"Gotham Book",Gotham,sans-serif;
-	position:relative;
+#publish {
+	font-family: "Gotham Book", Gotham, sans-serif;
+	position: relative;
 	float: right;
-
 }
 
-#instant{
+#instant {
 	width: 100%;
-	padding:5px;
-	border:none;
+	padding: 5px;
+	border: none;
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 50px;
 }
 
-
-a{
-	text-decoration:none
+a {
+	text-decoration: none
 }
 
-#timeline{
+#timeline {
 	border: 0 none;
 	font-weight: bold;
 	padding: 0 15px 0 0;
 	text-align: center;
-	
 	width: auto;
-	
 }
 
 #timeline.rounded {
-	background: transparent url( images/btn_right.png ) no-repeat scroll right top;
+	background: transparent url( images/btn_right.png ) no-repeat scroll
+		right top;
 	clear: left;
 	font-size: 25px;
 }
@@ -101,51 +103,53 @@ a{
 }
 
 #timeline.rounded span {
-	background: transparent url( images/btn_left.png )  scroll left top;
+	background: transparent url( images/btn_left.png ) scroll left top;
 	color: #FFFFFF;
 }
 
-.header{
+.header {
 	color: white;
 	background-color: #e86b17;
 }
 
-.links{
+.links {
 	text-align: left;
 	font-size: 20px;
-	color:white;
+	color: white;
 }
 
-.title{
-	text-align:right;
+.title {
+	text-align: right;
 	padding-top: 5px;
 	padding-right: 15px;
 }
-label{
+
+label {
 	display: block;
 }
-.footer{
+
+.footer {
 	color: white;
 	background-color: #e86b17;
 }
 
-.rightcolumn{
+.rightcolumn {
 	width: 20%;
 	float: right;
 	-moz-border-radius: 20px 20px 20px 20px;
 	border-radius: 20px 20px 20px 20px;
 	color: #a6754a;
 	background-color: #fff7f1;
-	padding:15px;
-	border:2px solid #e86b17;
+	padding: 15px;
+	border: 2px solid #e86b17;
 	margin: 10px;
 	height: 85%;
 }
 
-.post{
-	width:90%;
-	padding:5px;
-	margin:15px;
+.post {
+	width: 90%;
+	padding: 5px;
+	margin: 15px;
 	background-color: white;
 	text-align: left;
 	font-size: 18px;
@@ -154,32 +158,31 @@ label{
 	border-radius: 5px;
 }
 
-.hint{
-	font-family:"Gotham Light Italic",Gotham,sans-serif;
+.hint {
+	font-family: "Gotham Light Italic", Gotham, sans-serif;
 	font-size: x-small;
-	font-style:italic;
-	color:#974107;
+	font-style: italic;
+	color: #974107;
 }
 
-.postimage{
-	padding:5px;
-	border:none;
-	margin-right:15px;
+.postimage {
+	padding: 5px;
+	border: none;
+	margin-right: 15px;
 	float: left;
 }
 
-.miscellanea{
+.miscellanea {
 	text-align: right;
 	color: blue;
 	font-size: 14px;
-	margin-right : 20px;
+	margin-right: 20px;
 }
 
-.comment{
-	
-	padding:7px;
+.comment {
+	padding: 7px;
 	border-style: none;
-	margin:8px 8px 8px 16px;
+	margin: 8px 8px 8px 16px;
 	margin-left: 10%;
 	margin-right: 5%;
 	-moz-border-radius: 5px 5px 5px 5px;
@@ -189,7 +192,7 @@ label{
 	font-size: 16px;
 }
 
-#posts{
+#posts {
 	border: 0 none;
 	font-weight: bold;
 	padding: 0 15px 0 0;
@@ -199,15 +202,16 @@ label{
 }
 
 #posts.rounded {
-	background: transparent url( images/btn_right.png ) no-repeat scroll right top;
+	background: transparent url( images/btn_right.png ) no-repeat scroll
+		right top;
 	clear: left;
 	font-size: 25px;
 }
 
-#tags{
-	font-family: "Gotham Light",Gotham,sans-serif;
+#tags {
+	font-family: "Gotham Light", Gotham, sans-serif;
 	font-size: medium;
-	color:  #974107;
+	color: #974107;
 }
 
 #posts span {
@@ -218,11 +222,11 @@ label{
 }
 
 #posts.rounded span {
-	background: transparent url( images/btn_left.png )  scroll left top;
+	background: transparent url( images/btn_left.png ) scroll left top;
 	color: #FFFFFF;
 }
 
-#peoplelist{
+#peoplelist {
 	border: 0 none;
 	font-weight: bold;
 	padding: 0 15px 0 0;
@@ -232,7 +236,8 @@ label{
 }
 
 #peoplelist.rounded {
-	background: transparent url( images/btn_right.png ) no-repeat scroll right top;
+	background: transparent url( images/btn_right.png ) no-repeat scroll
+		right top;
 	clear: left;
 	font-size: 25px;
 }
@@ -245,7 +250,7 @@ label{
 }
 
 #peoplelist.rounded span {
-	background: transparent url( images/btn_left.png )  scroll left top;
+	background: transparent url( images/btn_left.png ) scroll left top;
 	color: #FFFFFF;
 }
 
@@ -254,7 +259,8 @@ label{
 	list-style-type: none;
 	padding-right: 20px;
 }
-.people{
+
+.people {
 	padding: 15px;
 	margin: 2px;
 	-moz-border-radius: 5px 5px 5px 5px;
@@ -262,60 +268,58 @@ label{
 	border: 1px solid #e86b17;
 	min-height: 58px;
 }
-.postidentifier{
+
+.postidentifier {
 	text-align: left;
-	color:  #974107;
+	color: #974107;
 	font-size: 15px;
-	
 }
-.misc_buttons{
-	position:relative;
+
+.misc_buttons {
+	position: relative;
 	text-align: right;
 	font-size: 24px;
 }
 
-.linkbutton{
-	font-family:"Gotham Light",Gotham,sans-serif;
-
+.linkbutton {
+	font-family: "Gotham Light", Gotham, sans-serif;
 	border-style: none;
 	background-color: white;
-	color:  #974107;
-
+	color: #974107;
 }
 
-.tag{
+.tag {
 	font-size: 14px;
 	color: #1a4221;
 }
 
-.box{
-	margin-left:auto;
-	margin-right:auto;
+.box {
+	margin-left: auto;
+	margin-right: auto;
 	height: 303px;
 	width: 80%;
 }
 
-.sign{
+.sign {
 	width: 42%;
 	background-color: white;
-	padding:10px;
-	border:2px dotted #e86b17;
-	margin:7px;
-
-	float:left;
+	padding: 10px;
+	border: 2px dotted #e86b17;
+	margin: 7px;
+	float: left;
 }
 
-.stream{
+.stream {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	background-color: #d3c8cb;
-	padding-top:15px;
-	padding-bottom:15px;
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
+
 ul {
 	list-style-type: none;
-	
 }
 
 hr {
@@ -324,56 +328,57 @@ hr {
 	height: 1px;
 }
 
-b{
-	font-family: "Gotham Bold",Gotham,sans-serif;
+b {
+	font-family: "Gotham Bold", Gotham, sans-serif;
 	font-weight: bold;
 	color: #e86b17
 }
 
 button {
-border: 0 none;
-cursor: pointer;
-font-weight: bold;
-padding: 0 15px 0 0;
-text-align: center;
-height: 30px;
-line-height: 30px;
-width: auto;
+	border: 0 none;
+	cursor: pointer;
+	font-weight: bold;
+	padding: 0 15px 0 0;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	width: auto;
 }
 
 button.rounded {
-background: transparent url( images/btn_right.png ) no-repeat scroll right top;
-clear: left;
-font-size: 0.8em;
+	background: transparent url( images/btn_right.png ) no-repeat scroll
+		right top;
+	clear: left;
+	font-size: 0.8em;
 }
 
 button span {
-display: block;
-padding: 0 0 0 15px;
-position: relative;
-white-space: nowrap;
-height: 30px;
-line-height: 30px;
+	display: block;
+	padding: 0 0 0 15px;
+	position: relative;
+	white-space: nowrap;
+	height: 30px;
+	line-height: 30px;
 }
 
 button.rounded span {
-background: transparent url( images/btn_left.png ) no-repeat scroll left top;
-color: #FFFFFF;
+	background: transparent url( images/btn_left.png ) no-repeat scroll left
+		top;
+	color: #FFFFFF;
 }
 
 button.rounded:hover {
-background-position: 100% -30px;
+	background-position: 100% -30px;
 }
 
 button.rounded:hover span {
-background-position: 0% -30px;
+	background-position: 0% -30px;
 }
 
 button::-moz-focus-inner {
-border: none;
+	border: none;
 }
 
-textarea{
-	font-family:"Gotham Light",Gotham,sans-serif;
-	
+textarea {
+	font-family: "Gotham Light", Gotham, sans-serif;
 }

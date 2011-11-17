@@ -17,7 +17,7 @@
 		<%
 		Post post = (Post) request.getAttribute("post");
 		
-		out.print("<li><div class=\"post\"><div class=\"postimage\"><img src=\"pp1.jpg\" height=\"48px\" width=\"48px\" alt=\"profile picture\"/></div><div class=\"author\"><a href= \""
+		out.print("<div class=\"post\"><div class=\"postimage\"><img src=\"pp1.jpg\" height=\"48px\" width=\"48px\" alt=\"profile picture\"/></div><div class=\"author\"><a href= \""
 				+ request.getScheme()
 				+ "://"
 				+ request.getServerName()
