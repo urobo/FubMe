@@ -22,6 +22,7 @@
 			</i>
 		</p>
 	</div>
+	<div class=""></div>
 	<div class="contacts" id="followers">
 		<p>
 			<b>Followers</b>

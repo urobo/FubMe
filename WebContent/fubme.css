@@ -30,6 +30,28 @@ body {
 	color: #974107;
 }
 
+.settingsblock{
+	width:60%;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	border: 1px solid #e86b17;
+	padding: 20px;
+	margin-left:auto;
+	margin-right:auto;
+	padding-left: 30px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	
+}
+.blocktitle{
+	color:#974107;	
+}
+.settingsublock{
+	float:left;
+	width:45%;
+	color:black;
+}
+
 #canvas {
 	text-align: left;
 	font-size: 20px;

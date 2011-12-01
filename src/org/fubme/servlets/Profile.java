@@ -37,6 +37,7 @@ public class Profile extends HttpServlet {
 					.forward(request, response);
 			return;
 		} else {
+			//TOFIX: auth as in Home
 			User user = new User(request.getParameter("user"), null);
 			List<org.fubme.models.Post> posts = TimelineManager
 					.getProfileForUser(user, 25);
