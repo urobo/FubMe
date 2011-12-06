@@ -101,7 +101,7 @@
         %>
 
 	<div class="rounded" id="posts">
-		<span>posts</span>
+		Posts
 	</div>
 
 	<ul class="stream">
@@ -109,6 +109,12 @@
 			if (request.getAttribute("posts") instanceof List<?>) {
 				List<Post> posts = (List<Post>) request.getAttribute("posts");
 				if (posts != null) {
+					if (posts.size()==0)
+					{
+						out.print("<div class=\"post\">");
+						out.print("<p class=\"noposts\">No Posts To Show<p>");
+						out.print("</div>");
+					}
 					for (int i = 0; i < posts.size(); i++) {
 						Post post = posts.get(i);
 							out.print("<li><div class=\"post\"><div class=\"postimage\"><img src=\"pp1.jpg\" height=\"48px\" width=\"48px\" alt=\"profile picture\"/></div><div class=\"author\"><a href= \""

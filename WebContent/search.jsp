@@ -24,7 +24,7 @@
 </div>
 <div class="searchresults">
 	<div class="rounded" id="peoplelist">
-		<span>People</span>
+		People
 	</div>
 	<div class="peopleresults">
 		<ul>
@@ -44,7 +44,7 @@
 		</ul>
 	</div>
 	<div class="rounded" id="posts">
-		<span>Posts</span>
+		Posts
 	</div>
 	<div class="postsresults">
 		<ul>

@@ -26,8 +26,8 @@
 		%>
 	</div>
 
-	<div class="rounded" id="timeline">
-		<span>Timeline</span>
+	<div id="timeline">
+		Timeline
 	</div>
 
 	<ul class="stream">
@@ -36,6 +36,12 @@
 				List<Post> timeline = (List<Post>) request
 						.getAttribute("timeline");
 				if (timeline != null) {
+					if (timeline.size()==0)
+					{
+						out.print("<div class=\"post\">");
+						out.print("<p class=\"noposts\">No Posts To Show<p>");
+						out.print("</div>");
+					}
 					for (int i = 0; i < timeline.size(); i++) {
 						Post post = timeline.get(i);
 

@@ -24,10 +24,19 @@ body {
 	background-color: white;
 	font-family: "Gotham Book", Gotham, sans-serif;
 	color: black;
+	
 }
 
 .author {
 	color: #974107;
+}
+
+.noposts{
+	font-family: "Gotham Light Italic", Gotham, sans-serif;
+	font-size: xx-large;
+	font-style: italic;
+	color: #D3C8CB;
+	text-align: center;
 }
 
 .settingsblock{
@@ -59,6 +68,7 @@ body {
 	font-size: 20px;
 	width: 65%;
 	margin-left: 7%;
+	margin-bottom: 100px;
 }
 
 #error {
@@ -105,30 +115,14 @@ a {
 }
 
 #timeline {
-	border: 0 none;
+	background-color: #e86b17;
 	font-weight: bold;
-	padding: 0 15px 0 0;
+	color: white;
 	text-align: center;
 	width: auto;
-}
-
-#timeline.rounded {
-	background: transparent url( images/btn_right.png ) no-repeat scroll
-		right top;
-	clear: left;
-	font-size: 25px;
-}
-
-#timeline span {
-	display: block;
-	padding: 0 0 0 15px;
-	position: relative;
-	white-space: nowrap;
-}
-
-#timeline.rounded span {
-	background: transparent url( images/btn_left.png ) scroll left top;
-	color: #FFFFFF;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	border: 1px solid #e86b17;
 }
 
 .header {
@@ -140,6 +134,7 @@ a {
 	text-align: left;
 	font-size: 20px;
 	color: white;
+	background-color: #e86b17;
 }
 
 .title {
@@ -153,8 +148,9 @@ label {
 }
 
 .footer {
-	color: white;
-	background-color: #e86b17;
+	position:fixed;
+	bottom:0px;
+	width:100%;
 }
 
 .rightcolumn {
@@ -171,7 +167,7 @@ label {
 
 .post {
 	width: 90%;
-	padding: 5px;
+	padding: 15px;
 	margin: 15px;
 	background-color: white;
 	text-align: left;
@@ -216,19 +212,14 @@ label {
 }
 
 #posts {
-	border: 0 none;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	border: 1px solid #e86b17;
+	background-color: #e86b17;
 	font-weight: bold;
-	padding: 0 15px 0 0;
+	color: white;
 	text-align: center;
-	margin: 0px;
 	width: auto;
-}
-
-#posts.rounded {
-	background: transparent url( images/btn_right.png ) no-repeat scroll
-		right top;
-	clear: left;
-	font-size: 25px;
 }
 
 #tags {
@@ -244,37 +235,15 @@ label {
 	white-space: nowrap;
 }
 
-#posts.rounded span {
-	background: transparent url( images/btn_left.png ) scroll left top;
-	color: #FFFFFF;
-}
-
 #peoplelist {
-	border: 0 none;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	border: 1px solid #e86b17;
+	background-color: #e86b17;
 	font-weight: bold;
-	padding: 0 15px 0 0;
+	color: white;
 	text-align: center;
-	margin: 5px;
 	width: auto;
-}
-
-#peoplelist.rounded {
-	background: transparent url( images/btn_right.png ) no-repeat scroll
-		right top;
-	clear: left;
-	font-size: 25px;
-}
-
-#peoplelist span {
-	display: block;
-	padding: 0 0 0 15px;
-	position: relative;
-	white-space: nowrap;
-}
-
-#peoplelist.rounded span {
-	background: transparent url( images/btn_left.png ) scroll left top;
-	color: #FFFFFF;
 }
 
 #following li {

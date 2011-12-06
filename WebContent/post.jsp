@@ -11,7 +11,7 @@
 
 
 	<div class="rounded" id="timeline">
-		<span>Post</span>
+		Post
 	</div>
 	<div class="stream">
 		<%
