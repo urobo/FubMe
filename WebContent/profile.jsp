@@ -16,7 +16,7 @@
 			</b>
 		</p>
 		<p>
-			<i> <%
+			<i style="font-family:'Gotham Light Italic', Gotham, sans-serif"> <%
  	out.print(((User) request.getAttribute("info")).getBio());
  %>
 			</i>

@@ -43,9 +43,11 @@ body {
 	margin-bottom: 15px;
 	
 }
+
 .blocktitle{
 	color:#974107;	
 }
+
 .settingsublock{
 	float:left;
 	width:45%;
@@ -71,7 +73,7 @@ body {
 	padding: 15px;
 	margin: 2px;
 	color: #a6754a;
-	background-color: #fff7f1;
+	
 	-moz-border-radius: 5px 5px 5px 5px;
 	border-radius: 5px 5px 5px 5px;
 	border: 1px solid #e86b17;
@@ -158,14 +160,13 @@ label {
 .rightcolumn {
 	width: 20%;
 	float: right;
-	-moz-border-radius: 20px 20px 20px 20px;
-	border-radius: 20px 20px 20px 20px;
-	color: #a6754a;
-	background-color: #fff7f1;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
 	padding: 15px;
-	border: 2px solid #e86b17;
+	border: 1px solid #e86b17;
 	margin: 10px;
 	height: 85%;
+
 }
 
 .post {
