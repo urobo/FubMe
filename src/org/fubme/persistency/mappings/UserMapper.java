@@ -4,9 +4,12 @@
 package org.fubme.persistency.mappings;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -70,22 +73,22 @@ public abstract class UserMapper {
 
 	}
 
-	public static final boolean checkUserData(String attribute, String value) {
-		boolean exist = true;
+	public static final String checkUserData(String attribute, String value) {
+		
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "SELECT " + attribute + " FROM fuser where " + attribute
-				+ "= ?";
+		String sql = "SELECT "+attribute+" FROM fuser where "+attribute+" = ?";
 		try {
 			connection = DBConnection.getConnection();
 			stmt = connection.prepareStatement(sql);
+			
 			stmt.setString(1, value);
 			resultset = stmt.executeQuery();
 			System.out.println(attribute + "\t" + value);
 			if (resultset.next())
-				return true;
-			return false;
+				return resultset.getString(attribute);
+			return null;
 		} catch (SQLException ex) {
 			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
 					null, ex);
@@ -111,7 +114,7 @@ public abstract class UserMapper {
 				}
 			}
 		}
-		return exist;
+		return null;
 	}
 
 	public static final void follows(User follower, User toBeFollowed) {
@@ -351,5 +354,244 @@ public abstract class UserMapper {
 			}
 		}
 		return null;
+	}
+	
+	public static final void updatePassword(String password, User user){
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultset = null;
+		String sql = "UPDATE fuser SET pswd = ? where id = ?";
+
+		try {
+			connection = DBConnection.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, password);
+			stmt.setString(2, user.getId());
+			stmt.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			if (resultset != null) {
+				try {
+					resultset.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static final void updateEmail(String email, User user){
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultset = null;
+		String sql = "UPDATE fuser SET email = ? where id = ?";
+
+		try {
+			connection = DBConnection.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, email);
+			stmt.setString(2, user.getId());
+			stmt.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			if (resultset != null) {
+				try {
+					resultset.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static final void updateBio(String bio, User user){
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultset = null;
+		String sql = "UPDATE luser SET bio = ? where id = ?";
+
+		try {
+			connection = DBConnection.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, bio);
+			stmt.setString(2, user.getId());
+			stmt.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			if (resultset != null) {
+				try {
+					resultset.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static final void updateFirstName(String firstname, User user){
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultset = null;
+		String sql = "UPDATE luser SET firstname = ? where id = ?";
+
+		try {
+			connection = DBConnection.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, firstname);
+			stmt.setString(2, user.getId());
+			stmt.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			if (resultset != null) {
+				try {
+					resultset.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
+	public static final void updateLastName(String lastname, User user){
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultset = null;
+		String sql = "UPDATE luser SET lastname = ? where id = ?";
+
+		try {
+			connection = DBConnection.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, lastname);
+			stmt.setString(2, user.getId());
+			stmt.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			if (resultset != null) {
+				try {
+					resultset.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
+	public static final void updateBirthDate(String birthdate, User user) throws ParseException{
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultset = null;
+		String sql = "UPDATE fuser SET birthdate = ? where id = ?";
+
+		try {
+			connection = DBConnection.getConnection();
+			stmt = connection.prepareStatement(sql);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			Date date = new Date(sdf.parse(birthdate).getTime());
+			stmt.setDate(1, date);
+			stmt.setString(2, user.getId());
+			stmt.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			if (resultset != null) {
+				try {
+					resultset.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 	}
 }

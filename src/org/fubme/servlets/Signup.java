@@ -71,8 +71,8 @@ public class Signup extends HttpServlet {
 		boolean error = false;
 		if (password.equals(passwordConfirmation)
 				&& email.equals(emailConfirmation))
-			if (!UserMapper.checkUserData("id", username)) {
-				if (!UserMapper.checkUserData("email", email)) {
+			if (username.equals(UserMapper.checkUserData("id", username))) {
+				if (email.equals(UserMapper.checkUserData("email", email))) {
 					User user = new User(username, password, email);
 					UserMapper.createUser(user);
 					HttpSession session = request.getSession(true);

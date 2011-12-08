@@ -1,6 +1,17 @@
 <jsp:include page="/header.jsp" />
 
 <div class="canvas" >
+
+	<div id="error">
+		<% 
+                  			Object error = request.getAttribute("error");
+                  			if(error != null && error instanceof String){
+                  					String msg = "Error : ";
+                  					msg += ((String)error);
+                  					out.println(msg);
+                  			}
+                  			%>
+	</div>
 	<div class="settingsblock">
 		<%
 			out.print("<form action=\""+ request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/ImageUpload");
@@ -27,7 +38,7 @@
 					<label>new password</label>
 					<input type="password" name="newpassword" /> 
 					<label>confirm new password</label>
-					<input type="password" name="retypepswd" /> 
+					<input type="password" name="retypepassword" /> 
 				</p>
 				
 				<input type="submit" value="Save" name="updateinfo"  />

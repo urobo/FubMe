@@ -77,28 +77,41 @@ public class UserMapperTest {
 	 */
 	@Test
 	public void testCheckUserData() {
-		String attribute = "id";
+		
+		
 		String value0 = "urobo";
-		String value1 = "kratos";
-		boolean result = UserMapper.checkUserData(attribute, value0);
-		System.out.println(attribute + "\t" + value0 + "\t" + result);
-		assertTrue(result);
-		result = UserMapper.checkUserData(attribute, value1);
-		System.out.println(attribute + "\t" + value1 + "\t" + result);
-		assertFalse(result);
-
-		attribute = "email";
-		value0 = "rico.sleeps@gmail.com";
-		value1 = testBody + "@" + testBody + ".com";
-		result = UserMapper.checkUserData(attribute, value0);
-		System.out.println(attribute + "\t" + value0 + "\t" + result);
-		assertTrue(result);
-
-		result = UserMapper.checkUserData(attribute, value1);
-		System.out.println(attribute + "\t" + value1 + "\t" + result);
-		assertFalse(result);
+		String attribute0 = "id";
+		String value1 = "password";
+		String attribute1 = "pswd";
+		
+		String result0= UserMapper.checkUserData(attribute0, value0);
+		String result1= UserMapper.checkUserData(attribute1, value1);
+		assertEquals(value0, result0);
+		assertEquals(value1, result1);
+		
+//		String attribute = "id";
+//		String value0 = "urobo";
+//		String value1 = "kratos";
+//		boolean result = UserMapper.checkUserData(attribute, value0);
+//		System.out.println(attribute + "\t" + value0 + "\t" + result);
+//		assertTrue(result);
+//		result = UserMapper.checkUserData(attribute, value1);
+//		System.out.println(attribute + "\t" + value1 + "\t" + result);
+//		assertFalse(result);
+//
+//		attribute = "email";
+//		value0 = "rico.sleeps@gmail.com";
+//		value1 = testBody + "@" + testBody + ".com";
+//		result = UserMapper.checkUserData(attribute, value0);
+//		System.out.println(attribute + "\t" + value0 + "\t" + result);
+//		assertTrue(result);
+//
+//		result = UserMapper.checkUserData(attribute, value1);
+//		System.out.println(attribute + "\t" + value1 + "\t" + result);
+//		assertFalse(result);
 	}
 
+	
 	/**
 	 * Test method for
 	 * {@link org.fubme.persistency.mappings.UserMapper#createUser(org.fubme.models.User)}
