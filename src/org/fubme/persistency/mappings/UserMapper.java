@@ -557,7 +557,7 @@ public abstract class UserMapper {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "UPDATE fuser SET birthdate = ? where id = ?";
+		String sql = "UPDATE luser SET birthdate = ? where id = ?";
 
 		try {
 			connection = DBConnection.getConnection();

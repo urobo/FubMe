@@ -1,6 +1,7 @@
 package org.fubme.servlets;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -101,7 +102,34 @@ public class Action extends HttpServlet {
 			}
 
 		} else if (action.equals("updatedetails")) {
+			String firstname = request.getParameter("firstname");
+			String lastname = request.getParameter("lastname");
+			String birthdate = request.getParameter("birthdate");
+			String bio = request.getParameter("bio");
 
+			if (firstname != "") {
+				UserMapper.updateFirstName(firstname, user);
+			}
+
+			if (lastname != "") {
+				UserMapper.updateLastName(lastname, user);
+			}
+
+			if (birthdate != "") {
+				try {
+					UserMapper.updateBirthDate(birthdate, user);
+				} catch (ParseException e) {
+					request.setAttribute("error", "You provided a malformed date please follow this rule \"(yyyy/MM/dd)\"");
+					RequestDispatcher view = request
+							.getRequestDispatcher("settings.jsp");
+					view.forward(request, response);
+					return;
+				}
+			}
+
+			if (bio != "") {
+				UserMapper.updateBio(bio, user);
+			}
 		}
 		response.sendRedirect(request.getScheme() + "://"
 				+ request.getServerName() + ":" + request.getServerPort()

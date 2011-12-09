@@ -72,8 +72,8 @@
 			<input type="text" name="firstname"/>
 			<label>lastname</label>
 			<input type="text" name="lastname"/>
-			<label>birthday  (YYYY/MM/DD)</label>
-			<input type="text" name="birthday" maxlength="10"/>
+			<label>birthdate  (YYYY/MM/DD)</label>
+			<input type="text" name="birthdate" maxlength="10"/>
 			
 		</p>
 			<input type="submit" value="Save" name="updatedetails"  />
