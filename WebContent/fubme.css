@@ -295,8 +295,10 @@ label {
 .sign {
 	width: 42%;
 	background-color: white;
-	padding: 10px;
-	border: 2px dotted #e86b17;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	border: 1px solid #e86b17;
+	padding: 20px;
 	margin: 7px;
 	float: left;
 }
