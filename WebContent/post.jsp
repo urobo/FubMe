@@ -4,15 +4,13 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.net.URI"%>
-	
+
 <jsp:include page="/header.jsp" />
 
 <div class="section" id="canvas">
 
 
-	<div class="rounded" id="timeline">
-		Post
-	</div>
+	<div class="rounded" id="timeline">Post</div>
 	<div class="stream">
 		<%
 		Post post = (Post) request.getAttribute("post");

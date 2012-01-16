@@ -3,6 +3,7 @@
 <%@page import="java.util.Date"%>
 <%@page import="java.net.URI"%>
 <%@page import="java.net.URLEncoder"%>
+<%@page import="org.fubme.persistency.mappings.UserMapper"%>
 <%@page import="org.fubme.persistency.Helper"%>
 <%@page import="org.fubme.models.*"%>
 
@@ -26,9 +27,7 @@
 		%>
 	</div>
 
-	<div id="timeline">
-		Timeline
-	</div>
+	<div id="timeline">Timeline</div>
 
 	<ul class="stream">
 		<%
@@ -36,17 +35,31 @@
 				List<Post> timeline = (List<Post>) request
 						.getAttribute("timeline");
 				if (timeline != null) {
-					if (timeline.size()==0)
-					{
+					User user = (User) request.getSession().getAttribute(
+							"loggedUser");
+					String img = UserMapper.getPathToImg(user);
+					
+					if (timeline.size() == 0) {
 						out.print("<div class=\"post\">");
 						out.print("<p class=\"noposts\">No Posts To Show<p>");
 						out.print("</div>");
 					}
+					User userTmp = new User(null,null);
 					for (int i = 0; i < timeline.size(); i++) {
 						Post post = timeline.get(i);
-
+						userTmp.setId(post.getUser_id());
+						String imgTmp = UserMapper.getPathToImg(userTmp); 
 						//FIXME
-						out.print("<li><div class=\"post\"><div class=\"postimage\"><img src=\"pp1.jpg\" height=\"48px\" width=\"48px\" alt=\"profile picture\"/></div><div class=\"author\"><a href= \""
+						out.print("<li><div class=\"post\"><div class=\"postimage\"><img src=\""
+								+ request.getScheme()
+								+ "://"
+								+ request.getServerName()
+								+ ":"
+								+ request.getServerPort()
+								+ request.getContextPath()
+								+ "/uploads/"
+								+ imgTmp
+								+ "\" height=\"48px\" width=\"48px\" alt=\"profile picture\"/></div><div class=\"author\"><a href= \""
 								+ request.getScheme()
 								+ "://"
 								+ request.getServerName()
@@ -83,14 +96,11 @@
 						List<User> likeList = Helper.getLikes(post);
 						for (int j = 0; j < likeList.size(); j++) {
 							out.print("<span><a style=\"text-decoration:none\" href= \"");
-							URI uri = new URI(request.getScheme(),
-							           null,
-							           request.getServerName(),
-							           request.getServerPort(),
-							           request.getContextPath()+ "/Profile",
-							           "user=" +likeList.get(j).getId(),
-							           null); 
-								
+							URI uri = new URI(request.getScheme(), null,
+									request.getServerName(),
+									request.getServerPort(),
+									request.getContextPath() + "/Profile",
+									"user=" + likeList.get(j).getId(), null);
 
 							out.print(uri.toASCIIString());
 							out.print("\" class=\"author\">"

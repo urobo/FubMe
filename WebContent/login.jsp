@@ -11,9 +11,9 @@
                   			%>
 	</div>
 	<div class="sign" id="signup">
-		<label class="blocktitle">Create a new Account</label><br/>
+		<label class="blocktitle">Create a new Account</label><br />
 		<form action="Signup" method="post" name="signup">
-			
+
 			<label>username</label> <input type="text" name="newusername" /> <label>password</label>
 			<input type="password" name="newpassword" /> <label>confirm
 				password</label><input type="password" name="retypepswd" /> <label>email</label>
@@ -23,7 +23,7 @@
 		</form>
 	</div>
 	<div class="sign" id="signin">
-		<label class="blocktitle">Sign in</label> <br/>
+		<label class="blocktitle">Sign in</label> <br />
 		<form action="Home" method="post" name="signin">
 			<label>username</label> <input type="text" name="username" /> <label>password</label>
 			<input type="password" name="password" /> <input type="submit"
