@@ -1,7 +1,7 @@
 package org.fubme.servlets;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,11 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tomcat.util.http.fileupload.DiskFileUpload;
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.FileUpload;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.FileItem;
 import org.fubme.helper.Credentials;
 import org.fubme.models.User;
+import org.fubme.persistency.mappings.UserMapper;
 
 /**
  * Servlet implementation class FileImageUpload
@@ -73,39 +76,49 @@ public class FileImageUpload extends HttpServlet {
 
 			if (user != null) {
 				session.setAttribute("loggedUser", user);
-
-				FileUpload fup = new FileUpload();
-				boolean isMultipart = FileUpload.isMultipartContent(request);
+				boolean isMultipart = ServletFileUpload
+						.isMultipartContent(request);
 				if (isMultipart) {
-					DiskFileUpload upload = new DiskFileUpload();
-					// Parse the request
+					FileItemFactory factory = new DiskFileItemFactory();
+					ServletFileUpload upload = new ServletFileUpload(factory);
 					List items = upload.parseRequest(request);
-					Iterator iter = items.iterator();
-					while (iter.hasNext()) {
-						FileItem item = (FileItem) iter.next();
-						InputStream in = item.getInputStream();
-						int len = request.getContentLength();
-
-						byte[] dataBytes = new byte[len];
-						int index = in.read(dataBytes, 0, len);
-
-						response.setContentType("image/jpg");
-						response.setHeader("Content-Disposition",
-								"attachment; filename=\"image.jpg\"");
-
-						response.getOutputStream().write(dataBytes, 0, len);
-						response.getOutputStream().flush();
-
-						return;
+					Iterator iterator = items.iterator();
+					while (iterator.hasNext()) {
+						FileItem item = (FileItem) iterator.next();
+						if (!item.isFormField()) {
+							String fileName = item.getName();
+							String root = getServletContext().getRealPath("/");
+							File path = new File(root + "/uploads");
+							if (!path.exists()) {
+								boolean status = path.mkdirs();
+							}
+							String ext = fileName.substring(fileName.lastIndexOf(".")-1);
+							File uploadedFile = File.createTempFile(user.getId()+"-", ext, new File(path.getAbsolutePath()+"/"));
+							
+							String pathToImg = uploadedFile.getAbsolutePath();
+							item.write(uploadedFile);
+							UserMapper.updateImg(uploadedFile.getName(), user);
+							request.setAttribute("img", uploadedFile.getName());
+							RequestDispatcher view = request.getRequestDispatcher("settings.jsp");
+							view.forward(request, response);
+							return;
+						}
 					}
 				}
-				request.setAttribute("error", "You have to login first");
-				request.getRequestDispatcher("login.jsp").forward(request,
-						response);
-				return;
 
 			}
+			request.setAttribute("error", "You have to login first");
+			request.getRequestDispatcher("login.jsp")
+					.forward(request, response);
+			return;
+
+		} catch (FileUploadException e) {
+
+			e.printStackTrace();
+
 		} catch (Exception e) {
+
+			e.printStackTrace();
 
 		}
 

@@ -14,7 +14,7 @@
 	</div>
 	<div class="settingsblock">
 		<%
-			out.print("<form action=\""+ request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/ImageUpload");
+			out.print("<form action=\""+ request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/FileImageUpload");
 			out.print("\" enctype=\"multipart/form-data\" method=\"post\" >");
 		%>
 		<p><label class="blocktitle">Change profile picture :</label><br/>
@@ -23,6 +23,12 @@
 			
 		</p>
 		</form>
+		<div class="imagepreview" style="float:right">
+		<img alt="" src="<% 
+			String img = (String) request.getAttribute("img");
+			out.print(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/uploads/" + img);
+		%>">
+		</div>
 	</div>
 	<div class="settingsblock" style="height:230px">
 		

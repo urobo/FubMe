@@ -513,6 +513,47 @@ public abstract class UserMapper {
 		
 	}
 	
+	public static final String getPathToImg(User user){
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultset = null;
+		String sql = "select img from fuser where id = ?";
+		try {
+			connection = DBConnection.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, user.getId());
+			resultset = stmt.executeQuery();
+			String img = "";
+			if(resultset.next())img = resultset.getString("img");
+			return img;
+		} catch (SQLException ex) {
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			if (resultset != null) {
+				try {
+					resultset.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+	
 	public static final void updateLastName(String lastname, User user){
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -551,6 +592,45 @@ public abstract class UserMapper {
 			}
 		}
 		
+	}
+	
+	public static final void updateImg(String pathToImg, User user){
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet resultset = null;
+		String sql = "UPDATE fuser SET img = ? where id = ?";
+
+		try {
+			connection = DBConnection.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, pathToImg);
+			stmt.setString(2, user.getId());
+			stmt.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			if (resultset != null) {
+				try {
+					resultset.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	public static final void updateBirthDate(String birthdate, User user) throws ParseException{
