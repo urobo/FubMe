@@ -28,7 +28,7 @@
 		</div>
 		<div class="imagepreview"
 			style="float: right; margin-right: auto; padding: 5em">
-			<img alt=""
+				<img alt=""
 				src="<% 
 			String img = (String) request.getAttribute("img");
 			out.print(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/uploads/" + img);

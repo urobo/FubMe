@@ -1,13 +1,29 @@
+<%@page import="org.fubme.models.*"%>
 
 <div class="footer">
 	<hr />
 
 	<div class="links">
-		<a href=""> <img src="images/profile.png" alt="profile" />
-		</a> <a href=""> <img src="images/home.png" alt="home" />
-		</a> <a href=""> <img src="images/search.png" alt="search" />
-		</a> <a href=""> <img src="images/settings.png" alt="settings" />
-		</a>
+		<%
+									out.print("<a href= \""+ request.getScheme() +"://"+  request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Profile");                
+                    				if (session.getAttribute("loggedUser") != null)
+                                	  out.print("?user="+((User)session.getAttribute("loggedUser")).getId());
+                    				out.print("\">");
+                                  %>
+
+			<span class="links" >Profile</span> </a>
+
+			<% out.print("<a href= \""+ request.getScheme() +"://"+  request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Home\">"); %>
+
+			<span class="links" >Home</span> </a>
+
+			<% out.print("<a href= \""+ request.getScheme() +"://"+  request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Search\">"); %>
+
+			<span class="links" >Settings</span> </a>
+
+			<% out.print("<a href= \""+ request.getScheme() +"://"+  request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Settings\">"); %>
+
+			<span class="links" >Search</span> </a>
 	</div>
 </div>
 </body>

@@ -12,9 +12,9 @@
 
 	<form action="Search" method="post">
 		<input value="Search" name="searchtext" type="text"
-			style="font-family: Gotham Book, Gotham, sans-serif;" /> <input
+			style="font-family: 'Lucida Sans Unicode','Lucida Grande',Garuda,sans-serif;" /> <input
 			type="submit" name="searchbutton" value="Search"
-			style="font-family: Gotham Book, Gotham, sans-serif;" /><br /> <input
+			style="font-family: 'Lucida Sans Unicode','Lucida Grande',Garuda,sans-serif;" /><br /> <input
 			type="checkbox" name="people" value="people" checked="checked" />
 		people &nbsp;&nbsp; <input type="checkbox" name="tags" value="bytags"
 			checked="checked" /> by tags &nbsp;&nbsp; <input type="checkbox"

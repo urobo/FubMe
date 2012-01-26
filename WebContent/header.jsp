@@ -22,20 +22,19 @@
                     				out.print("\">");
                                   %>
 
-			<img src="images/profile.png" alt="profile" /> </a>
-
+			<span class="links" >Profile</span> </a>
 
 			<% out.print("<a href= \""+ request.getScheme() +"://"+  request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Home\">"); %>
 
-			<img src="images/home.png" alt="home" /> </a>
+			<span class="links" >Home</span> </a>
 
 			<% out.print("<a href= \""+ request.getScheme() +"://"+  request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Search\">"); %>
 
-			<img src="images/search.png" alt="search" /> </a>
+			<span class="links" >Settings</span> </a>
 
 			<% out.print("<a href= \""+ request.getScheme() +"://"+  request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Settings\">"); %>
 
-			<img src="images/settings.png" alt="settings" /> </a>
+			<span class="links" >Search</span> </a>
 		</div>
 
 	</div>

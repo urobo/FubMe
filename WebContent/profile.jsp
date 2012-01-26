@@ -23,7 +23,7 @@
 			</b>
 		</p>
 		<p>
-			<i style="font-family: 'Gotham Light Italic', Gotham, sans-serif">
+			<i style="font-family: 'Lucida Sans Unicode','Lucida Grande',Garuda,sans-serif;font-style: italic;">
 				<%
 					out.print(((User) request.getAttribute("info")).getBio());
 				%>

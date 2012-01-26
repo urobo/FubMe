@@ -1,28 +1,6 @@
-@font-face {
-	font-family: 'Gotham Book';
-	src: local('Gotham Book' ), url('Gotham-Book.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'Gotham Light';
-	src: local('Gotham Light' ), url('Gotham-Light.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'Gotham Light Italic';
-	src: local('Gotham Light Italic' ), url('Gotham-LightItalic.ttf')
-		format('truetype');
-	font-weight: normal;
-	font-style: italic;
-}
-
 body {
 	background-color: white;
-	font-family: "Gotham Book", Gotham, sans-serif;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Garuda, sans-serif;;
 	color: black;
 }
 
@@ -30,64 +8,68 @@ body {
 	color: #974107;
 }
 
-.noposts{
-	font-family: "Gotham Light Italic", Gotham, sans-serif;
+.postsresults {
+	width: 100%;
+}
+
+.noposts {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Garuda, sans-serif;
 	font-size: xx-large;
 	font-style: italic;
 	color: #D3C8CB;
 	text-align: center;
 }
 
-.settingsblock{
-	width:60%;
+.settingsblock {
+	width: 60%;
 	-moz-border-radius: 5px 5px 5px 5px;
 	border-radius: 5px 5px 5px 5px;
 	border: 1px solid #e86b17;
 	padding: 20px;
-	margin-left:auto;
-	margin-right:auto;
+	margin-left: auto;
+	margin-right: auto;
 	padding-left: 30px;
 	margin-top: 15px;
 	margin-bottom: 15px;
-	
 }
-.searchresult{
+
+.searchresult {
 	width: 75%;
-	margin-left:auto;
-	margin-right:auto;
+	margin-left: auto;
+	margin-right: auto;
 	margin-top: 15px;
-	margin-bottom: 15px;	
+	margin-bottom: 15px;
 }
 
-.blocktitle{
-	color:#974107;	
+.blocktitle {
+	color: #974107;
 }
 
-.settingsublock{
-	float:left;
-	width:45%;
-	color:black;
+.settingsublock {
+	float: left;
+	width: 45%;
+	color: black;
 }
 
 #canvas {
 	text-align: left;
-	font-size: 20px;
+	font-size: 1em;
 	width: 65%;
 	margin-left: 7%;
-	margin-bottom: 100px;
+	margin-bottom: 5em;
+	margin-top: 5em;
 }
 
 #error {
 	color: #de162e;
 	font-size: 20px;
-	width:100%;
+	width: 100%;
 }
 
 #search {
 	padding: 15px;
 	margin: 2px;
 	color: #a6754a;
-	
 	-moz-border-radius: 5px 5px 5px 5px;
 	border-radius: 5px 5px 5px 5px;
 	border: 1px solid #e86b17;
@@ -100,7 +82,7 @@ body {
 }
 
 #publish {
-	font-family: "Gotham Book", Gotham, sans-serif;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Garuda, sans-serif;
 	position: relative;
 	float: right;
 }
@@ -119,7 +101,7 @@ a {
 }
 
 .streamidentifier {
-	padding:0.5em;
+	padding: 0.5em;
 	background-color: #e86b17;
 	font-weight: bold;
 	color: white;
@@ -131,15 +113,27 @@ a {
 }
 
 .header {
+	width: 100%;
+	margin-bottom: 1em;
 	color: white;
 	background-color: #e86b17;
 }
 
 .links {
+	padding: 1em;
 	text-align: left;
-	font-size: 20px;
-	color: white;
+	font-size: 1.2em;
 	background-color: #e86b17;
+	text-decoration: none;
+}
+
+span.links {
+	background-color: #974107;
+	color: white;
+	padding: 0.5em; -webkit-border-radius : 0.2em;
+	-moz-border-radius: 0.2em;
+	border-radius: 0.2em;
+	-webkit-border-radius: 0.2em;
 }
 
 .title {
@@ -153,9 +147,8 @@ label {
 }
 
 .footer {
-	position:fixed;
-	bottom:0px;
-	width:100%;
+	bottom: 0px;
+	width: 100%;
 }
 
 .rightcolumn {
@@ -167,7 +160,6 @@ label {
 	border: 1px solid #e86b17;
 	margin: 10px;
 	height: 85%;
-
 }
 
 .post {
@@ -183,7 +175,7 @@ label {
 }
 
 .hint {
-	font-family: "Gotham Light Italic", Gotham, sans-serif;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Garuda, sans-serif;
 	font-size: x-small;
 	font-style: italic;
 	color: #974107;
@@ -228,7 +220,7 @@ label {
 }
 
 #tags {
-	font-family: "Gotham Light", Gotham, sans-serif;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Garuda, sans-serif;
 	font-size: medium;
 	color: #974107;
 }
@@ -279,7 +271,7 @@ label {
 }
 
 .linkbutton {
-	font-family: "Gotham Light", Gotham, sans-serif;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Garuda, sans-serif;
 	border-style: none;
 	background-color: white;
 	color: #974107;
@@ -309,12 +301,12 @@ label {
 }
 
 .stream {
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+	-webkit-border-radius: 0.5em;
+	-moz-border-radius: 0.5em;
+	border-radius: 0.5em;
 	background-color: #d3c8cb;
-	padding-top: 15px;
-	padding-bottom: 15px;
+	padding-top: 1em;
+	padding-bottom: 1em;
 }
 
 ul {
@@ -328,7 +320,7 @@ hr {
 }
 
 b {
-	font-family: "Gotham Bold", Gotham, sans-serif;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Garuda, sans-serif;
 	font-weight: bold;
 	color: #e86b17
 }
@@ -379,5 +371,5 @@ button::-moz-focus-inner {
 }
 
 textarea {
-	font-family: "Gotham Light", Gotham, sans-serif;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Garuda, sans-serif;
 }
