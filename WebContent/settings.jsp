@@ -12,7 +12,7 @@
                   			}
                   			%>
 	</div>
-	<div class="settingsblock" style="height: 200px">
+	<div class="settingsblock" style="height: 14em">
 		<div style="float: left">
 			<%
 			out.print("<form action=\""+ request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/FileImageUpload");
@@ -27,7 +27,7 @@
 			</form>
 		</div>
 		<div class="imagepreview"
-			style="float: right; margin-right: auto; padding: 60px">
+			style="float: right; margin-right: auto; padding: 5em">
 			<img alt=""
 				src="<% 
 			String img = (String) request.getAttribute("img");
@@ -36,7 +36,7 @@
 				height="80px" width="80px">
 		</div>
 	</div>
-	<div class="settingsblock" style="height: 230px">
+	<div class="settingsblock" style="height: 14em">
 
 		<%
 			out.print("<form action=\""+ request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Action?action=updateinfo");
@@ -55,7 +55,7 @@
 			<input type="submit" value="Save" name="updateinfo" />
 
 		</div>
-		<div class="settingsublock" style="margin-left: 20px">
+		<div class="settingsublock" style="margin-left: 1em">
 			<p>
 				<label style="color: #974107">Change Email :</label> <br />
 				<label>old email</label> <input type="text" name="oldemail" /> <label>new
@@ -67,7 +67,7 @@
 		</form>
 	</div>
 
-	<div class="settingsblock" style="height: 265px">
+	<div class="settingsblock" style="height: 14em">
 		<%
 				out.print("<form action=\""+ request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Action?action=updatedetails");
 				out.print("\" method=\"post\" >");
@@ -86,7 +86,7 @@
 		<div class="settingsublock">
 			<p>
 				<br /> <label>bio</label>
-				<textarea name="bio" cols="80" rows="6"></textarea>
+				<textarea name="bio" cols="50" rows="6" style="width:60%"></textarea>
 			</p>
 
 		</div>

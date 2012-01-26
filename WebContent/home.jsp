@@ -27,7 +27,7 @@
 		%>
 	</div>
 
-	<div id="timeline">Timeline</div>
+	<div class="streamidentifier"><span>Timeline</span></div>
 
 	<ul class="stream">
 		<%

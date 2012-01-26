@@ -114,7 +114,7 @@
 		}
 	%>
 
-	<div class="rounded" id="posts">Posts</div>
+	<div class="streamidentifier"><span>Posts</span></div>
 
 	<ul class="stream">
 		<%
