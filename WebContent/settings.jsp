@@ -12,7 +12,7 @@
                   			}
                   			%>
 	</div>
-	<div class="settingsblock" style="height: 14em">
+	<div class="settingsblock" style="height: 10em">
 		<div style="float: left">
 			<%
 			out.print("<form action=\""+ request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/FileImageUpload");
@@ -36,7 +36,7 @@
 				height="80px" width="80px">
 		</div>
 	</div>
-	<div class="settingsblock" style="height: 14em">
+	<div class="settingsblock" style="height: 20em">
 
 		<%
 			out.print("<form action=\""+ request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Action?action=updateinfo");
@@ -67,7 +67,7 @@
 		</form>
 	</div>
 
-	<div class="settingsblock" style="height: 14em">
+	<div class="settingsblock" style="height: 20em">
 		<%
 				out.print("<form action=\""+ request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Action?action=updatedetails");
 				out.print("\" method=\"post\" >");

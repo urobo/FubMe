@@ -30,11 +30,15 @@
 
 			<% out.print("<a href= \""+ request.getScheme() +"://"+  request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Search\">"); %>
 
-			<span class="links" >Settings</span> </a>
+			<span class="links" >Search</span> </a>
 
 			<% out.print("<a href= \""+ request.getScheme() +"://"+  request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Settings\">"); %>
 
-			<span class="links" >Search</span> </a>
+			<span class="links" >Settings</span> </a>
+			
+			<% out.print("<a href= \""+ request.getScheme() +"://"+  request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/Action?action=logmeout\">"); %>
+
+			<span class="links" >Log out</span> </a>
 		</div>
 
 	</div>

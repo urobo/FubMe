@@ -1,5 +1,25 @@
-<jsp:include page="/header.jsp" />
-<div class="box">
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<%@page import="org.fubme.models.*"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Login on FubMe</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet" type="text/css" href="fubme.css" />
+<link rel="icon" href="images/fubme.png" type="image/png" />
+
+</head>
+
+<body>
+	<div class="header">
+		<div class="links">
+		<span class="links">Welcome on FubMe</span>
+	</div></div>
+	<hr />
+	<div class="box" style="margin-bottom:8em">
+	
+
 	<div id="error">
 		<% 
                   			Object error = request.getAttribute("error");
@@ -32,4 +52,9 @@
 	</div>
 
 </div>
-<jsp:include page="/footer.jsp" />
+<hr />
+<div class="footer" style="height:3em;">
+	<div class="links"></div>
+</div>
+</body>
+</html>

@@ -52,7 +52,15 @@ public class Action extends HttpServlet {
 
 		} else if (action.equals("unfollows")) {
 
-		} else if (action.equals("updateinfo")) {
+		} else if (action.equals("logmeout")){
+			Cookie[] cookies = request.getCookies();
+			for (int i = 0 ; i < cookies.length ; i++)
+				cookies[i].setMaxAge(0);
+			request.getSession().invalidate();
+			RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+			view.forward(request, response);
+			return;
+		}else if (action.equals("updateinfo")) {
 			try {
 				String oldPswd = request.getParameter("oldpassword");
 				String newPswd = request.getParameter("newpassword");
