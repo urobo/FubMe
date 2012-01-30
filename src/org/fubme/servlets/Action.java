@@ -49,14 +49,22 @@ public class Action extends HttpServlet {
 		} else if (action.equals("reports")) {
 
 		} else if (action.equals("follows")) {
-
+			String follow = request.getParameter("follow");
+			UserMapper.follows((User)request.getSession().getAttribute("loggedUser"),new User(follow,null));
 		} else if (action.equals("unfollows")) {
-
+			String unfollow = request.getParameter("unfollow");
+			UserMapper.unfollows((User)request.getSession().getAttribute("loggedUser"),new User(unfollow,null));
 		} else if (action.equals("logmeout")){
-			Cookie[] cookies = request.getCookies();
-			for (int i = 0 ; i < cookies.length ; i++)
-				cookies[i].setMaxAge(0);
+			Cookie userNameCookie = new Cookie("username", null);
+			Cookie passwordCookie = new Cookie("password", null);
+			userNameCookie.setMaxAge(0);
+			passwordCookie.setMaxAge(0);
+			userNameCookie.setPath("/");
+			passwordCookie.setPath("/");
+			response.addCookie(userNameCookie);
+			response.addCookie(passwordCookie);
 			request.getSession().invalidate();
+			request.getSession(false);
 			RequestDispatcher view = request.getRequestDispatcher("login.jsp");
 			view.forward(request, response);
 			return;
