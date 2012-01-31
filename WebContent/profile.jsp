@@ -10,12 +10,46 @@
 <div class="rightcolumn">
 	<div id="bio">
 		<img
-			src="<%User user = new User(request.getParameter("user"),null);
+			src="<%User user = new User(request.getParameter("user"), null);
 			String img = UserMapper.getPathToImg(user);
 			out.print(request.getScheme() + "://" + request.getServerName()
 					+ ":" + request.getServerPort() + request.getContextPath()
 					+ "/uploads/" + img);%>"
 			height="80px" width="80px" alt="profile picture" />
+
+
+		<%
+			if (!((User) request.getSession().getAttribute("loggedUser"))
+					.getId().equals(user.getId())) {
+				out.print("<div class=\"action\">");
+				out.print("<a href=\"");
+				boolean follow = false;
+				if (UserMapper.isfollowing((User) request.getSession()
+						.getAttribute("loggedUser"), user)) {
+					out.print(request.getScheme() + "://"
+							+ request.getServerName() + ":"
+							+ request.getServerPort()
+							+ request.getContextPath()
+							+ "/Action?action=unfollows&amp;unfollows="
+							+ user.getId());
+					follow = true;
+				} else {
+					out.print(request.getScheme() + "://"
+							+ request.getServerName() + ":"
+							+ request.getServerPort()
+							+ request.getContextPath()
+							+ "/Action?action=follows&amp;follows="
+							+ user.getId());
+				}
+				out.print("\"><span class=\"action\">");
+				if (follow)
+					out.print("-");
+				else
+					out.print("+");
+				out.print("</span></a></div>");
+			}
+		%>
+
 		<p>
 			<b> <%
  	out.print(((User) request.getAttribute("info")).getId());
@@ -23,7 +57,8 @@
 			</b>
 		</p>
 		<p>
-			<i style="font-family: 'Lucida Sans Unicode','Lucida Grande',Garuda,sans-serif;font-style: italic;">
+			<i
+				style="font-family: 'Lucida Sans Unicode', 'Lucida Grande', Garuda, sans-serif; font-style: italic;">
 				<%
 					out.print(((User) request.getAttribute("info")).getBio());
 				%>
@@ -67,7 +102,7 @@
 							.getAttribute("following");
 					for (int i = 0; i < following.size(); i++) {
 						//String tmp = UserMapper.getPathToImg(following.get(i));
-						
+
 						out.print("<li> <a class = \"author\" href=\""
 								+ request.getScheme() + "://"
 								+ request.getServerName() + ":"
@@ -114,7 +149,9 @@
 		}
 	%>
 
-	<div class="streamidentifier"><span>Posts</span></div>
+	<div class="streamidentifier">
+		<span>Posts</span>
+	</div>
 
 	<ul class="stream">
 		<%

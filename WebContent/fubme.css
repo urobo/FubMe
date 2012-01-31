@@ -127,6 +127,23 @@ a {
 	text-decoration: none;
 }
 
+span.action{
+	font-size: 4em;
+	text-decoration:none;
+	text-align:center;
+	color:white;
+
+	padding-left:0.5em;
+	padding-right:0.5em;
+}	
+
+.action{
+	float:right;
+	background-color:#e86b17;
+	-moz-border-radius: 0.2em;
+	border-radius: 0.2em;
+	-webkit-border-radius: 0.2em;
+}
 span.links {
 	background-color: #974107;
 	color: white;

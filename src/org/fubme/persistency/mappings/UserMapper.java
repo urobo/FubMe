@@ -147,11 +147,52 @@ public abstract class UserMapper {
 			}
 		}
 	}
-
+	
+	public static final boolean isfollowing (User follower, User sfollowing){
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		String sql = "SELECT * from luser_follows_luser where luser_id_follower = ? and luser_id_followed = ?";
+		ResultSet result = null;
+		try {
+			connection = DBConnection.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, follower.getId());
+			stmt.setString(2, sfollowing.getId());
+			result = stmt.executeQuery();
+			if (result.next())return true;
+			
+		} catch (SQLException ex) {
+			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			if (result != null) {
+				try {
+					result.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return false;
+	}
+	
 	public static final void unfollows(User follower, User toBeUnfollowed) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
-		String sql = "DELETE FROM luser_follows_luser where luser_id_follower = ? and luser_id_followed = ?)";
+		String sql = "DELETE FROM luser_follows_luser where luser_id_follower = ? and luser_id_followed = ?";
 		try {
 			connection = DBConnection.getConnection();
 			stmt = connection.prepareStatement(sql);
@@ -168,7 +209,6 @@ public abstract class UserMapper {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-
 			if (connection != null) {
 				try {
 					connection.close();
@@ -184,13 +224,13 @@ public abstract class UserMapper {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		String sql = "SELECT * from luser_lists_luser where id = ? and luser_id_listed = ?";
-
+		ResultSet rList = null;
 		try {
 			connection = DBConnection.getConnection();
 			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, list.getId());
 			stmt.setString(2, toBeAdded.getId());
-			ResultSet rList = stmt.executeQuery();
+			rList = stmt.executeQuery();
 			if (!rList.next()) {
 				sql = "INSERT INTO luser_lists_luser (id, luser_id_list_owner,luser_id_listed) VALUES ( ?, ?, ? )";
 				stmt.close();
@@ -210,7 +250,13 @@ public abstract class UserMapper {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-
+			if (rList != null) {
+				try {
+					rList.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 			if (connection != null) {
 				try {
 					connection.close();

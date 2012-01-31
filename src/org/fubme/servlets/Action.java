@@ -49,11 +49,11 @@ public class Action extends HttpServlet {
 		} else if (action.equals("reports")) {
 
 		} else if (action.equals("follows")) {
-			String follow = request.getParameter("follow");
-			UserMapper.follows((User)request.getSession().getAttribute("loggedUser"),new User(follow,null));
+			String follow = request.getParameter("follows");
+			UserMapper.follows(user,new User(follow,null));
 		} else if (action.equals("unfollows")) {
-			String unfollow = request.getParameter("unfollow");
-			UserMapper.unfollows((User)request.getSession().getAttribute("loggedUser"),new User(unfollow,null));
+			String unfollow = request.getParameter("unfollows");
+			UserMapper.unfollows(user,new User(unfollow,null));
 		} else if (action.equals("logmeout")){
 			Cookie userNameCookie = new Cookie("username", null);
 			Cookie passwordCookie = new Cookie("password", null);

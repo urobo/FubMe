@@ -12,10 +12,10 @@
 
 	<form action="Search" method="post">
 		<input value="Search" name="searchtext" type="text"
-			style="font-family: 'Lucida Sans Unicode','Lucida Grande',Garuda,sans-serif;" /> <input
-			type="submit" name="searchbutton" value="Search"
-			style="font-family: 'Lucida Sans Unicode','Lucida Grande',Garuda,sans-serif;" /><br /> <input
-			type="checkbox" name="people" value="people" checked="checked" />
+			style="font-family: 'Lucida Sans Unicode', 'Lucida Grande', Garuda, sans-serif;" />
+		<input type="submit" name="searchbutton" value="Search"
+			style="font-family: 'Lucida Sans Unicode', 'Lucida Grande', Garuda, sans-serif;" /><br />
+		<input type="checkbox" name="people" value="people" checked="checked" />
 		people &nbsp;&nbsp; <input type="checkbox" name="tags" value="bytags"
 			checked="checked" /> by tags &nbsp;&nbsp; <input type="checkbox"
 			name="posts" value="posted_content" checked="checked" /> posts'
@@ -24,7 +24,9 @@
 
 </div>
 <div class="searchresults">
-	<div class="streamidentifier"><span>People</span></div>
+	<div class="streamidentifier">
+		<span>People</span>
+	</div>
 	<div class="peopleresults">
 		<ul>
 			<%
@@ -48,13 +50,44 @@
 							out.print(people.get(i).getBio());
 						out.print("</i><div class=\"misc_buttons\">");
 						//FIXME img as link to action follow passing user as parameter
-						out.print("<button class=\"rounded\" id=\"action_follow_urobo\" type = \"submit\" name= \"action_follow_urobo\"><span>+</span></button></div></div></li>");
+						if (!((User) request.getSession()
+								.getAttribute("loggedUser")).getId().equals(
+								people.get(i).getId())) {
+							out.print("<div class=\"action\">");
+							out.print("<a href=\"");
+							boolean follow = false;
+							if (UserMapper.isfollowing((User) request.getSession()
+									.getAttribute("loggedUser"), people.get(i))) {
+								out.print(request.getScheme() + "://"
+										+ request.getServerName() + ":"
+										+ request.getServerPort()
+										+ request.getContextPath()
+										+ "/Action?action=unfollows&amp;unfollows="
+										+ people.get(i).getId());
+								follow = true;
+							} else {
+								out.print(request.getScheme() + "://"
+										+ request.getServerName() + ":"
+										+ request.getServerPort()
+										+ request.getContextPath()
+										+ "/Action?action=follows&amp;follows="
+										+ people.get(i).getId());
+							}
+							out.print("\"><span class=\"action\">");
+							if (follow)
+								out.print("-");
+							else
+								out.print("+");
+							out.print("</span></a></div>");
+						}
 					}
 				}
 			%>
 		</ul>
 	</div>
-	<div class="streamidentifier"><span>Posts</span></div>
+	<div class="streamidentifier">
+		<span>Posts</span>
+	</div>
 	<div class="postsresults">
 		<ul>
 			<%
