@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.FileItem;
 import org.fubme.helper.Credentials;
 import org.fubme.models.User;
 import org.fubme.persistency.mappings.UserMapper;
@@ -92,14 +92,18 @@ public class FileImageUpload extends HttpServlet {
 							if (!path.exists()) {
 								boolean status = path.mkdirs();
 							}
-							String ext = fileName.substring(fileName.lastIndexOf(".")-1);
-							File uploadedFile = File.createTempFile(user.getId()+"-", ext, new File(path.getAbsolutePath()+"/"));
-							
+							String ext = fileName.substring(fileName
+									.lastIndexOf(".") - 1);
+							File uploadedFile = File.createTempFile(
+									user.getId() + "-", ext,
+									new File(path.getAbsolutePath() + "/"));
+
 							String pathToImg = uploadedFile.getAbsolutePath();
 							item.write(uploadedFile);
 							UserMapper.updateImg(uploadedFile.getName(), user);
 							request.setAttribute("img", uploadedFile.getName());
-							RequestDispatcher view = request.getRequestDispatcher("settings.jsp");
+							RequestDispatcher view = request
+									.getRequestDispatcher("settings.jsp");
 							view.forward(request, response);
 							return;
 						}

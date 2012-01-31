@@ -36,47 +36,46 @@ public class Profile extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
+
 		User user = null;
 		Cookie[] cookies = request.getCookies();
 		String username = null;
 		String password = null;
-		for (int i = 0 ; i < cookies.length ; i++){
+		for (int i = 0; i < cookies.length; i++) {
 			if (cookies[i].getName().equals("username"))
 				username = cookies[i].getValue();
 			if (cookies[i].getName().equals("password"))
 				password = cookies[i].getValue();
 		}
 		user = Credentials.validateUserCredentials(username, password);
-		if (user != null){
-				HttpSession session = request.getSession();
-				if (session == null)
-					session = request.getSession(true);
-				User tmp = (User)request.getSession().getAttribute("loggedUser");
-				if (tmp == null)
-					session.setAttribute("loggedUser", user);
-				String profileRequested = request.getParameter("user");
-				User requested = new User(profileRequested, null);
-				List<User> followers = UserMapper.getFollowers(requested);
-				List<User> following = UserMapper.getFollowing(requested);
-				List<org.fubme.models.Post> posts  = TimelineManager.getProfileForUser(requested, 25); 
-				User info = UserMapper.getUserInfo(requested);
-				request.setAttribute("followers", followers);
-				request.setAttribute("following", following);
-				request.setAttribute("posts", posts);
-				request.setAttribute("info", info);
-				request.getRequestDispatcher("profile.jsp").forward(request,
-						response);
-				return;
-			
-			
+		if (user != null) {
+			HttpSession session = request.getSession();
+			if (session == null)
+				session = request.getSession(true);
+			User tmp = (User) request.getSession().getAttribute("loggedUser");
+			if (tmp == null)
+				session.setAttribute("loggedUser", user);
+			String profileRequested = request.getParameter("user");
+			User requested = new User(profileRequested, null);
+			List<User> followers = UserMapper.getFollowers(requested);
+			List<User> following = UserMapper.getFollowing(requested);
+			List<org.fubme.models.Post> posts = TimelineManager
+					.getProfileForUser(requested, 25);
+			User info = UserMapper.getUserInfo(requested);
+			request.setAttribute("followers", followers);
+			request.setAttribute("following", following);
+			request.setAttribute("posts", posts);
+			request.setAttribute("info", info);
+			request.getRequestDispatcher("profile.jsp").forward(request,
+					response);
+			return;
+
 		}
 		request.setAttribute("Error", "Invalid Credentials! Try again");
 		RequestDispatcher view = request.getRequestDispatcher("login.jsp");
 		view.forward(request, response);
 		return;
-			
-		
+
 	}
 
 	/**

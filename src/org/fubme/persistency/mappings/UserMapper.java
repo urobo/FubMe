@@ -74,15 +74,16 @@ public abstract class UserMapper {
 	}
 
 	public static final String checkUserData(String attribute, String value) {
-		
+
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "SELECT "+attribute+" FROM fuser where "+attribute+" = ?";
+		String sql = "SELECT " + attribute + " FROM fuser where " + attribute
+				+ " = ?";
 		try {
 			connection = DBConnection.getConnection();
 			stmt = connection.prepareStatement(sql);
-			
+
 			stmt.setString(1, value);
 			resultset = stmt.executeQuery();
 			System.out.println(attribute + "\t" + value);
@@ -147,8 +148,8 @@ public abstract class UserMapper {
 			}
 		}
 	}
-	
-	public static final boolean isfollowing (User follower, User sfollowing){
+
+	public static final boolean isfollowing(User follower, User sfollowing) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		String sql = "SELECT * from luser_follows_luser where luser_id_follower = ? and luser_id_followed = ?";
@@ -159,8 +160,9 @@ public abstract class UserMapper {
 			stmt.setString(1, follower.getId());
 			stmt.setString(2, sfollowing.getId());
 			result = stmt.executeQuery();
-			if (result.next())return true;
-			
+			if (result.next())
+				return true;
+
 		} catch (SQLException ex) {
 			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
 					null, ex);
@@ -188,7 +190,7 @@ public abstract class UserMapper {
 		}
 		return false;
 	}
-	
+
 	public static final void unfollows(User follower, User toBeUnfollowed) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -401,8 +403,8 @@ public abstract class UserMapper {
 		}
 		return null;
 	}
-	
-	public static final void updatePassword(String password, User user){
+
+	public static final void updatePassword(String password, User user) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
@@ -440,8 +442,8 @@ public abstract class UserMapper {
 			}
 		}
 	}
-	
-	public static final void updateEmail(String email, User user){
+
+	public static final void updateEmail(String email, User user) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
@@ -479,8 +481,8 @@ public abstract class UserMapper {
 			}
 		}
 	}
-	
-	public static final void updateBio(String bio, User user){
+
+	public static final void updateBio(String bio, User user) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
@@ -518,8 +520,8 @@ public abstract class UserMapper {
 			}
 		}
 	}
-	
-	public static final void updateFirstName(String firstname, User user){
+
+	public static final void updateFirstName(String firstname, User user) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
@@ -556,10 +558,10 @@ public abstract class UserMapper {
 				}
 			}
 		}
-		
+
 	}
-	
-	public static final String getPathToImg(User user){
+
+	public static final String getPathToImg(User user) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
@@ -570,7 +572,8 @@ public abstract class UserMapper {
 			stmt.setString(1, user.getId());
 			resultset = stmt.executeQuery();
 			String img = "";
-			if(resultset.next())img = resultset.getString("img");
+			if (resultset.next())
+				img = resultset.getString("img");
 			return img;
 		} catch (SQLException ex) {
 			Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE,
@@ -599,8 +602,8 @@ public abstract class UserMapper {
 		}
 		return null;
 	}
-	
-	public static final void updateLastName(String lastname, User user){
+
+	public static final void updateLastName(String lastname, User user) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
@@ -637,10 +640,10 @@ public abstract class UserMapper {
 				}
 			}
 		}
-		
+
 	}
-	
-	public static final void updateImg(String pathToImg, User user){
+
+	public static final void updateImg(String pathToImg, User user) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
@@ -678,8 +681,9 @@ public abstract class UserMapper {
 			}
 		}
 	}
-	
-	public static final void updateBirthDate(String birthdate, User user) throws ParseException{
+
+	public static final void updateBirthDate(String birthdate, User user)
+			throws ParseException {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
@@ -718,6 +722,6 @@ public abstract class UserMapper {
 				}
 			}
 		}
-		
+
 	}
 }

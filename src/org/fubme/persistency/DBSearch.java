@@ -19,10 +19,10 @@ import org.fubme.persistency.mappings.UserMapper;
 
 /**
  * @author riccardo
- *
+ * 
  */
 public abstract class DBSearch {
-	public static final List<Post> searchPost(String keyword){
+	public static final List<Post> searchPost(String keyword) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
@@ -34,13 +34,11 @@ public abstract class DBSearch {
 			stmt.setString(1, "%" + keyword + "%");
 			resultset = stmt.executeQuery();
 			while (resultset.next()) {
-				result.add(PostFactory.getPost(
-						resultset.getTimestamp("ptime"),
-						resultset.getInt("id"), 
+				result.add(PostFactory.getPost(resultset.getTimestamp("ptime"),
+						resultset.getInt("id"),
 						resultset.getString("luser_id"),
-						resultset.getString("body"), 
-						null,
-						resultset.getString("mime")));				
+						resultset.getString("body"), null,
+						resultset.getString("mime")));
 			}
 			return result;
 		} catch (SQLException ex) {
@@ -70,8 +68,8 @@ public abstract class DBSearch {
 		}
 		return null;
 	}
-	
-	public static final List<User> searchPeople(String keyword){
+
+	public static final List<User> searchPeople(String keyword) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
@@ -84,11 +82,11 @@ public abstract class DBSearch {
 			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				result.add(new User(resultset.getString("id"), null, null,
-						resultset.getString("bio"),
-						resultset.getString("firstname"),
-						resultset.getString("lastname"),
-						resultset.getTimestamp("birthdate"),
-						resultset.getString("location")));
+						resultset.getString("bio"), resultset
+								.getString("firstname"), resultset
+								.getString("lastname"), resultset
+								.getTimestamp("birthdate"), resultset
+								.getString("location")));
 			}
 			return result;
 		} catch (SQLException ex) {

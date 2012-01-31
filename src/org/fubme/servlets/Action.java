@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.fubme.factories.PostFactory;
+import org.fubme.factories.ReportFactory;
 import org.fubme.helper.Credentials;
 import org.fubme.models.Comment;
+import org.fubme.models.Report;
 import org.fubme.models.User;
 import org.fubme.persistency.mappings.CommentMapper;
 import org.fubme.persistency.mappings.PostMapper;
@@ -47,14 +49,21 @@ public class Action extends HttpServlet {
 					Integer.parseInt(post_id), null, null, null,
 					org.fubme.models.Post.TEXT));
 		} else if (action.equals("reports")) {
-
+			String post_id = request.getParameter("post_id");
+			String wd_id = request.getParameter("wd_id");
+			String wb_id = request.getParameter("wb_id");
+			String category = request.getParameter("category");
+			String reason = request.getParameter("reason");
+			Report report = ReportFactory.getReport(Integer.parseInt(post_id),
+					wb_id, wd_id, category, reason);
+			PostMapper.reportPost(report);
 		} else if (action.equals("follows")) {
 			String follow = request.getParameter("follows");
-			UserMapper.follows(user,new User(follow,null));
+			UserMapper.follows(user, new User(follow, null));
 		} else if (action.equals("unfollows")) {
 			String unfollow = request.getParameter("unfollows");
-			UserMapper.unfollows(user,new User(unfollow,null));
-		} else if (action.equals("logmeout")){
+			UserMapper.unfollows(user, new User(unfollow, null));
+		} else if (action.equals("logmeout")) {
 			Cookie userNameCookie = new Cookie("username", null);
 			Cookie passwordCookie = new Cookie("password", null);
 			userNameCookie.setMaxAge(0);
@@ -68,7 +77,7 @@ public class Action extends HttpServlet {
 			RequestDispatcher view = request.getRequestDispatcher("login.jsp");
 			view.forward(request, response);
 			return;
-		}else if (action.equals("updateinfo")) {
+		} else if (action.equals("updateinfo")) {
 			try {
 				String oldPswd = request.getParameter("oldpassword");
 				String newPswd = request.getParameter("newpassword");
@@ -135,7 +144,8 @@ public class Action extends HttpServlet {
 				try {
 					UserMapper.updateBirthDate(birthdate, user);
 				} catch (ParseException e) {
-					request.setAttribute("error", "You provided a malformed date please follow this rule \"(yyyy/MM/dd)\"");
+					request.setAttribute("error",
+							"You provided a malformed date please follow this rule \"(yyyy/MM/dd)\"");
 					RequestDispatcher view = request
 							.getRequestDispatcher("settings.jsp");
 					view.forward(request, response);

@@ -12,6 +12,33 @@ body {
 	width: 100%;
 }
 
+.report{
+	height:19em;
+	background-color:white;
+	-moz-border-radius: 0.2em;
+	border-radius: 0.2em;
+	-webkit-border-radius: 0.2em;	
+	border: 0.1em solid #e86b17;
+	
+}
+
+span.report{
+	color:red;
+	border:none;
+	margin-top: 1em;
+	margin-left:1.5em;
+}
+
+p.reportblock{
+	float:left;
+	margin:1em;
+	padding:1em;
+}
+
+span.reportblock{
+	color: #974107;
+}
+
 .noposts {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Garuda, sans-serif;
 	font-size: xx-large;
@@ -78,7 +105,7 @@ body {
 #status {
 	width: 100%;
 	font-size: 20px;
-	text-align: left
+	text-align: left;
 }
 
 #publish {
@@ -89,11 +116,11 @@ body {
 
 #instant {
 	width: 100%;
-	padding: 5px;
+	padding: 0.5em;
 	border: none;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: 50px;
+	margin-bottom: 4em;
 }
 
 a {
@@ -107,9 +134,10 @@ a {
 	color: white;
 	text-align: center;
 	width: auto;
-	-moz-border-radius: 5px 5px 5px 5px;
-	border-radius: 5px 5px 5px 5px;
-	border: 1px solid #e86b17;
+	font-size:1.5em;
+	-moz-border-radius: 0.2em 0.2em 0.2em 0.2em;
+	border-radius: 0.2em 0.2em 0.2em 0.2em;
+	border: 0.1em solid #e86b17;
 }
 
 .header {
@@ -181,8 +209,10 @@ label {
 
 .post {
 	width: 90%;
-	padding: 15px;
-	margin: 15px;
+	padding: 1em;
+	margin: 1em;
+	margin-left:auto;
+	margin-right:auto;
 	background-color: white;
 	text-align: left;
 	font-size: 18px;

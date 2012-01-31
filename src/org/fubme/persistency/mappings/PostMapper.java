@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.fubme.models.Post;
+import org.fubme.models.Report;
 import org.fubme.models.User;
 import org.fubme.persistency.DBConnection;
 
@@ -125,4 +126,40 @@ public abstract class PostMapper {
 			}
 		}
 	}
+
+	public static final void reportPost(Report report) {
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		String sql = "INSERT INTO luser_reports_post (post_id,whistleblower_id,wrongdoing_id,category,reason) VALUES (?,?,?,?,?)";
+		try {
+			connection = DBConnection.getConnection();
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, report.getPostId());
+			stmt.setString(2, report.getWhistleblowerId());
+			stmt.setString(3, report.getWrongdoingId());
+			stmt.setString(4, report.getCategory());
+			stmt.setString(5, report.getReason());
+			stmt.executeUpdate();
+		} catch (SQLException ex) {
+			Logger.getLogger(PostMapper.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} finally {
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
 }

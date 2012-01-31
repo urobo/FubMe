@@ -50,7 +50,22 @@
 						userTmp.setId(post.getUser_id());
 						String imgTmp = UserMapper.getPathToImg(userTmp); 
 						//FIXME
-						out.print("<li><div class=\"post\"><div class=\"postimage\"><img src=\""
+						out.print("<li><div class=\"post\">");
+						if(!((User)request.getSession().getAttribute("loggedUser")).getId().equals(post.getUser_id())){
+							out.print("<a href=\"");
+						
+							out.print(request.getScheme()
+								+ "://"
+								+ request.getServerName()
+								+ ":"
+								+ request.getServerPort()
+								+ request.getContextPath()
+								+ "/Post?id="
+								+ post.getId());
+							out.print("\" style=\"float:right\"><span class=\"report\" style=\"font-wright:italic;\">");
+							out.print("report</span></a>");
+						}
+						out.print("<div class=\"postimage\"><img src=\""
 								+ request.getScheme()
 								+ "://"
 								+ request.getServerName()

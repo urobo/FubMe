@@ -37,30 +37,29 @@ public class Settings extends HttpServlet {
 		Cookie[] cookies = request.getCookies();
 		String username = null;
 		String password = null;
-		for (int i = 0 ; i < cookies.length ; i++){
+		for (int i = 0; i < cookies.length; i++) {
 			if (cookies[i].getName().equals("username"))
 				username = cookies[i].getValue();
 			if (cookies[i].getName().equals("password"))
 				password = cookies[i].getValue();
 		}
 		user = Credentials.validateUserCredentials(username, password);
-		if (user != null){
-				HttpSession session = request.getSession();
-				if (session == null)
-					session = request.getSession(true);
-				User tmp = (User)request.getSession().getAttribute("loggedUser");
-				if (tmp == null)
-					session.setAttribute("loggedUser", user);
-			
+		if (user != null) {
+			HttpSession session = request.getSession();
+			if (session == null)
+				session = request.getSession(true);
+			User tmp = (User) request.getSession().getAttribute("loggedUser");
+			if (tmp == null)
+				session.setAttribute("loggedUser", user);
+
 			String pathToImg = UserMapper.getPathToImg(user);
 			request.setAttribute("img", pathToImg);
 			request.getRequestDispatcher("settings.jsp").forward(request,
 					response);
 			return;
-			
+
 		}
-		request.getRequestDispatcher("login.jsp")
-		.forward(request, response);
+		request.getRequestDispatcher("login.jsp").forward(request, response);
 		return;
 	}
 
