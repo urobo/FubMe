@@ -65,8 +65,7 @@
 			</i>
 		</p>
 	</div>
-	<div class=""></div>
-	<div class="contacts" id="followers">
+	<div class="contacts">
 		<p>
 			<b>Followers</b>
 		</p>
@@ -77,20 +76,19 @@
 					List<User> followers = (List<User>) request
 							.getAttribute("followers");
 					for (int i = 0; i < followers.size(); i++) {
-						out.print("<li><div class=\"author\"> <a href=\""
+						out.print("<li class=\"contacts\"> <a class = \"author\" href=\""
 								+ request.getScheme() + "://"
 								+ request.getServerName() + ":"
 								+ request.getServerPort()
 								+ request.getContextPath() + "/Profile?user="
 								+ followers.get(i).getId() + "\">"
-								+ followers.get(i).getId() + "</a></div></li>");
+								+ followers.get(i).getId() + "</a></li>");
 					}
 				}
 			%>
 		</ul>
 		</p>
-	</div>
-	<div id="following">
+
 		<p>
 			<b>Following</b>
 		</p>
@@ -103,7 +101,7 @@
 					for (int i = 0; i < following.size(); i++) {
 						//String tmp = UserMapper.getPathToImg(following.get(i));
 
-						out.print("<li> <a class = \"author\" href=\""
+						out.print("<li class=\"contacts\"> <a class = \"author\" href=\""
 								+ request.getScheme() + "://"
 								+ request.getServerName() + ":"
 								+ request.getServerPort()
@@ -116,7 +114,8 @@
 
 		</ul>
 		</p>
-	</div>
+		</div>
+	
 	<div id="search">
 		<b>Search</b>
 		<form action="" method="get">

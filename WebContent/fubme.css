@@ -49,23 +49,23 @@ span.reportblock{
 
 .settingsblock {
 	width: 60%;
-	-moz-border-radius: 5px 5px 5px 5px;
-	border-radius: 5px 5px 5px 5px;
-	border: 1px solid #e86b17;
-	padding: 20px;
+	-moz-border-radius: 0.2em 0.2em 0.2em 0.2em;
+	border-radius: 0.2em 0.2em 0.2em 0.2em;
+	border: 0.1em solid #e86b17;
+	padding: 1.5em;
 	margin-left: auto;
 	margin-right: auto;
-	padding-left: 30px;
-	margin-top: 15px;
-	margin-bottom: 15px;
+	padding-left: 2em;
+	margin-top: 2em;
+	margin-bottom: 2em;
 }
 
 .searchresult {
 	width: 75%;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 15px;
-	margin-bottom: 15px;
+	margin-top: 1em;
+	margin-bottom: 1em;
 }
 
 .blocktitle {
@@ -79,32 +79,33 @@ span.reportblock{
 }
 
 #canvas {
+	min-height:50em;
 	text-align: left;
 	font-size: 1em;
 	width: 65%;
-	margin-left: 7%;
-	margin-bottom: 5em;
-	margin-top: 5em;
+	padding-left:5em;
+	margin-bottom: 4em;
+	margin-top: 4em;
 }
 
 #error {
 	color: #de162e;
-	font-size: 20px;
+	font-size: 1.5em;
 	width: 100%;
 }
 
 #search {
-	padding: 15px;
-	margin: 2px;
+	padding: 1em;
+	margin: 0.1em;
 	color: #a6754a;
-	-moz-border-radius: 5px 5px 5px 5px;
-	border-radius: 5px 5px 5px 5px;
-	border: 1px solid #e86b17;
+	-moz-border-radius: 0.2em 0.2em 0.2em 0.2em;
+	border-radius: 0.2em 0.2em 0.2em 0.2em;
+	border: 0.1em solid #e86b17;
 }
 
 #status {
 	width: 100%;
-	font-size: 20px;
+	font-size: 1.5em;
 	text-align: left;
 }
 
@@ -125,6 +126,10 @@ span.reportblock{
 
 a {
 	text-decoration: none
+}
+
+.posttext{
+	font-size: 1.2em;	
 }
 
 .streamidentifier {
@@ -183,8 +188,8 @@ span.links {
 
 .title {
 	text-align: right;
-	padding-top: 5px;
-	padding-right: 15px;
+	padding-top: 0.2em;
+	padding-right: 1em;
 }
 
 label {
@@ -192,18 +197,18 @@ label {
 }
 
 .footer {
-	bottom: 0px;
+	bottom: 0em;
 	width: 100%;
 }
 
 .rightcolumn {
 	width: 20%;
 	float: right;
-	-moz-border-radius: 5px 5px 5px 5px;
-	border-radius: 5px 5px 5px 5px;
-	padding: 15px;
-	border: 1px solid #e86b17;
-	margin: 10px;
+	-moz-border-radius: 0.2em 0.2em 0.2em 0.2em;
+	border-radius: 0.2em 0.2em 0.2em 0.2em;
+	padding: 1em;
+	border: 0.1em solid #e86b17;
+	margin: 0.8em;
 	height: 85%;
 }
 
@@ -252,7 +257,7 @@ label {
 	border-radius: 0.2em 0.2em 0.2em 0.2em;
 	background-color: #fff1e5;
 	text-align: left;
-	font-size: 1.2em;
+	font-size: 0.8em;
 }
 
 #posts {
@@ -290,7 +295,7 @@ label {
 	width: auto;
 }
 
-#following li {
+li.contacts {
 	display: inline;
 	list-style-type: none;
 	padding-right: 1.5em;
@@ -371,52 +376,45 @@ b {
 	font-weight: bold;
 	color: #e86b17
 }
-
 button {
-	border: 0 none;
-	cursor: pointer;
-	font-weight: bold;
-	padding: 0 1em 0 0;
-	text-align: center;
-	height: 2em;
-	line-height: 3em;
-	width: auto;
+border: 0 none;
+cursor: pointer;
+font-weight: bold;
+padding: 0 15px 0 0;
+text-align: center;
+height: 30px;
+line-height: 30px;
+width: auto;
 }
 
 button.rounded {
-	background: transparent url( images/btn_right.png ) no-repeat scroll
-		right top;
-	clear: left;
-	font-size: 0.8em;
+background: transparent url( images/btn_right.png ) no-repeat scroll right top;
+clear: left;
+font-size: 0.8em;
 }
 
 button span {
-	display: block;
-	padding: 0 0 0 1em;
-	position: relative;
-	white-space: nowrap;
-	height: 2em;
-	line-height: 3em;
+display: block;
+padding: 0 0 0 15px;
+position: relative;
+white-space: nowrap;
+height: 30px;
+line-height: 30px;
 }
 
 button.rounded span {
-	background: transparent url( images/btn_left.png ) no-repeat scroll left
-		top;
-	color: #FFFFFF;
+background: transparent url( images/btn_left.png ) no-repeat scroll left top;
+color: #FFFFFF;
 }
 
 button.rounded:hover {
-	background-position: 100% -3em;
+background-position: 100% -30px;
 }
 
 button.rounded:hover span {
-	background-position: 0% -3em;
+background-position: 0% -30px;
 }
 
 button::-moz-focus-inner {
-	border: none;
-}
-
-textarea {
-	font-family: "Lucida Sans Unicode", "Lucida Grande", Garuda, sans-serif;
+border: none;
 }
