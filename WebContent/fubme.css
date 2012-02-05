@@ -60,6 +60,14 @@ span.reportblock{
 	margin-bottom: 2em;
 }
 
+input.searchicon{
+	-moz-border-radius: 0.2em 0.2em 0.2em 0.2em;
+	padding: 0.2em;
+	border-radius: 0.2em 0.2em 0.2em 0.2em;
+	border: 0.1em solid #e86b17;
+	float:left;
+}
+
 .searchresult {
 	width: 75%;
 	margin-left: auto;
@@ -95,6 +103,7 @@ span.reportblock{
 }
 
 #search {
+	min-height: 5em;
 	padding: 1em;
 	margin: 0.1em;
 	color: #a6754a;
@@ -165,10 +174,18 @@ span.action{
 	text-decoration:none;
 	text-align:center;
 	color:white;
-
 	padding-left:0.5em;
 	padding-right:0.5em;
-}	
+}
+
+span.actionsmall{
+	font-size: 2em;
+	text-decoration:none;
+	text-align:center;
+	color: white;
+	padding-left:0.5em;
+	padding-right:0.5em;
+}
 
 .action{
 	float:right;

@@ -118,11 +118,14 @@
 	
 	<div id="search">
 		<b>Search</b>
-		<form action="" method="get">
+		<form action="" method="get" >
 			<p>
-				<input value="Search" name="searchtext" id="searchtext" type="text" />
-				<input src="images/search_icon.png" type="image" alt="Search"
+			
+				<input class="searchicon" style="height:1.9em;" value="Search" name="searchtext" id="searchtext" type="text" />
+				
+				<input class="searchicon"  src="images/search.png" type="image" alt="Search"
 					id="searchbutton" name="searchbutton" />
+				
 			</p>
 		</form>
 

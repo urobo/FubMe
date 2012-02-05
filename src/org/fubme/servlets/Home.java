@@ -70,6 +70,7 @@ public class Home extends HttpServlet {
 						session = request.getSession(true);
 					if (session.getAttribute("loggedUser") == null)
 						session.setAttribute("loggedUser", user);
+
 					List<org.fubme.models.Post> timeline = TimelineManager
 							.getTimelineForUser(user, maxPosts);
 					request.setAttribute("timeline", timeline);

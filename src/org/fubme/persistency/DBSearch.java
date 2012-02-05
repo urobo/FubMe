@@ -22,16 +22,27 @@ import org.fubme.persistency.mappings.UserMapper;
  * 
  */
 public abstract class DBSearch {
-	public static final List<Post> searchPost(String keyword) {
+	public static final List<Post> searchPosts(String[] keywords) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "select * from post where body ilike ?";
+
+		String sql = "select ptime,id,luser_id,body,link,mime, sum(count) from ( ";
+		for (int i = 0; i < keywords.length; i++) {
+			if (i > 0)
+				sql += " UNION ALL ";
+			sql += "SELECT ptime,id,luser_id,body,link,mime,count(*) from post where body ilike ? group by ptime,id,luser_id,body,link,mime";
+		}
+		sql += " ) as search group by ptime,id,luser_id,body,link,mime order by sum(count) desc";
+
 		List<Post> result = new ArrayList<Post>();
 		try {
 			connection = DBConnection.getConnection();
 			stmt = connection.prepareStatement(sql);
-			stmt.setString(1, "%" + keyword + "%");
+
+			for (int i = 0; i < keywords.length; i++)
+				stmt.setString(i+1, "%" + keywords[i] + "%");
+
 			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				result.add(PostFactory.getPost(resultset.getTimestamp("ptime"),
@@ -69,16 +80,26 @@ public abstract class DBSearch {
 		return null;
 	}
 
-	public static final List<User> searchPeople(String keyword) {
+	public static final List<User> searchPeople(String[] keywords) {
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet resultset = null;
-		String sql = "select * from luser where id ilike ?";
+
+		String sql = "SELECT id,bio,firstname,lastname,birthdate,location,sum(count) from  ( ";
+
+		for (int i = 0; i < keywords.length; i++) {
+			if (i > 0)
+				sql += " UNION ALL ";
+			sql += "select id,bio,firstname,lastname,birthdate,location,count(*) from luser where id ilike ? or bio ilike ? or firstname ilike ? or lastname ilike ? group by id,bio,firstname,lastname,birthdate,location";
+		}
+		sql += ") as search group by id,bio,firstname,lastname,birthdate,location order by sum(count) desc";
+
 		List<User> result = new ArrayList<User>();
 		try {
 			connection = DBConnection.getConnection();
 			stmt = connection.prepareStatement(sql);
-			stmt.setString(1, "%" + keyword + "%");
+			for (int i = 0; i < 4 * keywords.length; i++)
+				stmt.setString(i+1, "%" + keywords[i / 4] + "%");
 			resultset = stmt.executeQuery();
 			while (resultset.next()) {
 				result.add(new User(resultset.getString("id"), null, null,
